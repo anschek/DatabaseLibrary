@@ -40,23 +40,23 @@ public static class GET
 
             return deletedProcurement;
         }
-        public static Employee? Employee(string userName, string password) // Авторизация
-        {
-            using ParsethingContext db = new();
-            Employee? employee = null;
+        //public static Employee? Employee(string userName, string password) // Авторизация
+        //{
+        //    using ParsethingContext db = new();
+        //    Employee? employee = null;
 
-            try
-            {
-                employee = db.Employees
-                    .Include(e => e.Position)
-                    .Where(e => e.UserName == userName)
-                    .Where(e => e.Password == password)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        employee = db.Employees
+        //            .Include(e => e.Position)
+        //            .Where(e => e.UserName == userName)
+        //            .Where(e => e.Password == password)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return employee;
-        }
+        //    return employee;
+        //}
 
         public static Law? Law(string number) // Получить закон
         {
@@ -323,38 +323,38 @@ public static class GET
             return documents;
         }
 
-        public static List<Employee>? Employees() // Получить сотрудников
-        {
-            using ParsethingContext db = new();
-            List<Employee>? employees = null;
+        //public static List<Employee>? Employees() // Получить сотрудников
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Employee>? employees = null;
 
-            try
-            {
-                employees = db.Employees
-                    .Include(e => e.Position)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        employees = db.Employees
+        //            .Include(e => e.Position)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return employees;
-        }
-        public static List<Employee>? EmployeesBy(string premierPosition, string secondPosition, string thirdPosition) // Получить сотрудников по трем должностям
-        {
-            using ParsethingContext db = new();
-            List<Employee>? employees = null;
+        //    return employees;
+        //}
+        //public static List<Employee>? EmployeesBy(string premierPosition, string secondPosition, string thirdPosition) // Получить сотрудников по трем должностям
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Employee>? employees = null;
 
-            try
-            {
-                employees = db.Employees
-                    .Include(e => e.Position)
-                    .Where(e => e.Position.Kind == premierPosition || e.Position.Kind == secondPosition || e.Position.Kind == thirdPosition)
-                    .Where(e => e.IsAvailable == true)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        employees = db.Employees
+        //            .Include(e => e.Position)
+        //            .Where(e => e.Position.Kind == premierPosition || e.Position.Kind == secondPosition || e.Position.Kind == thirdPosition)
+        //            .Where(e => e.IsAvailable == true)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return employees;
-        }
+        //    return employees;
+        //}
         public static List<History>? Histories() // Получить истории
         {
             using ParsethingContext db = new();

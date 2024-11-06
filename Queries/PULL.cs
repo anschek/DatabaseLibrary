@@ -106,32 +106,32 @@ public static class PULL
         return isSaved;
     }
 
-    public static bool Employee(Employee employee)
-    {
-        using ParsethingContext db = new();
-        Employee? def = null;
-        bool isSaved = true;
+    //public static bool Employee(Employee employee)
+    //{
+    //    using ParsethingContext db = new();
+    //    Employee? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Employees
-                .Include(e => e.Position)
-                .Where(e => e.Id == employee.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Employees
+    //            .Include(e => e.Position)
+    //            .Where(e => e.Id == employee.Id)
+    //            .First();
 
-            def.FullName = employee.FullName;
-            def.UserName = employee.UserName;
-            def.Password = employee.Password;
-            def.PositionId = employee.PositionId;
-            def.Photo = employee.Photo;
-            def.IsAvailable = employee.IsAvailable;
+    //        def.FullName = employee.FullName;
+    //        def.UserName = employee.UserName;
+    //        def.Password = employee.Password;
+    //        def.PositionId = employee.PositionId;
+    //        def.Photo = employee.Photo;
+    //        def.IsAvailable = employee.IsAvailable;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool ComponentCalculation(ComponentCalculation componentCalculation)
     {

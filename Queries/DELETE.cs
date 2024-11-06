@@ -105,20 +105,20 @@ public static class DELETE
         return isSaved;
     }
 
-    public static bool Employee(Employee employee)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Employee(Employee employee)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Employees.Remove(employee);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Employees.Remove(employee);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool LegalEntity(LegalEntity legalEntity)
     {
