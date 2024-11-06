@@ -10,21 +10,21 @@ public static class GET
 {
     public struct Entry
     {
-        public static City? City(string name) // Получить закон
-        {
-            using ParsethingContext db = new();
-            City? city = null;
+        //public static City? City(string name) // Получить закон
+        //{
+        //    using ParsethingContext db = new();
+        //    City? city = null;
 
-            try
-            {
-                city = db.Cities
-                    .Where(l => l.Name == name)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        city = db.Cities
+        //            .Where(l => l.Name == name)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return city;
-        }
+        //    return city;
+        //}
         public static DeletedProcurement? DeletedProcurement(string number) // Получить удаленную закупку по номеру
         {
             using ParsethingContext db = new();
@@ -294,20 +294,20 @@ public static class GET
 
             return componentTypes;
         }
-        public static List<City>? Cities() // Получить города
-        {
-            using ParsethingContext db = new();
-            List<City>? cities = null;
+        //public static List<City>? Cities() // Получить города
+        //{
+        //    using ParsethingContext db = new();
+        //    List<City>? cities = null;
 
-            try
-            {
-                cities = db.Cities
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        cities = db.Cities
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return cities;
-        }
+        //    return cities;
+        //}
         public static List<Document>? Documents() // Получить документы к тендерам
         {
             using ParsethingContext db = new();

@@ -4,26 +4,26 @@ namespace DatabaseLibrary.Queries;
 
 public static class PULL
 {
-    public static bool City(City city)
-    {
-        using ParsethingContext db = new();
-        City? def = null;
-        bool isSaved = true;
+    //public static bool City(City city)
+    //{
+    //    using ParsethingContext db = new();
+    //    City? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Cities
-                .Where(cs => cs.Id == city.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Cities
+    //            .Where(cs => cs.Id == city.Id)
+    //            .First();
 
-            def.Name = city.Name;
+    //        def.Name = city.Name;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool ComponentState(ComponentState componentState)
     {
         using ParsethingContext db = new();

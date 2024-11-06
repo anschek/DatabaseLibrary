@@ -1,0 +1,8 @@
+﻿
+*City
+GET.Entry.City	->	GET.Cities.One
+GET.View.City	->	GET.Cities.Many
+DELETE.City		->  DELETE.City
+PULL.City		->  PUT.City
+PUT.City		->	POST.City
+
