@@ -46,34 +46,34 @@ public static class DELETE
 
         return isSaved;
     }
-    public static bool ComponentCalculation(ComponentCalculation componentCalculation)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ComponentCalculation(ComponentCalculation componentCalculation)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ComponentCalculations.Remove(componentCalculation);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ComponentCalculations.Remove(componentCalculation);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ComponentCalculation(int id)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            var componentCalculationToDelete = db.ComponentCalculations.Where(cc => cc.Id == id || cc.ParentName == id);
-            db.ComponentCalculations.RemoveRange(componentCalculationToDelete);
+    //    return isSaved;
+    //}
+    //public static bool ComponentCalculation(int id)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        var componentCalculationToDelete = db.ComponentCalculations.Where(cc => cc.Id == id || cc.ParentName == id);
+    //        db.ComponentCalculations.RemoveRange(componentCalculationToDelete);
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
-        return isSaved;
-    }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
+    //    return isSaved;
+    //}
 
     public static bool ComponentType(ComponentType componentType)
     {

@@ -61,20 +61,20 @@ public static class PUT
 
         return isSaved;
     }
-    public static bool ComponentCalculation(ComponentCalculation componentCalculation)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ComponentCalculation(ComponentCalculation componentCalculation)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ComponentCalculations.Add(componentCalculation);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ComponentCalculations.Add(componentCalculation);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Document(Document document)
     {

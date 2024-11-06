@@ -637,175 +637,175 @@ public static class GET
 
             return componentHeaderTypes;
         }
-        public static List<ComponentCalculation>? ComponentCalculationsBy(string kind) // Получить список комплектующих по их статусу 
-        {
-            using ParsethingContext db = new();
-            List<ComponentCalculation> componentCalculations = null;
+        //public static List<ComponentCalculation>? ComponentCalculationsBy(string kind) // Получить список комплектующих по их статусу 
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentCalculation> componentCalculations = null;
 
-            try
-            {
-                componentCalculations = db.ComponentCalculations
-                    .Include(cc => cc.ComponentState)
-                    .Include(cc => cc.ComponentHeaderType)
-                    .Include(cc => cc.Procurement)
-                    .Include(cc => cc.Procurement.Law)
-                    .Include(cc => cc.Procurement.ProcurementState)
-                    .Include(cc => cc.Procurement.Region)
-                    .Include(cc => cc.Procurement.City)
-                    .Include(cc => cc.Procurement.Method)
-                    .Include(cc => cc.Procurement.Platform)
-                    .Include(cc => cc.Procurement.TimeZone)
-                    .Include(cc => cc.Procurement.Organization)
-                    .Include(cc => cc.Procurement.ShipmentPlan)
-                    .Include(cc => cc.Manufacturer)
-                    .Include(cc => cc.Manufacturer.ManufacturerCountry)
-                    .Include(cc => cc.ComponentType)
-                    .Include(cc => cc.Seller)
-                    .Where(cc => cc.ComponentState.Kind == kind)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        componentCalculations = db.ComponentCalculations
+        //            .Include(cc => cc.ComponentState)
+        //            .Include(cc => cc.ComponentHeaderType)
+        //            .Include(cc => cc.Procurement)
+        //            .Include(cc => cc.Procurement.Law)
+        //            .Include(cc => cc.Procurement.ProcurementState)
+        //            .Include(cc => cc.Procurement.Region)
+        //            .Include(cc => cc.Procurement.City)
+        //            .Include(cc => cc.Procurement.Method)
+        //            .Include(cc => cc.Procurement.Platform)
+        //            .Include(cc => cc.Procurement.TimeZone)
+        //            .Include(cc => cc.Procurement.Organization)
+        //            .Include(cc => cc.Procurement.ShipmentPlan)
+        //            .Include(cc => cc.Manufacturer)
+        //            .Include(cc => cc.Manufacturer.ManufacturerCountry)
+        //            .Include(cc => cc.ComponentType)
+        //            .Include(cc => cc.Seller)
+        //            .Where(cc => cc.ComponentState.Kind == kind)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return componentCalculations;
-        }
+        //    return componentCalculations;
+        //}
 
-        public static List<ComponentCalculation>? ComponentCalculationsBy(string kind, int employeeId) //  Получить список комплектующих по их статусу и id сотрудника
-        {
-            using ParsethingContext db = new();
-            List<ComponentCalculation> componentCalculations = null;
+        //public static List<ComponentCalculation>? ComponentCalculationsBy(string kind, int employeeId) //  Получить список комплектующих по их статусу и id сотрудника
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentCalculation> componentCalculations = null;
 
-            try
-            {
-                var procurementIds = db.ProcurementsEmployees
-            .Where(pe => pe.EmployeeId == employeeId)
-            .Select(pe => pe.ProcurementId)
-            .ToList();
+        //    try
+        //    {
+        //        var procurementIds = db.ProcurementsEmployees
+        //    .Where(pe => pe.EmployeeId == employeeId)
+        //    .Select(pe => pe.ProcurementId)
+        //    .ToList();
 
-                componentCalculations = db.ComponentCalculations
-                    .Include(cc => cc.ComponentState)
-                    .Include(cc => cc.ComponentHeaderType)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.Law)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.ProcurementState)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.Region)
-                        .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.City)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.Method)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.Platform)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.TimeZone)
-                    .Include(cc => cc.Procurement)
-                        .ThenInclude(p => p.Organization)
-                    .Include(cc => cc.Manufacturer)
-                        .ThenInclude(m => m.ManufacturerCountry)
-                    .Include(cc => cc.ComponentType)
-                    .Include(cc => cc.Seller)
-                    .Where(cc => cc.ComponentState.Kind == kind && procurementIds.Contains(cc.ProcurementId))
-                    .ToList();
-            }
-            catch { }
+        //        componentCalculations = db.ComponentCalculations
+        //            .Include(cc => cc.ComponentState)
+        //            .Include(cc => cc.ComponentHeaderType)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.Law)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.ProcurementState)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.Region)
+        //                .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.City)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.Method)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.Platform)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.TimeZone)
+        //            .Include(cc => cc.Procurement)
+        //                .ThenInclude(p => p.Organization)
+        //            .Include(cc => cc.Manufacturer)
+        //                .ThenInclude(m => m.ManufacturerCountry)
+        //            .Include(cc => cc.ComponentType)
+        //            .Include(cc => cc.Seller)
+        //            .Where(cc => cc.ComponentState.Kind == kind && procurementIds.Contains(cc.ProcurementId))
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return componentCalculations;
-        }
+        //    return componentCalculations;
+        //}
 
 
 
-        public static List<ComponentCalculation>? ComponentCalculationsBy(int procurementId) // Получить список комплектующих по конкретному тендеру
-        {
-            using ParsethingContext db = new();
-            List<ComponentCalculation> componentCalculations = null;
+        //public static List<ComponentCalculation>? ComponentCalculationsBy(int procurementId) // Получить список комплектующих по конкретному тендеру
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentCalculation> componentCalculations = null;
 
-            try
-            {
-                componentCalculations = db.ComponentCalculations
-                    .Include(cc => cc.ComponentState)
-                    .Include(cc => cc.ComponentHeaderType)
-                    .Include(cc => cc.Procurement)
-                    .Include(cc => cc.Procurement.Law)
-                    .Include(cc => cc.Procurement.ProcurementState)
-                    .Include(cc => cc.Procurement.Region)
-                    .Include(cc => cc.Procurement.City)
-                    .Include(cc => cc.Procurement.Method)
-                    .Include(cc => cc.Procurement.Platform)
-                    .Include(cc => cc.Procurement.TimeZone)
-                    .Include(cc => cc.Procurement.Organization)
-                    .Include(cc => cc.Manufacturer)
-                        .ThenInclude(m => m.ManufacturerCountry)
-                    .Include(cc => cc.ComponentType)
-                    .Include(cc => cc.Seller)
-                    .Where(cc => cc.ProcurementId == procurementId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        componentCalculations = db.ComponentCalculations
+        //            .Include(cc => cc.ComponentState)
+        //            .Include(cc => cc.ComponentHeaderType)
+        //            .Include(cc => cc.Procurement)
+        //            .Include(cc => cc.Procurement.Law)
+        //            .Include(cc => cc.Procurement.ProcurementState)
+        //            .Include(cc => cc.Procurement.Region)
+        //            .Include(cc => cc.Procurement.City)
+        //            .Include(cc => cc.Procurement.Method)
+        //            .Include(cc => cc.Procurement.Platform)
+        //            .Include(cc => cc.Procurement.TimeZone)
+        //            .Include(cc => cc.Procurement.Organization)
+        //            .Include(cc => cc.Manufacturer)
+        //                .ThenInclude(m => m.ManufacturerCountry)
+        //            .Include(cc => cc.ComponentType)
+        //            .Include(cc => cc.Seller)
+        //            .Where(cc => cc.ProcurementId == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return componentCalculations;
-        }
-        public static List<ComponentCalculation> ComponentCalculationsBy(List<int?> procurementIds, List<string> componentStatuses) // Получить список комплектующих по списку Id и статусов товара
-        {
-            {
-                using ParsethingContext db = new();
-                List<ComponentCalculation> componentCalculations = null;
+        //    return componentCalculations;
+        //}
+        //public static List<ComponentCalculation> ComponentCalculationsBy(List<int?> procurementIds, List<string> componentStatuses) // Получить список комплектующих по списку Id и статусов товара
+        //{
+        //    {
+        //        using ParsethingContext db = new();
+        //        List<ComponentCalculation> componentCalculations = null;
 
-                try
-                {
-                    componentCalculations = db.ComponentCalculations
-                        .Include(cc => cc.ComponentState)
-                        .Include(cc => cc.ComponentHeaderType)
-                        .Include(cc => cc.Procurement)
-                        .Include(cc => cc.Procurement.Law)
-                        .Include(cc => cc.Procurement.ProcurementState)
-                        .Include(cc => cc.Procurement.Region)
-                        .Include(cc => cc.Procurement.City)
-                        .Include(cc => cc.Procurement.Method)
-                        .Include(cc => cc.Procurement.Platform)
-                        .Include(cc => cc.Procurement.TimeZone)
-                        .Include(cc => cc.Procurement.Organization)
-                        .Include(cc => cc.Manufacturer)
-                            .ThenInclude(m => m.ManufacturerCountry)
-                        .Include(cc => cc.ComponentType)
-                        .Include(cc => cc.Seller)
-                        .Where(cc => procurementIds.Contains(cc.ProcurementId) && componentStatuses.Contains(cc.ComponentState.Kind))
-                        .ToList();
-                }
-                catch { }
+        //        try
+        //        {
+        //            componentCalculations = db.ComponentCalculations
+        //                .Include(cc => cc.ComponentState)
+        //                .Include(cc => cc.ComponentHeaderType)
+        //                .Include(cc => cc.Procurement)
+        //                .Include(cc => cc.Procurement.Law)
+        //                .Include(cc => cc.Procurement.ProcurementState)
+        //                .Include(cc => cc.Procurement.Region)
+        //                .Include(cc => cc.Procurement.City)
+        //                .Include(cc => cc.Procurement.Method)
+        //                .Include(cc => cc.Procurement.Platform)
+        //                .Include(cc => cc.Procurement.TimeZone)
+        //                .Include(cc => cc.Procurement.Organization)
+        //                .Include(cc => cc.Manufacturer)
+        //                    .ThenInclude(m => m.ManufacturerCountry)
+        //                .Include(cc => cc.ComponentType)
+        //                .Include(cc => cc.Seller)
+        //                .Where(cc => procurementIds.Contains(cc.ProcurementId) && componentStatuses.Contains(cc.ComponentState.Kind))
+        //                .ToList();
+        //        }
+        //        catch { }
 
-                return componentCalculations;
-            }
-        }
-        public static List<ComponentCalculation>? ComponentCalculationsBy(int procurementId, List<string> componentStatuses) // Получить список комплектующих по конкретному тендеру и определенным статусам
-        {
-            using ParsethingContext db = new();
-            List<ComponentCalculation> componentCalculations = null;
+        //        return componentCalculations;
+        //    }
+        //}
+        //public static List<ComponentCalculation>? ComponentCalculationsBy(int procurementId, List<string> componentStatuses) // Получить список комплектующих по конкретному тендеру и определенным статусам
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentCalculation> componentCalculations = null;
 
-            try
-            {
-                componentCalculations = db.ComponentCalculations
-                    .Include(cc => cc.ComponentState)
-                    .Include(cc => cc.ComponentHeaderType)
-                    .Include(cc => cc.Procurement)
-                    .Include(cc => cc.Procurement.Law)
-                    .Include(cc => cc.Procurement.ProcurementState)
-                    .Include(cc => cc.Procurement.Region)
-                    .Include(cc => cc.Procurement.City)
-                    .Include(cc => cc.Procurement.Method)
-                    .Include(cc => cc.Procurement.Platform)
-                    .Include(cc => cc.Procurement.TimeZone)
-                    .Include(cc => cc.Procurement.Organization)
-                    .Include(cc => cc.Manufacturer)
-                        .ThenInclude(m => m.ManufacturerCountry)
-                    .Include(cc => cc.ComponentType)
-                    .Include(cc => cc.Seller)
-                    .Where(cc => cc.ProcurementId == procurementId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        componentCalculations = db.ComponentCalculations
+        //            .Include(cc => cc.ComponentState)
+        //            .Include(cc => cc.ComponentHeaderType)
+        //            .Include(cc => cc.Procurement)
+        //            .Include(cc => cc.Procurement.Law)
+        //            .Include(cc => cc.Procurement.ProcurementState)
+        //            .Include(cc => cc.Procurement.Region)
+        //            .Include(cc => cc.Procurement.City)
+        //            .Include(cc => cc.Procurement.Method)
+        //            .Include(cc => cc.Procurement.Platform)
+        //            .Include(cc => cc.Procurement.TimeZone)
+        //            .Include(cc => cc.Procurement.Organization)
+        //            .Include(cc => cc.Manufacturer)
+        //                .ThenInclude(m => m.ManufacturerCountry)
+        //            .Include(cc => cc.ComponentType)
+        //            .Include(cc => cc.Seller)
+        //            .Where(cc => cc.ProcurementId == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return componentCalculations;
-        }
+        //    return componentCalculations;
+        //}
 
         public static List<SupplyMonitoringList> GetSupplyMonitoringLists(List<Procurement> procurements, List<string> componentStatuses)
         {
@@ -2648,21 +2648,21 @@ public static class GET
                 return currentProcurementId;
             }
         }
-        public static int ComponentClculationCountBy(int id) // Получить количество позиций по id тендера
-        {
-            using ParsethingContext db = new();
-            int count = 0;
+        //public static int ComponentClculationCountBy(int id) // Получить количество позиций по id тендера
+        //{
+        //    using ParsethingContext db = new();
+        //    int count = 0;
 
-            try
-            {
-                count = db.ComponentCalculations
-                    .Where(cc => cc.ProcurementId == id && cc.IsHeader == false && cc.IsAdded == false)
-                    .Count();
-            }
-            catch { }
+        //    try
+        //    {
+        //        count = db.ComponentCalculations
+        //            .Where(cc => cc.ProcurementId == id && cc.IsHeader == false && cc.IsAdded == false)
+        //            .Count();
+        //    }
+        //    catch { }
 
-            return count;
-        }
+        //    return count;
+        //}
         public static int ProcurementsCountBy(string kind, KindOf kindOf) // Получить количество тендеров по:
         {
             using ParsethingContext db = new();

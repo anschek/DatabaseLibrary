@@ -133,49 +133,49 @@ public static class PULL
     //    return isSaved;
     //}
 
-    public static bool ComponentCalculation(ComponentCalculation componentCalculation)
-    {
-        using ParsethingContext db = new();
-        ComponentCalculation? def = null;
-        bool isSaved = true;
+    //public static bool ComponentCalculation(ComponentCalculation componentCalculation)
+    //{
+    //    using ParsethingContext db = new();
+    //    ComponentCalculation? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ComponentCalculations
-                .Where(e => e.Id == componentCalculation.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ComponentCalculations
+    //            .Where(e => e.Id == componentCalculation.Id)
+    //            .First();
 
-            def.IndexOfComponent = componentCalculation.IndexOfComponent;
-            def.PartNumber = componentCalculation.PartNumber;
-            def.HeaderTypeId = componentCalculation.HeaderTypeId;
-            def.ComponentName = componentCalculation.ComponentName;
-            def.ComponentNamePurchase = componentCalculation.ComponentNamePurchase;
-            def.ManufacturerId = componentCalculation.ManufacturerId;
-            def.ManufacturerIdPurchase = componentCalculation.ManufacturerIdPurchase;
-            def.Price = componentCalculation.Price;
-            def.PricePurchase = componentCalculation.PricePurchase;
-            def.Count = componentCalculation.Count;
-            def.CountPurchase = componentCalculation.CountPurchase;
-            def.SellerId = componentCalculation.SellerId;
-            def.SellerIdPurchase = componentCalculation.SellerIdPurchase;
-            def.ComponentStateId = componentCalculation.ComponentStateId;
-            def.Date = componentCalculation.Date;
-            def.Reserve = componentCalculation.Reserve;
-            def.ReservePurchase = componentCalculation.ReservePurchase;
-            def.Note = componentCalculation.Note;
-            def.NotePurchase = componentCalculation.NotePurchase;
-            def.AssemblyMap = componentCalculation.AssemblyMap;
-            def.IsDeleted = componentCalculation.IsDeleted;
-            def.IsAdded = componentCalculation.IsAdded;
-            def.IsHeader = componentCalculation.IsHeader;
-            def.ParentName = componentCalculation.ParentName;
+    //        def.IndexOfComponent = componentCalculation.IndexOfComponent;
+    //        def.PartNumber = componentCalculation.PartNumber;
+    //        def.HeaderTypeId = componentCalculation.HeaderTypeId;
+    //        def.ComponentName = componentCalculation.ComponentName;
+    //        def.ComponentNamePurchase = componentCalculation.ComponentNamePurchase;
+    //        def.ManufacturerId = componentCalculation.ManufacturerId;
+    //        def.ManufacturerIdPurchase = componentCalculation.ManufacturerIdPurchase;
+    //        def.Price = componentCalculation.Price;
+    //        def.PricePurchase = componentCalculation.PricePurchase;
+    //        def.Count = componentCalculation.Count;
+    //        def.CountPurchase = componentCalculation.CountPurchase;
+    //        def.SellerId = componentCalculation.SellerId;
+    //        def.SellerIdPurchase = componentCalculation.SellerIdPurchase;
+    //        def.ComponentStateId = componentCalculation.ComponentStateId;
+    //        def.Date = componentCalculation.Date;
+    //        def.Reserve = componentCalculation.Reserve;
+    //        def.ReservePurchase = componentCalculation.ReservePurchase;
+    //        def.Note = componentCalculation.Note;
+    //        def.NotePurchase = componentCalculation.NotePurchase;
+    //        def.AssemblyMap = componentCalculation.AssemblyMap;
+    //        def.IsDeleted = componentCalculation.IsDeleted;
+    //        def.IsAdded = componentCalculation.IsAdded;
+    //        def.IsHeader = componentCalculation.IsHeader;
+    //        def.ParentName = componentCalculation.ParentName;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool LegalEntity(LegalEntity legalEntity)
     {

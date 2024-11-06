@@ -37,5 +37,20 @@ namespace DatabaseLibrary.Controllers
 
             return isSaved;
         }
+
+        public static async Task<bool> ComponentCalculation(ComponentCalculation componentCalculation)
+        {
+            using ParsethingContext db = new();
+            bool isSaved = true;
+
+            try
+            {
+                _ = await db.ComponentCalculations.AddAsync(componentCalculation);
+                _ = await db.SaveChangesAsync();
+            }
+            catch { isSaved = false; }
+
+            return isSaved;
+        }
     }
 }
