@@ -6,97 +6,8 @@ using System.Threading.Tasks;
 
 namespace DatabaseLibrary.Controllers
 {
-    public static class GET
+    public partial class GET
     {
-        public static class Cities
-        {
-            public static async Task<City?> One(string name) // Получить закон
-            {
-                using ParsethingContext db = new();
-                City? city = null;
-
-                try
-                {
-                    city = await db.Cities
-                        .Where(l => l.Name == name)
-                        .FirstAsync();
-                }
-                catch { }
-
-                return city;
-            }
-
-            public static async Task<List<City>?> Many() // Получить города
-            {
-                using ParsethingContext db = new();
-                List<City>? cities = null;
-
-                try
-                {
-                    cities = await db.Cities
-                        .ToListAsync();
-                }
-                catch { }
-
-                return cities;
-            }
-        }
-
-        public static class Employees
-        {
-            public static async Task<Employee?> One(string userName, string password) // Авторизация
-            {
-                using ParsethingContext db = new();
-                Employee? employee = null;
-
-                try
-                {
-                    employee = await db.Employees
-                        .Include(e => e.Position)
-                        .Where(e => e.UserName == userName)
-                        .Where(e => e.Password == password)
-                        .FirstAsync();
-                }
-                catch { }
-
-                return employee;
-            }
-
-            public static async Task<List<Employee>?> Many() // Получить сотрудников
-            {
-                using ParsethingContext db = new();
-                List<Employee>? employees = null;
-
-                try
-                {
-                    employees = await db.Employees
-                        .Include(e => e.Position)
-                        .ToListAsync();
-                }
-                catch { }
-
-                return employees;
-            }
-
-            public static async Task<List<Employee>?> ManyByPositions(string premierPosition, string secondPosition, string thirdPosition) // Получить сотрудников по трем должностям
-            {
-                using ParsethingContext db = new();
-                List<Employee>? employees = null;
-
-                try
-                {
-                    employees = await db.Employees
-                        .Include(e => e.Position)
-                        .Where(e => e.Position.Kind == premierPosition || e.Position.Kind == secondPosition || e.Position.Kind == thirdPosition)
-                        .Where(e => e.IsAvailable == true)
-                        .ToListAsync();
-                }
-                catch { }
-
-                return employees;
-            }
-        }
-
         public static class ComponentCalculations
         {
             public static async Task<List<ComponentCalculation>?> ManyByKind(string kind) // Получить список комплектующих по их статусу 
@@ -284,6 +195,5 @@ namespace DatabaseLibrary.Controllers
                 return count;
             }
         }
-
     }
 }

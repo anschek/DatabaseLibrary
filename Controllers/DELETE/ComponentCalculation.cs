@@ -6,38 +6,8 @@ using System.Threading.Tasks;
 
 namespace DatabaseLibrary.Controllers
 {
-    public static class DELETE
+    public partial class DELETE
     {
-        public static async Task<bool> City(City city)
-        {
-            using ParsethingContext db = new();
-            bool isSaved = true;
-
-            try
-            {
-                _ = db.Cities.Remove(city);
-                _ = await db.SaveChangesAsync();
-            }
-            catch { isSaved = false; }
-
-            return isSaved;
-        }
-
-        public static async Task<bool> Employee(Employee employee)
-        {
-            using ParsethingContext db = new();
-            bool isSaved = true;
-
-            try
-            {
-                _ = db.Employees.Remove(employee);
-                _ = await db.SaveChangesAsync();
-            }
-            catch { isSaved = false; }
-
-            return isSaved;
-        }
-
         public static class ComponentCalculation
         {
             public static async Task<bool> One(Entities.ComponentCalculationProperties.ComponentCalculation componentCalculation)
@@ -72,4 +42,5 @@ namespace DatabaseLibrary.Controllers
 
         }
     }
+
 }
