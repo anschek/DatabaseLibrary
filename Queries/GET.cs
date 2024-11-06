@@ -136,38 +136,38 @@ public static class GET
             return organization;
         }
 
-        public static Platform? Platform(string name, string address) // Получить платформу по имени и адресу
-        {
-            using ParsethingContext db = new();
-            Platform? platform = null;
+        //public static Platform? Platform(string name, string address) // Получить платформу по имени и адресу
+        //{
+        //    using ParsethingContext db = new();
+        //    Platform? platform = null;
 
-            try
-            {
-                platform = db.Platforms
-                    .Where(p => p.Name == name)
-                    .Where(p => p.Address == address)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        platform = db.Platforms
+        //            .Where(p => p.Name == name)
+        //            .Where(p => p.Address == address)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return platform;
-        }
+        //    return platform;
+        //}
 
-        public static Platform? Platform(string address) // Получить платформу по адресу
-        {
-            using ParsethingContext db = new();
-            Platform? platform = null;
+        //public static Platform? Platform(string address) // Получить платформу по адресу
+        //{
+        //    using ParsethingContext db = new();
+        //    Platform? platform = null;
 
-            try
-            {
-                platform = db.Platforms
-                    .Where(p => p.Address == address)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        platform = db.Platforms
+        //            .Where(p => p.Address == address)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return platform;
-        }
+        //    return platform;
+        //}
 
         public static Procurement? Procurement(string number) // Получить тендер
         {

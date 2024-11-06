@@ -219,20 +219,20 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Platform(Platform platform)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Platform(Platform platform)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Platforms.Add(platform);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Platforms.Add(platform);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Position(Position position)
     {
