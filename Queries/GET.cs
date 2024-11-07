@@ -268,16 +268,16 @@ public static class GET
 
             return organizations;
         }
-        public static List<ComponentState>? ComponentStates() // Получить все статусы тендеров
-        {
-            using ParsethingContext db = new();
-            List<ComponentState>? componentStates = null;
+        //public static List<ComponentState>? ComponentStates() // Получить все статусы тендеров
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentState>? componentStates = null;
 
-            try { componentStates = db.ComponentStates.ToList(); }
-            catch { }
+        //    try { componentStates = db.ComponentStates.ToList(); }
+        //    catch { }
 
-            return componentStates;
-        }
+        //    return componentStates;
+        //}
 
         public static List<ComponentType>? ComponentTypes() // Получить все типы комплектующих 
         {

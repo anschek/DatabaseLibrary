@@ -24,26 +24,26 @@ public static class PULL
 
     //    return isSaved;
     //}
-    public static bool ComponentState(ComponentState componentState)
-    {
-        using ParsethingContext db = new();
-        ComponentState? def = null;
-        bool isSaved = true;
+    //public static bool ComponentState(ComponentState componentState)
+    //{
+    //    using ParsethingContext db = new();
+    //    ComponentState? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ComponentStates
-                .Where(cs => cs.Id == componentState.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ComponentStates
+    //            .Where(cs => cs.Id == componentState.Id)
+    //            .First();
 
-            def.Kind = componentState.Kind;
+    //        def.Kind = componentState.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool ComponentType(ComponentType componentType)
     {

@@ -18,20 +18,20 @@ public static class PUT
 
     //    return isSaved;
     //}
-    public static bool ComponentState(ComponentState componentState)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ComponentState(ComponentState componentState)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ComponentStates.Add(componentState);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ComponentStates.Add(componentState);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool ComponentType(ComponentType componentType)
     {
