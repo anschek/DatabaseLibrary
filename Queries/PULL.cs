@@ -85,26 +85,26 @@ public static class PULL
 
     //    return isSaved;
     //}
-    public static bool Document(Document document)
-    {
-        using ParsethingContext db = new();
-        Document? def = null;
-        bool isSaved = true;
+    //public static bool Document(Document document)
+    //{
+    //    using ParsethingContext db = new();
+    //    Document? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Documents
-                .Where(d => d.Id == document.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Documents
+    //            .Where(d => d.Id == document.Id)
+    //            .First();
 
-            def.Title = document.Title;
+    //        def.Title = document.Title;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Employee(Employee employee)
     //{
@@ -639,44 +639,44 @@ public static class PULL
         return isSaved;
     }
 
-    public static bool Tag(Tag tag)
-    {
-        using ParsethingContext db = new();
-        Tag? def = null;
-        bool isSaved = true;
+    //public static bool Tag(Tag tag)
+    //{
+    //    using ParsethingContext db = new();
+    //    Tag? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Tags
-                .Where(t => t.Id == tag.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Tags
+    //            .Where(t => t.Id == tag.Id)
+    //            .First();
 
-            def.Keyword = tag.Keyword;
+    //        def.Keyword = tag.Keyword;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool TagException(TagException tagException)
-    {
-        using ParsethingContext db = new();
-        TagException? def = null;
-        bool isSaved = true;
+    //    return isSaved;
+    //}
+    //public static bool TagException(TagException tagException)
+    //{
+    //    using ParsethingContext db = new();
+    //    TagException? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.TagExceptions
-                .Where(t => t.Id == tagException.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.TagExceptions
+    //            .Where(t => t.Id == tagException.Id)
+    //            .First();
 
-            def.Keyword = tagException.Keyword;
+    //        def.Keyword = tagException.Keyword;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 }

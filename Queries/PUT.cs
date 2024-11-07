@@ -76,20 +76,20 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool Document(Document document)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Document(Document document)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Documents.Add(document);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Documents.Add(document);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Employee(Employee employee)
     //{
@@ -121,20 +121,20 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Law(Law law)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Law(Law law)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Laws.Add(law);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Laws.Add(law);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool LegalEntity(LegalEntity legalEntity)
     {
@@ -528,35 +528,35 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Tag(Tag tag)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Tag(Tag tag)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Tags.Add(tag);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Tags.Add(tag);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool TagException(TagException tagException)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool TagException(TagException tagException)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.TagExceptions.Add(tagException);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.TagExceptions.Add(tagException);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool TimeZone(TimeZone timeZone)
     {

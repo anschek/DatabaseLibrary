@@ -90,20 +90,20 @@ public static class DELETE
     //    return isSaved;
     //}
 
-    public static bool Document(Document document)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Document(Document document)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Documents.Remove(document);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Documents.Remove(document);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Employee(Employee employee)
     //{
@@ -299,35 +299,35 @@ public static class DELETE
         return isSaved;
     }
 
-    public static bool Tag(Tag tag)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Tag(Tag tag)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Tags.Remove(tag);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Tags.Remove(tag);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool TagException(TagException tagException)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool TagException(TagException tagException)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.TagExceptions.Remove(tagException);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.TagExceptions.Remove(tagException);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Procurement(Procurement procurement)
     {

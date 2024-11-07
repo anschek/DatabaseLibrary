@@ -58,21 +58,21 @@ public static class GET
         //    return employee;
         //}
 
-        public static Law? Law(string number) // Получить закон
-        {
-            using ParsethingContext db = new();
-            Law? law = null;
+        //public static Law? Law(string number) // Получить закон
+        //{
+        //    using ParsethingContext db = new();
+        //    Law? law = null;
 
-            try
-            {
-                law = db.Laws
-                    .Where(l => l.Number == number)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        law = db.Laws
+        //            .Where(l => l.Number == number)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return law;
-        }
+        //    return law;
+        //}
         public static Manufacturer? Manufacturer(int id) // Получить производителя
         {
             using ParsethingContext db = new();
@@ -242,19 +242,19 @@ public static class GET
 
     public struct View
     {
-        public static List<Law>? Laws() // Получить все законы
-        {
-            using ParsethingContext db = new();
-            List<Law> laws = null;
-            try
-            {
-                laws = db.Laws
-                    .ToList();
-            }
-            catch { }
+        //public static List<Law>? Laws() // Получить все законы
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Law> laws = null;
+        //    try
+        //    {
+        //        laws = db.Laws
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return laws;
-        }
+        //    return laws;
+        //}
         public static List<Organization>? Organizations() // Получить все законы
         {
             using ParsethingContext db = new();
@@ -308,20 +308,20 @@ public static class GET
 
         //    return cities;
         //}
-        public static List<Document>? Documents() // Получить документы к тендерам
-        {
-            using ParsethingContext db = new();
-            List<Document>? documents = null;
+        //public static List<Document>? Documents() // Получить документы к тендерам
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Document>? documents = null;
 
-            try
-            {
-                documents = db.Documents
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        documents = db.Documents
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return documents;
-        }
+        //    return documents;
+        //}
 
         //public static List<Employee>? Employees() // Получить сотрудников
         //{
@@ -2452,27 +2452,27 @@ public static class GET
             return sellers;
         }
 
-        public static List<Tag>? Tags() // Получить тэги для парсинга 
-        {
-            using ParsethingContext db = new();
-            List<Tag>? tags = null;
+        //public static List<Tag>? Tags() // Получить тэги для парсинга 
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Tag>? tags = null;
 
-            try { tags = db.Tags.ToList(); }
-            catch { }
+        //    try { tags = db.Tags.ToList(); }
+        //    catch { }
 
-            return tags;
-        }
+        //    return tags;
+        //}
 
-        public static List<TagException>? TagExceptions() // Получить тэги для парсинга 
-        {
-            using ParsethingContext db = new();
-            List<TagException>? tagExceptions = null;
+        //public static List<TagException>? TagExceptions() // Получить тэги для парсинга 
+        //{
+        //    using ParsethingContext db = new();
+        //    List<TagException>? tagExceptions = null;
 
-            try { tagExceptions = db.TagExceptions.ToList(); }
-            catch { }
+        //    try { tagExceptions = db.TagExceptions.ToList(); }
+        //    catch { }
 
-            return tagExceptions;
-        }
+        //    return tagExceptions;
+        //}
         public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
         {
             using ParsethingContext db = new();
