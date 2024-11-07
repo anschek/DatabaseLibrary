@@ -1573,32 +1573,32 @@ public static class GET
             return procurementsEmployees;
         }
 
-        public static List<Comment>? CommentsBy(int? procurementId) // Получить комментарии по id тендера
-        {
-            using ParsethingContext db = new();
+        //public static List<Comment>? CommentsBy(int? procurementId) // Получить комментарии по id тендера
+        //{
+        //    using ParsethingContext db = new();
 
-            var comments = db.Comments
-                .Include(c => c.Employee)
-                .Where(pe => pe.EntryId == procurementId)
-                .Where(c => c.EntityType == "Procurement")
-                .OrderByDescending(c => c.Date)
-                .ToList();
-            return comments;
-        }
+        //    var comments = db.Comments
+        //        .Include(c => c.Employee)
+        //        .Where(pe => pe.EntryId == procurementId)
+        //        .Where(c => c.EntityType == "Procurement")
+        //        .OrderByDescending(c => c.Date)
+        //        .ToList();
+        //    return comments;
+        //}
 
-        public static List<Comment>? CommentsBy(int? procurementId, bool isTechical) // Получить технические комментарии по id тендера
-        {
-            using ParsethingContext db = new();
+        //public static List<Comment>? CommentsBy(int? procurementId, bool isTechical) // Получить технические комментарии по id тендера
+        //{
+        //    using ParsethingContext db = new();
 
-            var comments = db.Comments
-                .Include(c => c.Employee)
-                .Where(pe => pe.EntryId == procurementId)
-                .Where(pe => pe.IsTechnical == true)
-                .Where(c => c.EntityType == "Procurement")
-                .ToList();
+        //    var comments = db.Comments
+        //        .Include(c => c.Employee)
+        //        .Where(pe => pe.EntryId == procurementId)
+        //        .Where(pe => pe.IsTechnical == true)
+        //        .Where(c => c.EntityType == "Procurement")
+        //        .ToList();
 
-            return comments;
-        }
+        //    return comments;
+        //}
 
         public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(int employeeId) // Получить информацию по тому, сколько тендеров назначено на конкретного сотрудника
         {
