@@ -279,21 +279,21 @@ public static class GET
         //    return componentStates;
         //}
 
-        public static List<ComponentType>? ComponentTypes() // Получить все типы комплектующих 
-        {
-            using ParsethingContext db = new();
-            List<ComponentType>? componentTypes = null;
+        //public static List<ComponentType>? ComponentTypes() // Получить все типы комплектующих 
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentType>? componentTypes = null;
 
-            try
-            {
-                componentTypes = db.ComponentTypes
-                    .Include(ct => ct.PredefinedComponent)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        componentTypes = db.ComponentTypes
+        //            .Include(ct => ct.PredefinedComponent)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return componentTypes;
-        }
+        //    return componentTypes;
+        //}
         //public static List<City>? Cities() // Получить города
         //{
         //    using ParsethingContext db = new();
@@ -627,16 +627,16 @@ public static class GET
 
             return procurements;
         }
-        public static List<ComponentHeaderType>? ComponentHeaderTypes() // Получить список заголовков расчета и закупки
-        {
-            using ParsethingContext db = new();
-            List<ComponentHeaderType>? componentHeaderTypes = null;
+        //public static List<ComponentHeaderType>? ComponentHeaderTypes() // Получить список заголовков расчета и закупки
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ComponentHeaderType>? componentHeaderTypes = null;
 
-            try { componentHeaderTypes = db.ComponentHeaderTypes.ToList(); }
-            catch { }
+        //    try { componentHeaderTypes = db.ComponentHeaderTypes.ToList(); }
+        //    catch { }
 
-            return componentHeaderTypes;
-        }
+        //    return componentHeaderTypes;
+        //}
         //public static List<ComponentCalculation>? ComponentCalculationsBy(string kind) // Получить список комплектующих по их статусу 
         //{
         //    using ParsethingContext db = new();

@@ -45,46 +45,46 @@ public static class PULL
     //    return isSaved;
     //}
 
-    public static bool ComponentType(ComponentType componentType)
-    {
-        using ParsethingContext db = new();
-        ComponentType? def = null;
-        bool isSaved = true;
+    //public static bool ComponentType(ComponentType componentType)
+    //{
+    //    using ParsethingContext db = new();
+    //    ComponentType? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ComponentTypes
-                .Where(ct => ct.Id == componentType.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ComponentTypes
+    //            .Where(ct => ct.Id == componentType.Id)
+    //            .First();
 
-            def.Kind = componentType.Kind;
+    //        def.Kind = componentType.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ComponentHeaderType(ComponentHeaderType componentHeaderType)
-    {
-        using ParsethingContext db = new();
-        ComponentHeaderType? def = null;
-        bool isSaved = true;
+    //    return isSaved;
+    //}
+    //public static bool ComponentHeaderType(ComponentHeaderType componentHeaderType)
+    //{
+    //    using ParsethingContext db = new();
+    //    ComponentHeaderType? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ComponentHeaderTypes
-                .Where(ct => ct.Id == componentHeaderType.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ComponentHeaderTypes
+    //            .Where(ct => ct.Id == componentHeaderType.Id)
+    //            .First();
 
-            def.Kind = componentHeaderType.Kind;
+    //        def.Kind = componentHeaderType.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool Document(Document document)
     {
         using ParsethingContext db = new();

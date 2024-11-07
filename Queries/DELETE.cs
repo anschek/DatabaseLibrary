@@ -32,20 +32,20 @@ public static class DELETE
 
     //    return isSaved;
     //}
-    public static bool ComponentHeaderType(ComponentHeaderType componentHeaderType)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ComponentHeaderType(ComponentHeaderType componentHeaderType)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ComponentHeaderTypes.Remove(componentHeaderType);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ComponentHeaderTypes.Remove(componentHeaderType);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     //public static bool ComponentCalculation(ComponentCalculation componentCalculation)
     //{
     //    using ParsethingContext db = new();
@@ -75,20 +75,20 @@ public static class DELETE
     //    return isSaved;
     //}
 
-    public static bool ComponentType(ComponentType componentType)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ComponentType(ComponentType componentType)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ComponentTypes.Remove(componentType);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ComponentTypes.Remove(componentType);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Document(Document document)
     {
