@@ -1,8 +1,80 @@
 ﻿
-*City
-GET.Entry.City	->	GET.Cities.One
-GET.View.City	->	GET.Cities.Many
-DELETE.City		->  DELETE.City
-PULL.City		->  PUT.City
-PUT.City		->	POST.City
+ *City
+ GET.Entry.City	->	GET.Cities.One
+ GET.View.City	->	GET.Cities.Many
+-DELETE.City	->  DELETE.City
+ PULL.City	->  PUT.City
+ PUT.City	->	POST.City
+ 
+  *Employee
+ GET.Entry.Employee	-> GET.Employees.One
+ GET.View.Employees	-> GET.Employees.Many
+ GET.View.EmployeesBy	-> GET.Employees.ManyByPositions
+-DELETE.Employee	-> DELETE.Employee
+ PULL.Employee		-> PUT.Employee
+ PUT.Employee		-> POST.Employee
+
+  *ComponentCalculation
+ GET.View.ComponentCalculationsBy(string)			-> GET.ComponentCalculations.ManyByKind
+ GET.View.ComponentCalculationsBy(string, int)			-> GET.ComponentCalculations.ManyByKindAndEmployee
+ GET.View.ComponentCalculationsBy(int)				-> GET.ComponentCalculations.ManyByProcurement
+ GET.View.ComponentCalculationsBy(List<int?>, List<string>)	-> GET.ComponentCalculations.ManyByProcurementsAndStatuses
+ GET.View.ComponentCalculationsBy(int, List<string>)		-> GET.ComponentCalculations.ManyByOneProcurementAndStatuses
+ GET.View.Aggregate.ComponentClculationCountBy			-> GET.ComponentCalculations.CountByProcurement
+ DELETE.ComponentCalculation(ComponentCalculation)		-> DELETE.ComponentCalculations.One
+ DELETE.ComponentCalculation(int)				-> DELETE.ComponentCalculations.ManyByParentName
+ PULL.ComponentCalculation					-> PUT.ComponentCalculation
+ PUT.ComponentCalculation					-> POST.ComponentCalculation
+
+
+  *Platform
+ GET.Entry.Platform(string, string)	-> GET.Platforms.OneByNameAndAddress
+ GET.Entry.Platform(string)		-> GET.Platforms.OneByAddress
+ PUT.Platform				-> POST.Platform
+
+  *Comment
+ GET.View.CommentsBy(int)	-> GET.Comments(int)
+ GET.View.CommentsBy(int, bool)	-> GET.Comments(int, bool=true)
+ PUT.Comment			-> POST.Comment
+
+  *ComponentState
+ GET.View.ComponentStates	-> GET.ComponentStates
+-DELETE.ComponentStates		-> DELETE.ComponentStates
+ PUT.ComponentStates		-> POST.ComponentStates
+ PULL.ComponentStates		-> PUT.ComponentStates
+
+  *ComponentHeaderType
+ GET.View.ComponentHeaderTypes	-> GET.ComponentHeaderTypes
+-DELETE.ComponentHeaderType	-> DELETE.ComponentHeaderType
+ PUT.ComponentHeaderType	-> POST.ComponentHeaderType
+ PULL.ComponentHeaderType	-> PUT.ComponentHeaderType  
+ 
+  *ComponentType
+ GET.View.ComponentTypes	-> GET.ComponentHeaderTypes
+-DELETE.ComponentType		-> DELETE.ComponentType
+ PUT.ComponentType		-> POST.ComponentType
+ PULL.ComponentType		-> PUT.ComponentType
+
+  *Document
+ GET.View.Document	-> GET.Documents
+-DELETE.Document	-> DELETE.Document
+ PUT.Document		-> POST.Document
+ PULL.Document		-> PUT.Document
+
+  *Law
+ GET.Entry.Law		-> GET.Laws.one
+ Get.View.Laws		-> Get.Laws.Many
+ PUT.Law		-> POST.Law	
+
+  *Tag
+ GET.View.Tags	-> GET.Tags
+-DELETE.Tag	-> DELETE.Tag
+ PULL.Tag	-> PUT.Tag
+ PUT.Tag	-> POST.Tag
+
+  *TagException
+ GET.View.TagExceptions -> GET.TagExceptions
+-DELETE.TagException	-> DELETE.TagException
+ PULL.TagException	-> PUT.TagException
+ PUT.TagException	-> POSt.TagException
 

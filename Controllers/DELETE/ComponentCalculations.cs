@@ -8,9 +8,9 @@ namespace DatabaseLibrary.Controllers
 {
     public partial class DELETE
     {
-        public static class ComponentCalculation
+        public static class ComponentCalculations
         {
-            public static async Task<bool> One(Entities.ComponentCalculationProperties.ComponentCalculation componentCalculation)
+            public static async Task<bool> One(ComponentCalculation componentCalculation)
             {
                 using ParsethingContext db = new();
                 bool isSaved = true;
