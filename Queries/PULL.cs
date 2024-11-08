@@ -177,26 +177,26 @@ public static class PULL
     //    return isSaved;
     //}
 
-    public static bool LegalEntity(LegalEntity legalEntity)
-    {
-        using ParsethingContext db = new();
-        LegalEntity? def = null;
-        bool isSaved = true;
+    //public static bool LegalEntity(LegalEntity legalEntity)
+    //{
+    //    using ParsethingContext db = new();
+    //    LegalEntity? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.LegalEntities
-                .Where(m => m.Id == legalEntity.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.LegalEntities
+    //            .Where(m => m.Id == legalEntity.Id)
+    //            .First();
 
-            def.Name = legalEntity.Name;
+    //        def.Name = legalEntity.Name;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Manufacturer(Manufacturer manufacturer)
     //{
@@ -240,26 +240,26 @@ public static class PULL
 
     //    return isSaved;
     //}
-    public static bool Minopttorg(Minopttorg minopttorg)
-    {
-        using ParsethingContext db = new();
-        Minopttorg? def = null;
-        bool isSaved = true;
+    //public static bool Minopttorg(Minopttorg minopttorg)
+    //{
+    //    using ParsethingContext db = new();
+    //    Minopttorg? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Minopttorgs
-                .Where(m => m.Id == minopttorg.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Minopttorgs
+    //            .Where(m => m.Id == minopttorg.Id)
+    //            .First();
 
-            def.Name = minopttorg.Name;
+    //        def.Name = minopttorg.Name;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Position(Position position)
     //{
@@ -281,49 +281,49 @@ public static class PULL
 
     //    return isSaved;
     //}
-    public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
-    {
-        using ParsethingContext db = new();
-        PredefinedComponent? def = null;
-        bool isSaved = true;
+    //public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
+    //{
+    //    using ParsethingContext db = new();
+    //    PredefinedComponent? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.PredefinedComponents
-                .Where(p => p.Id == predefinedComponent.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.PredefinedComponents
+    //            .Where(p => p.Id == predefinedComponent.Id)
+    //            .First();
 
-            def.ComponentName = predefinedComponent.ComponentName;
-            def.ManufacturerId = predefinedComponent.ManufacturerId;
-            def.ComponentTypeId = predefinedComponent.ComponentTypeId;
-            def.Price = predefinedComponent.Price;
+    //        def.ComponentName = predefinedComponent.ComponentName;
+    //        def.ManufacturerId = predefinedComponent.ManufacturerId;
+    //        def.ComponentTypeId = predefinedComponent.ComponentTypeId;
+    //        def.Price = predefinedComponent.Price;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool Preference(Preference preference)
-    {
-        using ParsethingContext db = new();
-        Preference? def = null;
-        bool isSaved = true;
+    //    return isSaved;
+    //}
+    //public static bool Preference(Preference preference)
+    //{
+    //    using ParsethingContext db = new();
+    //    Preference? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Preferences
-                .Where(p => p.Id == preference.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Preferences
+    //            .Where(p => p.Id == preference.Id)
+    //            .First();
 
-            def.Kind = preference.Kind;
+    //        def.Kind = preference.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Procurement(Procurement procurement)
     {

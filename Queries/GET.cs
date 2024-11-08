@@ -369,16 +369,16 @@ public static class GET
 
         //    return histories;
         //}
-        public static List<LegalEntity>? LegalEntities() // Получить список юридических лиц
-        {
-            using ParsethingContext db = new();
-            List<LegalEntity>? legalEntities = null;
+        //public static List<LegalEntity>? LegalEntities() // Получить список юридических лиц
+        //{
+        //    using ParsethingContext db = new();
+        //    List<LegalEntity>? legalEntities = null;
 
-            try { legalEntities = db.LegalEntities.ToList(); }
-            catch { }
+        //    try { legalEntities = db.LegalEntities.ToList(); }
+        //    catch { }
 
-            return legalEntities;
-        }
+        //    return legalEntities;
+        //}
         public static List<TimeZone>? TimeZones() // Получить список часовых поясов
         {
             using ParsethingContext db = new();
@@ -432,16 +432,16 @@ public static class GET
         //    return manufacturerCountries;
         //}
 
-        public static List<Minopttorg>? Minopttorgs() // Получить список Миноптторг
-        {
-            using ParsethingContext db = new();
-            List<Minopttorg>? minopttorgs = null;
+        //public static List<Minopttorg>? Minopttorgs() // Получить список Миноптторг
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Minopttorg>? minopttorgs = null;
 
-            try { minopttorgs = db.Minopttorgs.ToList(); }
-            catch { }
+        //    try { minopttorgs = db.Minopttorgs.ToList(); }
+        //    catch { }
 
-            return minopttorgs;
-        }
+        //    return minopttorgs;
+        //}
 
         //public static List<Position>? Positions() // Получить список должностей
         //{
@@ -453,30 +453,30 @@ public static class GET
 
         //    return positions;
         //}
-        public static List<PredefinedComponent>? PredefinedComponents() // Получить список заготовленных позиций
-        {
-            using ParsethingContext db = new();
-            List<PredefinedComponent>? predefinedComponents = null;
+        //public static List<PredefinedComponent>? PredefinedComponents() // Получить список заготовленных позиций
+        //{
+        //    using ParsethingContext db = new();
+        //    List<PredefinedComponent>? predefinedComponents = null;
 
-            try
-            {
-                predefinedComponents = db.PredefinedComponents
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        predefinedComponents = db.PredefinedComponents
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return predefinedComponents;
-        }
-        public static List<Preference>? Preferences() // Получить список префренций
-        {
-            using ParsethingContext db = new();
-            List<Preference>? preferences = null;
+        //    return predefinedComponents;
+        //}
+        //public static List<Preference>? Preferences() // Получить список префренций
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Preference>? preferences = null;
 
-            try { preferences = db.Preferences.ToList(); }
-            catch { }
+        //    try { preferences = db.Preferences.ToList(); }
+        //    catch { }
 
-            return preferences;
-        }
+        //    return preferences;
+        //}
 
         public static List<RepresentativeType>? RepresentativeTypes() // Получить список пусконаладочных работ
         {

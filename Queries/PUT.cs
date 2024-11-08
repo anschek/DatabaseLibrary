@@ -136,19 +136,19 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool LegalEntity(LegalEntity legalEntity)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.LegalEntities.Add(legalEntity);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //public static bool LegalEntity(LegalEntity legalEntity)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.LegalEntities.Add(legalEntity);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Manufacturer(Manufacturer manufacturer)
     //{
@@ -190,19 +190,19 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Minopttorg(Minopttorg minopttorg)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.Minopttorgs.Add(minopttorg);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //public static bool Minopttorg(Minopttorg minopttorg)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.Minopttorgs.Add(minopttorg);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Organization(Organization organization)
     //{
@@ -248,34 +248,34 @@ public static class PUT
 
     //    return isSaved;
     //}
-    public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.PredefinedComponents.Add(predefinedComponent);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.PredefinedComponents.Add(predefinedComponent);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool Preference(Preference preference)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //    return isSaved;
+    //}
+    //public static bool Preference(Preference preference)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Preferences.Add(preference);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Preferences.Add(preference);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool ProcurementsPreferences(ProcurementsPreference procurementsPreference)
     {
         using ParsethingContext db = new();
