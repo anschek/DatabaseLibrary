@@ -150,32 +150,32 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Manufacturer(Manufacturer manufacturer)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.Manufacturers.Add(manufacturer);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //public static bool Manufacturer(Manufacturer manufacturer)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.Manufacturers.Add(manufacturer);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.ManufacturerCountries.Add(manufacturerCountry);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    return isSaved;
+    //}
+    //public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.ManufacturerCountries.Add(manufacturerCountry);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool Method(Method method)
     {
         using ParsethingContext db = new();
@@ -204,20 +204,20 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Organization(Organization organization)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Organization(Organization organization)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Organizations.Add(organization);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Organizations.Add(organization);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Platform(Platform platform)
     //{
@@ -498,20 +498,20 @@ public static class PUT
         return isSaved;
     }
 
-    public static bool Region(Region region)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Region(Region region)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Regions.Add(region);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Regions.Add(region);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Seller(Seller seller)
     {

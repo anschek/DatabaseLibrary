@@ -73,21 +73,21 @@ public static class GET
 
         //    return law;
         //}
-        public static Manufacturer? Manufacturer(int id) // Получить производителя
-        {
-            using ParsethingContext db = new();
-            Manufacturer? manufacturer = null;
-            try
-            {
-                manufacturer = db.Manufacturers
-                    .Where(m => m.Id == id)
-                    .Include(m => m.ManufacturerCountry)
-                    .First();
-            }
-            catch { }
+        //public static Manufacturer? Manufacturer(int id) // Получить производителя
+        //{
+        //    using ParsethingContext db = new();
+        //    Manufacturer? manufacturer = null;
+        //    try
+        //    {
+        //        manufacturer = db.Manufacturers
+        //            .Where(m => m.Id == id)
+        //            .Include(m => m.ManufacturerCountry)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return manufacturer;
-        }
+        //    return manufacturer;
+        //}
         public static Method? Method(string text) // Получить метод
         {
             using ParsethingContext db = new();
@@ -103,38 +103,38 @@ public static class GET
             return method;
         }
 
-        public static Organization? Organization(string name) // Получить организацию
-        {
-            using ParsethingContext db = new();
-            Organization? organization = null;
+        //public static Organization? Organization(string name) // Получить организацию
+        //{
+        //    using ParsethingContext db = new();
+        //    Organization? organization = null;
 
-            try
-            {
-                organization = db.Organizations
-                    .Where(o => o.Name == name)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        organization = db.Organizations
+        //            .Where(o => o.Name == name)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return organization;
-        }
+        //    return organization;
+        //}
 
-        public static Organization? Organization(string name, string? postalAddress) // Получить организацию по имени и адресу поставки
-        {
-            using ParsethingContext db = new();
-            Organization? organization = null;
+        //public static Organization? Organization(string name, string? postalAddress) // Получить организацию по имени и адресу поставки
+        //{
+        //    using ParsethingContext db = new();
+        //    Organization? organization = null;
 
-            try
-            {
-                organization = db.Organizations
-                    .Where(o => o.Name == name)
-                    .Where(o => o.PostalAddress == postalAddress)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        organization = db.Organizations
+        //            .Where(o => o.Name == name)
+        //            .Where(o => o.PostalAddress == postalAddress)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return organization;
-        }
+        //    return organization;
+        //}
 
         //public static Platform? Platform(string name, string address) // Получить платформу по имени и адресу
         //{
@@ -223,21 +223,21 @@ public static class GET
 
             return timeZone;
         }
-        public static Region? Region(string title) // Получить часовой пояс по дистанции и названию
-        {
-            using ParsethingContext db = new();
-            Region? region = null;
+        //public static Region? Region(string title) // Получить часовой пояс по дистанции и названию
+        //{
+        //    using ParsethingContext db = new();
+        //    Region? region = null;
 
-            try
-            {
-                region = db.Regions
-                    .Where(r => r.Title == title)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        region = db.Regions
+        //            .Where(r => r.Title == title)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return region;
-        }
+        //    return region;
+        //}
     }
 
     public struct View
@@ -255,19 +255,19 @@ public static class GET
 
         //    return laws;
         //}
-        public static List<Organization>? Organizations() // Получить все законы
-        {
-            using ParsethingContext db = new();
-            List<Organization> organizations = null;
-            try
-            {
-                organizations = db.Organizations
-                    .ToList();
-            }
-            catch { }
+        //public static List<Organization>? Organizations() // Получить все законы
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Organization> organizations = null;
+        //    try
+        //    {
+        //        organizations = db.Organizations
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return organizations;
-        }
+        //    return organizations;
+        //}
         //public static List<ComponentState>? ComponentStates() // Получить все статусы тендеров
         //{
         //    using ParsethingContext db = new();
@@ -406,31 +406,31 @@ public static class GET
             return histories;
         }
 
-        public static List<Manufacturer>? Manufacturers() // Получить список производителей
-        {
-            using ParsethingContext db = new();
-            List<Manufacturer>? manufacturers = null;
+        //public static List<Manufacturer>? Manufacturers() // Получить список производителей
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Manufacturer>? manufacturers = null;
 
-            try
-            {
-                manufacturers = db.Manufacturers
-                    .Include(m => m.ManufacturerCountry)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        manufacturers = db.Manufacturers
+        //            .Include(m => m.ManufacturerCountry)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return manufacturers;
-        }
-        public static List<ManufacturerCountry>? ManufacturerCountries() // Получить список стран-производителей
-        {
-            using ParsethingContext db = new();
-            List<ManufacturerCountry>? manufacturerCountries = null;
+        //    return manufacturers;
+        //}
+        //public static List<ManufacturerCountry>? ManufacturerCountries() // Получить список стран-производителей
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ManufacturerCountry>? manufacturerCountries = null;
 
-            try { manufacturerCountries = db.ManufacturerCountries.ToList(); }
-            catch { }
+        //    try { manufacturerCountries = db.ManufacturerCountries.ToList(); }
+        //    catch { }
 
-            return manufacturerCountries;
-        }
+        //    return manufacturerCountries;
+        //}
 
         public static List<Minopttorg>? Minopttorgs() // Получить список Миноптторг
         {
@@ -2430,16 +2430,16 @@ public static class GET
             return procurementStates;
         }
 
-        public static List<Region>? Regions() // Получить список регионов
-        {
-            using ParsethingContext db = new();
-            List<Region>? regions = null;
+        //public static List<Region>? Regions() // Получить список регионов
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Region>? regions = null;
 
-            try { regions = db.Regions.ToList(); }
-            catch { }
+        //    try { regions = db.Regions.ToList(); }
+        //    catch { }
 
-            return regions;
-        }
+        //    return regions;
+        //}
 
         public static List<Seller>? Sellers() // Получить список дистрибьюторов 
         {

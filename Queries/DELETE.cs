@@ -134,32 +134,32 @@ public static class DELETE
         return isSaved;
     }
 
-    public static bool Manufacturer(Manufacturer manufacturer)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.Manufacturers.Remove(manufacturer);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //public static bool Manufacturer(Manufacturer manufacturer)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.Manufacturers.Remove(manufacturer);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.ManufacturerCountries.Remove(manufacturerCountry);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    return isSaved;
+    //}
+    //public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.ManufacturerCountries.Remove(manufacturerCountry);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool Minopttorg(Minopttorg minopttorg)
     {
         using ParsethingContext db = new();
@@ -269,20 +269,20 @@ public static class DELETE
         return isSaved;
     }
 
-    public static bool Region(Region region)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Region(Region region)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Regions.Remove(region);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Regions.Remove(region);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Seller(Seller seller)
     {

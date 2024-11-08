@@ -198,48 +198,48 @@ public static class PULL
         return isSaved;
     }
 
-    public static bool Manufacturer(Manufacturer manufacturer)
-    {
-        using ParsethingContext db = new();
-        Manufacturer? def = null;
-        bool isSaved = true;
+    //public static bool Manufacturer(Manufacturer manufacturer)
+    //{
+    //    using ParsethingContext db = new();
+    //    Manufacturer? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Manufacturers
-                .Where(m => m.ManufacturerName == manufacturer.ManufacturerName)
-                .First();
+    //    try
+    //    {
+    //        def = db.Manufacturers
+    //            .Where(m => m.ManufacturerName == manufacturer.ManufacturerName)
+    //            .First();
 
-            def.ManufacturerName = manufacturer.ManufacturerName;
-            def.FullManufacturerName = manufacturer.FullManufacturerName;
-            def.ManufacturerCountryId = manufacturer.ManufacturerCountryId;
+    //        def.ManufacturerName = manufacturer.ManufacturerName;
+    //        def.FullManufacturerName = manufacturer.FullManufacturerName;
+    //        def.ManufacturerCountryId = manufacturer.ManufacturerCountryId;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
-    {
-        using ParsethingContext db = new();
-        ManufacturerCountry? def = null;
-        bool isSaved = true;
+    //    return isSaved;
+    //}
+    //public static bool ManufacturerCountry(ManufacturerCountry manufacturerCountry)
+    //{
+    //    using ParsethingContext db = new();
+    //    ManufacturerCountry? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ManufacturerCountries
-                .Where(m => m.Id == manufacturerCountry.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ManufacturerCountries
+    //            .Where(m => m.Id == manufacturerCountry.Id)
+    //            .First();
 
-            def.Name = manufacturerCountry.Name;
+    //        def.Name = manufacturerCountry.Name;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool Minopttorg(Minopttorg minopttorg)
     {
         using ParsethingContext db = new();
@@ -594,29 +594,29 @@ public static class PULL
     }
 
 
-    public static bool Region(Region region)
-    {
-        using ParsethingContext db = new();
-        Region? def = null;
-        bool isSaved = true;
+    //public static bool Region(Region region)
+    //{
+    //    using ParsethingContext db = new();
+    //    Region? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Regions
-                .Where(r => r.Id == region.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Regions
+    //            .Where(r => r.Id == region.Id)
+    //            .First();
 
-            def.Title = region.Title;
-            def.Distance = region.Distance;
-            def.RegionCode = region.RegionCode;
-            def.BicoId = region.BicoId;
+    //        def.Title = region.Title;
+    //        def.Distance = region.Distance;
+    //        def.RegionCode = region.RegionCode;
+    //        def.BicoId = region.BicoId;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     public static bool Seller(Seller seller)
     {
