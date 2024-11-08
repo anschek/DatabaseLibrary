@@ -106,20 +106,20 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool History(History history)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool History(History history)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Histories.Add(history);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Histories.Add(history);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Law(Law law)
     //{
@@ -234,20 +234,20 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool Position(Position position)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Position(Position position)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Positions.Add(position);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Positions.Add(position);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
     {
         using ParsethingContext db = new();
@@ -513,20 +513,20 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool Seller(Seller seller)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Seller(Seller seller)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Sellers.Add(seller);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Sellers.Add(seller);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Tag(Tag tag)
     //{

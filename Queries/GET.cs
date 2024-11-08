@@ -355,20 +355,20 @@ public static class GET
 
         //    return employees;
         //}
-        public static List<History>? Histories() // Получить истории
-        {
-            using ParsethingContext db = new();
-            List<History>? histories = null;
+        //public static List<History>? Histories() // Получить истории
+        //{
+        //    using ParsethingContext db = new();
+        //    List<History>? histories = null;
 
-            try
-            {
-                histories = db.Histories
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        histories = db.Histories
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return histories;
-        }
+        //    return histories;
+        //}
         public static List<LegalEntity>? LegalEntities() // Получить список юридических лиц
         {
             using ParsethingContext db = new();
@@ -389,22 +389,22 @@ public static class GET
 
             return timeZones;
         }
-        public static List<History>? HistoriesBy(int procurementId) // Получить историю изменений статусов тендеров
-        {
-            using ParsethingContext db = new();
-            List<History>? histories = null;
+        //public static List<History>? HistoriesBy(int procurementId) // Получить историю изменений статусов тендеров
+        //{
+        //    using ParsethingContext db = new();
+        //    List<History>? histories = null;
 
-            try
-            {
-                histories = db.Histories
-                    .Include(h => h.Employee)
-                    .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement")
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        histories = db.Histories
+        //            .Include(h => h.Employee)
+        //            .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement")
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return histories;
-        }
+        //    return histories;
+        //}
 
         //public static List<Manufacturer>? Manufacturers() // Получить список производителей
         //{
@@ -443,16 +443,16 @@ public static class GET
             return minopttorgs;
         }
 
-        public static List<Position>? Positions() // Получить список должностей
-        {
-            using ParsethingContext db = new();
-            List<Position>? positions = null;
+        //public static List<Position>? Positions() // Получить список должностей
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Position>? positions = null;
 
-            try { positions = db.Positions.ToList(); }
-            catch { }
+        //    try { positions = db.Positions.ToList(); }
+        //    catch { }
 
-            return positions;
-        }
+        //    return positions;
+        //}
         public static List<PredefinedComponent>? PredefinedComponents() // Получить список заготовленных позиций
         {
             using ParsethingContext db = new();
@@ -2441,16 +2441,16 @@ public static class GET
         //    return regions;
         //}
 
-        public static List<Seller>? Sellers() // Получить список дистрибьюторов 
-        {
-            using ParsethingContext db = new();
-            List<Seller>? sellers = null;
+        //public static List<Seller>? Sellers() // Получить список дистрибьюторов 
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Seller>? sellers = null;
 
-            try { sellers = db.Sellers.ToList(); }
-            catch { }
+        //    try { sellers = db.Sellers.ToList(); }
+        //    catch { }
 
-            return sellers;
-        }
+        //    return sellers;
+        //}
 
         //public static List<Tag>? Tags() // Получить тэги для парсинга 
         //{
@@ -2473,6 +2473,8 @@ public static class GET
 
         //    return tagExceptions;
         //}
+
+        //TODO refactor
         public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
         {
             using ParsethingContext db = new();
@@ -2602,7 +2604,7 @@ public static class GET
 
             return (tendersByMonth, procurementsForOtherStates);
         }
-        
+
         public static List<Procurement>? ApplicationsBy(int? procurementId)
         {
             using ParsethingContext db = new();

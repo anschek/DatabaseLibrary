@@ -261,26 +261,26 @@ public static class PULL
         return isSaved;
     }
 
-    public static bool Position(Position position)
-    {
-        using ParsethingContext db = new();
-        Position? def = null;
-        bool isSaved = true;
+    //public static bool Position(Position position)
+    //{
+    //    using ParsethingContext db = new();
+    //    Position? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Positions
-                .Where(p => p.Id == position.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Positions
+    //            .Where(p => p.Id == position.Id)
+    //            .First();
 
-            def.Kind = position.Kind;
+    //        def.Kind = position.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool PredefinedComponent(PredefinedComponent predefinedComponent)
     {
         using ParsethingContext db = new();
@@ -618,26 +618,26 @@ public static class PULL
     //    return isSaved;
     //}
 
-    public static bool Seller(Seller seller)
-    {
-        using ParsethingContext db = new();
-        Seller? def = null;
-        bool isSaved = true;
+    //public static bool Seller(Seller seller)
+    //{
+    //    using ParsethingContext db = new();
+    //    Seller? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Sellers
-                .Where(r => r.Id == seller.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.Sellers
+    //            .Where(r => r.Id == seller.Id)
+    //            .First();
 
-            def.Name = seller.Name;
+    //        def.Name = seller.Name;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Tag(Tag tag)
     //{
