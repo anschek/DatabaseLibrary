@@ -2474,774 +2474,724 @@ public static class GET
         //    return tagExceptions;
         //}
 
-        //TODO refactor
-        public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
+     
+    //public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
+    //{
+    //    using ParsethingContext db = new();
+
+    //    // Статусы, для которых считается InitialPrice
+    //    var statusesForInitialPrice = new List<string> { "Новый", "Посчитан", "Оформлен", "Отправлен", "Отбой", "Отклонен" };
+
+    //    // Обработка для статуса "Выигран 2ч"
+    //    if (procurementState == "Выигран 2ч")
+    //    {
+    //        var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отбой", "Отмена" };
+
+    //        // Получаем все EntryIds из истории, где присутствует статус "Выигран 2ч"
+    //        var winningHistories = histories
+    //        /*!!!*/    .Where(h => h.Text == "Выигран 2ч")
+    //            .ToList();
+
+    //        var winningEntryIds = winningHistories
+    //            .Select(h => h.EntryId)
+    //            .Distinct()
+    //            .ToList();
+
+    //        // Извлекаем тендеры, у которых есть статус "Выигран 2ч" и ProcurementState.Kind не относится к исключенным статусам
+    //        var procurements = db.Procurements
+    //        /*!!!*/    .Where(p => winningEntryIds.Contains(p.Id) && !excludedStatuses.Contains(p.ProcurementState.Kind))
+    //            .Include(p => p.ProcurementState)
+    //            .Include(p => p.Law)
+    //            .Include(p => p.Method)
+    //            .Include(p => p.Platform)
+    //            .Include(p => p.TimeZone)
+    //            .Include(p => p.Region)
+    //            .Include(p => p.City)
+    //            .Include(p => p.ShipmentPlan)
+    //            .Include(p => p.Organization)
+    //            .ToList();
+
+    //        // Группируем историю по месяцу и году, используя только записи с "Выигран 2ч"
+    //        var winningTendersByMonth = histories
+    //           /*!!!*/ .Where(h => winningEntryIds.Contains(h.EntryId) && h.Text == "Выигран 2ч")
+    //            .GroupBy(h => new { h.Date.Year,h.Date.Month })
+    //            .Select(group =>
+    //            {
+    //                var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
+    //                var procurementsInGroup = procurements
+    //                    .Where(p => procurementIdsInGroup.Contains(p.Id))
+    //                    .ToList();
+
+    //                // Подсчитываем сумму и количество тендеров
+    //                decimal totalAmount = procurementsInGroup.Sum(p =>
+    //                    p.ReserveContractAmount ?? p.ContractAmount ?? 0);
+
+    //                int tenderCount = procurementsInGroup.Count;
+
+    //                return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup);
+    //            })
+    //            .OrderBy(entry => entry.Item1)
+    //            .ThenBy(entry => entry.Item2)
+    //            .ToList();
+
+    //        return (winningTendersByMonth, procurements);
+    //    }
+
+    //    // Логика для остальных состояний
+    //    var relevantHistories = histories
+    //    /*!!!*/    .Where(h => h.Text == procurementState)
+    //        .ToList();
+
+    //    var procurementIds = relevantHistories
+    //        .Select(h => h.EntryId)
+    //        .Distinct()
+    //        .ToList();
+
+    //    var procurementsForOtherStates = db.Procurements
+    //    /*!!!*/    .Where(p => procurementIds.Contains(p.Id))
+    //        .Include(p => p.ProcurementState)
+    //        .Include(p => p.Law)
+    //        .Include(p => p.Method)
+    //        .Include(p => p.Platform)
+    //        .Include(p => p.TimeZone)
+    //        .Include(p => p.Region)
+    //        .Include(p => p.City)
+    //        .Include(p => p.ShipmentPlan)
+    //        .Include(p => p.Organization)
+    //        .ToList();
+
+    //    var tendersByMonth = relevantHistories
+    //        .GroupBy(h => new { h.Date.Year, h.Date.Month }) // Группировка по годам и месяцам
+    //        .Select(group =>
+    //        {
+    //            var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
+    //            var procurementsInGroup = procurementsForOtherStates
+    //                .Where(p => procurementIdsInGroup.Contains(p.Id))
+    //                .ToList();
+
+    //            // Подсчитываем сумму и количество тендеров
+    //            decimal totalAmount = procurementsInGroup.Sum(p =>
+    //            {
+    //                if (p.ReserveContractAmount != null) // Если резервная сумма не null
+    //                    return p.ReserveContractAmount.Value; // Возвращаем значение резервной суммы
+    //                else if (statusesForInitialPrice.Contains(procurementState)) // Если статус требует InitialPrice
+    //                    return p.InitialPrice; // Возвращаем InitialPrice, который всегда должен иметь значение
+    //                else
+    //                    return p.ContractAmount ?? 0; // Если ContractAmount null, возвращаем 0
+    //            });
+
+    //            int tenderCount = procurementsInGroup.Count;
+
+    //            return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup); // Включаем список тендеров
+    //        })
+    //        .OrderBy(entry => entry.Item1)
+    //        .ThenBy(entry => entry.Item2)
+    //        .ToList();
+
+    //    return (tendersByMonth, procurementsForOtherStates);
+    //}
+
+    public static List<Procurement>? ApplicationsBy(int? procurementId)
+    {
+        using ParsethingContext db = new();
+        List<Procurement>? procurements = null;
+
+        try
         {
-            using ParsethingContext db = new();
-
-            // Статусы, для которых считается InitialPrice
-            var statusesForInitialPrice = new List<string> { "Новый", "Посчитан", "Оформлен", "Отправлен", "Отбой", "Отклонен" };
-
-            // Обработка для статуса "Выигран 2ч"
-            if (procurementState == "Выигран 2ч")
-            {
-                var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отбой", "Отмена" };
-
-                var validWinningTenders = histories
-                    .Where(h => h.Text == "Выигран 2ч")
-                    .GroupBy(h => h.EntryId)
-                    .Where(group =>
-                    {
-                        var statuses = group.ToList();
-                        var lastWinIndex = statuses.FindLastIndex(h => h.Text == "Выигран 2ч");
-                        if (lastWinIndex == -1) return false; // Не найден статус "Выигран 2ч"
-
-                        // Убедимся, что после "Выигран 2ч" нет других исключенных статусов
-                        return statuses.Skip(lastWinIndex + 1).All(h => !excludedStatuses.Contains(h.Text));
-                    })
-                    .Select(group => group.First())
-                    .DistinctBy(h => h.EntryId)
-                    .ToList();
-
-                var winningProcurementIds = validWinningTenders
-                    .Select(h => h.EntryId)
-                    .Distinct()
-                    .ToList();
-
-                var procurements = db.Procurements
-                    .Where(p => winningProcurementIds.Contains(p.Id))
-                    .Include(p => p.ProcurementState)
-                    .Include(p => p.Law)
-                    .Include(p => p.Method)
-                    .Include(p => p.Platform)
-                    .Include(p => p.TimeZone)
-                    .Include(p => p.Region)
-                    .Include(p => p.City)
-                    .Include(p => p.ShipmentPlan)
-                    .Include(p => p.Organization)
-                    .ToList();
-
-                var winningTendersByMonth = validWinningTenders
-                    .GroupBy(tender => new { Year = tender.Date.Year, Month = tender.Date.Month })
-                    .Select(group =>
-                    {
-                        var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
-                        var procurementsInGroup = procurements
-                            .Where(p => procurementIdsInGroup.Contains(p.Id))
-                            .ToList();
-
-                        // Подсчитываем сумму и количество тендеров
-                        decimal totalAmount = procurementsInGroup.Sum(p =>
-                        {
-                            // Если есть резервная сумма, используем ее
-                            if (p.ReserveContractAmount.HasValue) // Проверяем, что ReserveContractAmount не null
-                                return p.ReserveContractAmount.Value; // Берем значение резервной суммы
-                            else
-                                return p.ContractAmount ?? 0; // Используем ContractAmount или 0, если он null
-                        });
-
-                        int tenderCount = procurementsInGroup.Count;
-
-                        return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup); // Включаем список тендеров
-                    })
-                    .OrderBy(entry => entry.Item1)
-                    .ThenBy(entry => entry.Item2)
-                    .ToList();
-
-                return (winningTendersByMonth, procurements);
-            }
-
-            // Логика для остальных состояний
-            var relevantHistories = histories
-                .Where(h => h.Text == procurementState)
-                .ToList();
-
-            var procurementIds = relevantHistories
-                .Select(h => h.EntryId)
-                .Distinct()
-                .ToList();
-
-            var procurementsForOtherStates = db.Procurements
-                .Where(p => procurementIds.Contains(p.Id))
+            procurements = db.Procurements
                 .Include(p => p.ProcurementState)
                 .Include(p => p.Law)
                 .Include(p => p.Method)
                 .Include(p => p.Platform)
+                .Include(p => p.Organization)
                 .Include(p => p.TimeZone)
                 .Include(p => p.Region)
                 .Include(p => p.City)
                 .Include(p => p.ShipmentPlan)
-                .Include(p => p.Organization)
+                .Where(p => p.ParentProcurementId == procurementId)
                 .ToList();
-
-            var tendersByMonth = relevantHistories
-                .GroupBy(h => new { h.Date.Year, h.Date.Month }) // Группировка по годам и месяцам
-                .Select(group =>
-                {
-                    var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
-                    var procurementsInGroup = procurementsForOtherStates
-                        .Where(p => procurementIdsInGroup.Contains(p.Id))
-                        .ToList();
-
-                    // Подсчитываем сумму и количество тендеров
-                    decimal totalAmount = procurementsInGroup.Sum(p =>
-                    {
-                        if (p.ReserveContractAmount != null) // Если резервная сумма не null
-                            return p.ReserveContractAmount.Value; // Возвращаем значение резервной суммы
-                        else if (statusesForInitialPrice.Contains(procurementState)) // Если статус требует InitialPrice
-                            return p.InitialPrice; // Возвращаем InitialPrice, который всегда должен иметь значение
-                        else
-                            return p.ContractAmount ?? 0; // Если ContractAmount null, возвращаем 0
-                    });
-
-                    int tenderCount = procurementsInGroup.Count;
-
-                    return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup); // Включаем список тендеров
-                })
-                .OrderBy(entry => entry.Item1)
-                .ThenBy(entry => entry.Item2)
-                .ToList();
-
-            return (tendersByMonth, procurementsForOtherStates);
         }
+        catch { }
+        return procurements;
+    }
+}
 
-        public static List<Procurement>? ApplicationsBy(int? procurementId)
+public struct Aggregate
+{
+    public static int GetActualProcurementId(int currentProcurementId, int? parentProcurementId)
+    {
+        using (var db = new ParsethingContext())
         {
-            using ParsethingContext db = new();
-            List<Procurement>? procurements = null;
-
-            try
+            if (parentProcurementId.HasValue)
             {
-                procurements = db.Procurements
-                    .Include(p => p.ProcurementState)
-                    .Include(p => p.Law)
-                    .Include(p => p.Method)
-                    .Include(p => p.Platform)
-                    .Include(p => p.Organization)
-                    .Include(p => p.TimeZone)
-                    .Include(p => p.Region)
-                    .Include(p => p.City)
-                    .Include(p => p.ShipmentPlan)
-                    .Where(p => p.ParentProcurementId == procurementId)
-                    .ToList();
+                var procurement = db.Procurements
+                    .FirstOrDefault(p => p.DisplayId == parentProcurementId.Value);
+
+                if (procurement != null)
+                {
+                    return procurement.Id;
+                }
             }
-            catch { }
-            return procurements;
+
+            return currentProcurementId;
         }
     }
+    //public static int ComponentClculationCountBy(int id) // Получить количество позиций по id тендера
+    //{
+    //    using ParsethingContext db = new();
+    //    int count = 0;
 
-    public struct Aggregate
+    //    try
+    //    {
+    //        count = db.ComponentCalculations
+    //            .Where(cc => cc.ProcurementId == id && cc.IsHeader == false && cc.IsAdded == false)
+    //            .Count();
+    //    }
+    //    catch { }
+
+    //    return count;
+    //}
+    public static int ProcurementsCountBy(string kind, KindOf kindOf) // Получить количество тендеров по:
     {
-        public static int GetActualProcurementId(int currentProcurementId, int? parentProcurementId)
-        {
-            using (var db = new ParsethingContext())
-            {
-                if (parentProcurementId.HasValue)
-                {
-                    var procurement = db.Procurements
-                        .FirstOrDefault(p => p.DisplayId == parentProcurementId.Value);
+        using ParsethingContext db = new();
+        int count = 0;
 
-                    if (procurement != null)
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.ProcurementState: // Конкретному статусу
+                    count = db.Procurements
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState != null && p.ProcurementState.Kind == kind)
+                        .Where(p => p.Applications != true)
+                        .Count();
+                    break;
+                case KindOf.ShipmentPlane: // Плану отгрузки и конуретным статусам
+                    count = db.Procurements
+                        .Include(e => e.ShipmentPlan)
+                        .Where(p => p.ShipmentPlan != null && p.ShipmentPlan.Kind == kind)
+                        .Where(p => p.ProcurementState.Kind == "Выигран 2ч")
+                        .Where(p => p.Applications != true)
+                        .Count();
+                    break;
+                case KindOf.Applications: // Положительному статусу "По заявкам"
+                    count = db.Procurements
+                        .Where(p => p.Applications == true)
+                        .Count();
+                    break;
+                case KindOf.CorrectionDate: // По тендерам на исправлении
+                    count = db.Procurements
+                        .Where(p => p.CorrectionDate != null)
+                        .Where(p => p.ProcurementState.Kind == kind)
+                        .Count();
+                    break;
+            }
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsCountBy(string procurementState, DateTime startDate, int employeeId) // Получить количество тендеров по статусу и конкретному сотруднику по дате
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            List<int> validProcurementIds;
+
+            if (procurementState == "Выигран 1ч")
+            {
+                var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
+
+                validProcurementIds = db.Histories
+                    .Where(h => h.Text == procurementState && h.Date >= startDate)
+                    .GroupBy(h => h.EntryId)
+                    .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
+                    .Select(g => g.Key)
+                    .Distinct()
+                    .ToList();
+            }
+            else
+            {
+                validProcurementIds = db.Histories
+                    .Where(h => h.Text == procurementState && h.Date >= startDate)
+                    .Select(h => h.EntryId)
+                    .Distinct()
+                    .ToList();
+            }
+
+            count = db.ProcurementsEmployees
+                .Count(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);
+        }
+        catch { }
+
+        return count;
+    }
+
+    public static int ProcurementsCountBy(string procurementState, DateTime startDate) // Получить количество тендеров по статусу и дате
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            if (procurementState == "Выигран 1ч")
+            {
+                var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
+
+                var validProcurementIds = db.Histories
+                    .Where(h => h.Text == procurementState && h.Date >= startDate)
+                    .GroupBy(h => h.EntryId)
+                    .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
+                    .Select(g => g.Key)
+                    .Distinct()
+                    .ToList();
+
+                count = db.Procurements
+                    .Where(p => validProcurementIds.Contains(p.Id))
+                    .Count();
+            }
+            else
+            {
+                count = db.Histories
+                    .Where(h => h.Text == procurementState && h.Date >= startDate)
+                    .Select(h => h.EntryId)
+                    .Distinct()
+                    .Count();
+            }
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsCountBy(bool isOverdue) // Получить количество неоплаченных тендеров
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            if (isOverdue) // Просроченных по дате оплаты
+            {
+                count = db.Procurements
+                    .Include(p => p.ProcurementState)
+                    .Where(p => p.ProcurementState.Kind == "Принят")
+                    .Where(p => p.MaxDueDate < DateTime.Now)
+                    .Where(p => p.RealDueDate == null)
+                    .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
+                    .Count();
+            }
+            else // Непросроченных по дате оплаты
+            {
+                count = db.Procurements
+                    .Include(p => p.ProcurementState)
+                    .Where(p => p.ProcurementState.Kind == "Принят")
+                    .Where(p => p.MaxDueDate > DateTime.Now)
+                    .Where(p => p.RealDueDate == null)
+                    .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
+                    .Count();
+            }
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsQueueCount() // Очередь расчета
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+        try
+        {
+            count = db.Procurements
+                .Include(p => p.ProcurementState)
+                .Include(p => p.Law)
+                .Where(p => p.ProcurementState.Kind == "Новый" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id))
+                .Count();
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsManagersQueueCount() // Тендеры, не назначенные не конкретного менеджера (количество)
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+        try
+        {
+            count = db.Procurements
+                .Include(p => p.ProcurementState)
+                .Include(p => p.Law)
+                .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id && pe.Employee.Position.Id == 8))
+                .Count();
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsCountBy(KindOf kindOf) // Получить количество тендеров по:
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.Judgement: // Суд
+                    count = db.Procurements
+                        .Where(p => p.Judgment == true)
+                        .Count();
+                    break;
+                case KindOf.FAS: // ФАС
+                    count = db.Procurements
+                        .Where(p => p.Fas == true)
+                        .Count();
+                    break;
+            }
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsCountBy(bool isTrue, KindOf kindOf) // Получить количество тендеров по:
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.Calculating: // По визе расчета
+                    if (isTrue)
                     {
-                        return procurement.Id;
+                        count = db.Procurements
+                          .Where(p => p.Calculating == true)
+                          .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                          .Count();
                     }
-                }
-
-                return currentProcurementId;
+                    else
+                    {
+                        count = db.Procurements
+                          .Where(p => p.Calculating == false || p.Calculating == null)
+                          .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                          .Count();
+                    }
+                    break;
+                case KindOf.Purchase: // По визе закупки
+                    if (isTrue)
+                    {
+                        count = db.Procurements
+                          .Where(p => p.Purchase == true && p.Calculating == true)
+                          .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                          .Count();
+                    }
+                    else
+                    {
+                        count = db.Procurements
+                          .Where(p => p.Purchase == false || p.Purchase == null && p.Calculating == true)
+                          .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                          .Count();
+                    }
+                    break;
             }
         }
-        //public static int ComponentClculationCountBy(int id) // Получить количество позиций по id тендера
-        //{
-        //    using ParsethingContext db = new();
-        //    int count = 0;
+        catch { }
 
-        //    try
-        //    {
-        //        count = db.ComponentCalculations
-        //            .Where(cc => cc.ProcurementId == id && cc.IsHeader == false && cc.IsAdded == false)
-        //            .Count();
-        //    }
-        //    catch { }
+        return count;
+    }
 
-        //    return count;
-        //}
-        public static int ProcurementsCountBy(string kind, KindOf kindOf) // Получить количество тендеров по:
+    public static int ProcurementsCountBy(string procurementStateKind, bool isOverdue, KindOf kindOf) // Получить количество тендеров по:
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
         {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
+            switch (kindOf)
             {
-                switch (kindOf)
-                {
-                    case KindOf.ProcurementState: // Конкретному статусу
+                case KindOf.Deadline: // Дате окончания подачи заявок
+                    if (isOverdue) // Просроченные
+                    {
                         count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState != null && p.ProcurementState.Kind == kind)
-                            .Where(p => p.Applications != true)
-                            .Count();
-                        break;
-                    case KindOf.ShipmentPlane: // Плану отгрузки и конуретным статусам
-                        count = db.Procurements
-                            .Include(e => e.ShipmentPlan)
-                            .Where(p => p.ShipmentPlan != null && p.ShipmentPlan.Kind == kind)
-                            .Where(p => p.ProcurementState.Kind == "Выигран 2ч")
-                            .Where(p => p.Applications != true)
-                            .Count();
-                        break;
-                    case KindOf.Applications: // Положительному статусу "По заявкам"
-                        count = db.Procurements
-                            .Where(p => p.Applications == true)
-                            .Count();
-                        break;
-                    case KindOf.CorrectionDate: // По тендерам на исправлении
-                        count = db.Procurements
-                            .Where(p => p.CorrectionDate != null)
-                            .Where(p => p.ProcurementState.Kind == kind)
-                            .Count();
-                        break;
-                }
-            }
-            catch { }
-
-            return count;
-        }
-        public static int ProcurementsCountBy(string procurementState, DateTime startDate, int employeeId) // Получить количество тендеров по статусу и конкретному сотруднику по дате
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                List<int> validProcurementIds;
-
-                if (procurementState == "Выигран 1ч")
-                {
-                    var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
-
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .GroupBy(h => h.EntryId)
-                        .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
-                        .Select(g => g.Key)
-                        .Distinct()
-                        .ToList();
-                }
-                else
-                {
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .Select(h => h.EntryId)
-                        .Distinct()
-                        .ToList();
-                }
-
-                count = db.ProcurementsEmployees
-                    .Count(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);
-            }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsCountBy(string procurementState, DateTime startDate) // Получить количество тендеров по статусу и дате
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                if (procurementState == "Выигран 1ч")
-                {
-                    var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
-
-                    var validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .GroupBy(h => h.EntryId)
-                        .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
-                        .Select(g => g.Key)
-                        .Distinct()
-                        .ToList();
-
-                    count = db.Procurements
-                        .Where(p => validProcurementIds.Contains(p.Id))
-                        .Count();
-                }
-                else
-                {
-                    count = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .Select(h => h.EntryId)
-                        .Distinct()
-                        .Count();
-                }
-            }
-            catch { }
-
-            return count;
-        }
-        public static int ProcurementsCountBy(bool isOverdue) // Получить количество неоплаченных тендеров
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                if (isOverdue) // Просроченных по дате оплаты
-                {
-                    count = db.Procurements
                         .Include(p => p.ProcurementState)
-                        .Where(p => p.ProcurementState.Kind == "Принят")
-                        .Where(p => p.MaxDueDate < DateTime.Now)
-                        .Where(p => p.RealDueDate == null)
-                        .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.Deadline < DateTime.Now)
                         .Count();
-                }
-                else // Непросроченных по дате оплаты
-                {
-                    count = db.Procurements
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.Procurements
                         .Include(p => p.ProcurementState)
-                        .Where(p => p.ProcurementState.Kind == "Принят")
-                        .Where(p => p.MaxDueDate > DateTime.Now)
-                        .Where(p => p.RealDueDate == null)
-                        .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.Deadline > DateTime.Now)
                         .Count();
-                }
-            }
-            catch { }
-
-            return count;
-        }
-        public static int ProcurementsQueueCount() // Очередь расчета
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-            try
-            {
-                count = db.Procurements
-                    .Include(p => p.ProcurementState)
-                    .Include(p => p.Law)
-                    .Where(p => p.ProcurementState.Kind == "Новый" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id))
-                    .Count();
-            }
-            catch { }
-
-            return count;
-        }
-        public static int ProcurementsManagersQueueCount() // Тендеры, не назначенные не конкретного менеджера (количество)
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-            try
-            {
-                count = db.Procurements
-                    .Include(p => p.ProcurementState)
-                    .Include(p => p.Law)
-                    .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id && pe.Employee.Position.Id == 8))
-                    .Count();
-            }
-            catch { }
-
-            return count;
-        }
-        public static int ProcurementsCountBy(KindOf kindOf) // Получить количество тендеров по:
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                switch (kindOf)
-                {
-                    case KindOf.Judgement: // Суд
+                    }
+                    break;
+                case KindOf.StartDate: // Дате начала подачи заявок
+                    if (isOverdue) // Просроченные
+                    {
                         count = db.Procurements
-                            .Where(p => p.Judgment == true)
-                            .Count();
-                        break;
-                    case KindOf.FAS: // ФАС
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.StartDate < DateTime.Now)
+                        .Count();
+                    }
+                    else // Непросроченные
+                    {
                         count = db.Procurements
-                            .Where(p => p.Fas == true)
-                            .Count();
-                        break;
-                }
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.StartDate > DateTime.Now)
+                        .Count();
+                    }
+                    break;
+                case KindOf.ResultDate: // Дате начала подачи заявок
+                    if (isOverdue) // Просроченные
+                    {
+                        count = db.Procurements
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.ResultDate < DateTime.Now)
+                        .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.Procurements
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == procurementStateKind)
+                        .Where(p => p.ResultDate > DateTime.Now)
+                        .Count();
+                    }
+                    break;
+                case KindOf.ContractConclusion: // Дате подписания контракта
+                    if (isOverdue) // Просроченные
+                    {
+                        count = db.Procurements
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                        .Where(p => p.ConclusionDate != null)
+                        .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.Procurements
+                        .Include(p => p.ProcurementState)
+                        .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
+                        .Where(p => p.ConclusionDate == null)
+                        .Count();
+                    }
+                    break;
             }
-            catch { }
 
-            return count;
         }
-        public static int ProcurementsCountBy(bool isTrue, KindOf kindOf) // Получить количество тендеров по:
+        catch { }
+
+        return count;
+    }
+
+    public static int ProcurementsEmployeesCountBy(string kind, KindOf kindOf, int employeeId) // Получить количество тендеров по:
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
         {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
+            switch (kindOf)
             {
-                switch (kindOf)
-                {
-                    case KindOf.Calculating: // По визе расчета
-                        if (isTrue)
-                        {
-                            count = db.Procurements
-                              .Where(p => p.Calculating == true)
-                              .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                              .Count();
-                        }
-                        else
-                        {
-                            count = db.Procurements
-                              .Where(p => p.Calculating == false || p.Calculating == null)
-                              .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                              .Count();
-                        }
-                        break;
-                    case KindOf.Purchase: // По визе закупки
-                        if (isTrue)
-                        {
-                            count = db.Procurements
-                              .Where(p => p.Purchase == true && p.Calculating == true)
-                              .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                              .Count();
-                        }
-                        else
-                        {
-                            count = db.Procurements
-                              .Where(p => p.Purchase == false || p.Purchase == null && p.Calculating == true)
-                              .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                              .Count();
-                        }
-                        break;
-                }
-            }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsCountBy(string procurementStateKind, bool isOverdue, KindOf kindOf) // Получить количество тендеров по:
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                switch (kindOf)
-                {
-                    case KindOf.Deadline: // Дате окончания подачи заявок
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.Deadline < DateTime.Now)
-                            .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.Deadline > DateTime.Now)
-                            .Count();
-                        }
-                        break;
-                    case KindOf.StartDate: // Дате начала подачи заявок
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.StartDate < DateTime.Now)
-                            .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.StartDate > DateTime.Now)
-                            .Count();
-                        }
-                        break;
-                    case KindOf.ResultDate: // Дате начала подачи заявок
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.ResultDate < DateTime.Now)
-                            .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == procurementStateKind)
-                            .Where(p => p.ResultDate > DateTime.Now)
-                            .Count();
-                        }
-                        break;
-                    case KindOf.ContractConclusion: // Дате подписания контракта
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                            .Where(p => p.ConclusionDate != null)
-                            .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.Procurements
-                            .Include(p => p.ProcurementState)
-                            .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
-                            .Where(p => p.ConclusionDate == null)
-                            .Count();
-                        }
-                        break;
-                }
-
-            }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsEmployeesCountBy(string kind, KindOf kindOf, int employeeId) // Получить количество тендеров по:
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                switch (kindOf)
-                {
-                    case KindOf.ProcurementState: // Статусу и конкретному сотруднику
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Include(pe => pe.Procurement.ProcurementState)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == kind)
-                            .Where(pe => pe.Procurement.Applications != true)
-                            .Count();
-                        break;
-                    case KindOf.ShipmentPlane: // Плану отгрузки и конкретному сотруднику
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Include(pe => pe.Procurement.ShipmentPlan)
-                            .Include(pe => pe.Procurement.ProcurementState)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.ShipmentPlan != null && pe.Procurement.ShipmentPlan.Kind == kind)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                            .Where(pe => pe.Procurement.Applications != true)
-                            .Count();
-                        break;
-                    case KindOf.Applications: // Положительному статусу "По заявкам" и конкретному сотруднику
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Applications == true)
-                            .Count();
-                        break;
-                    case KindOf.ExecutionState: // Статусу обеспечения заявки по конкретному сотруднику 
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Include(pe => pe.Procurement.ExecutionState)
-                            .Include(pe => pe.Procurement.ProcurementState)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч" || pe.Procurement.ProcurementState.Kind == "Приемка")
-                            .Where(pe => pe.Procurement.ExecutionState.Kind == "Запрошена БГ" || pe.Procurement.ExecutionState.Kind == "На согласовании заказчика" || pe.Procurement.ExecutionState.Kind == "Внесение правок" || pe.Procurement.ExecutionState.Kind == "Согласована БГ" || pe.Procurement.ExecutionState.Kind == "Ожидает оплаты" || pe.Procurement.ExecutionState.Kind == "Деньги(Возвратные)")
-                            .Count();
-                        break;
-                    case KindOf.WarrantyState: // Статусу обеспечения гарантии заявки по конкретному сотруднику
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Include(pe => pe.Procurement.WarrantyState)
-                            .Include(pe => pe.Procurement.ProcurementState)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч" || pe.Procurement.ProcurementState.Kind == "Приемка")
-                            .Where(pe => pe.Procurement.WarrantyState.Kind == "Запрошена БГ" || pe.Procurement.WarrantyState.Kind == "На согласовании заказчика" || pe.Procurement.WarrantyState.Kind == "Внесение правок" || pe.Procurement.WarrantyState.Kind == "Согласована БГ" || pe.Procurement.WarrantyState.Kind == "Ожидает оплаты" || pe.Procurement.WarrantyState.Kind == "Деньги(Возвратные)")
-                            .Count();
-                        break;
-                    case KindOf.CorrectionDate: // По тендерам на исправлении
-                        count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Include(pe => pe.Procurement.WarrantyState)
-                            .Include(pe => pe.Procurement.ProcurementState)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == kind)
-                            .Where(pe => pe.Procurement.CorrectionDate != null)
-                            .Count();
-                        break;
-                }
-            }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsEmployeesCountBy(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить количество тендеров по
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                switch (kindOf)
-                {
-                    case KindOf.Deadline: // Дате окончания подачи заявок
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.Deadline < DateTime.Now)
-                                .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.Deadline > DateTime.Now)
-                                .Count();
-                        }
-                        break;
-                    case KindOf.StartDate: // Дате начала подачи заявок
-                        if (isOverdue) // Просроченные 
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.StartDate < DateTime.Now)
-                                .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.StartDate > DateTime.Now)
-                                .Count();
-                        }
-                        break;
-                    case KindOf.ResultDate: // Дате подведения итогов
-                        if (isOverdue) // Просроченные 
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.ResultDate < DateTime.Now)
-                                .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                                .Where(pe => pe.Procurement.ResultDate > DateTime.Now)
-                                .Count();
-                        }
-                        break;
-                    case KindOf.ContractConclusion: // Дате подписания контракта
-                        if (isOverdue) // Просроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                                .Where(pe => pe.Procurement.ConclusionDate != null)
-                                .Count();
-                        }
-                        else // Непросроченные
-                        {
-                            count = db.ProcurementsEmployees
-                                .Include(pe => pe.Employee)
-                                .Include(pe => pe.Procurement)
-                                .Include(pe => pe.Procurement.ProcurementState)
-                                .Where(pe => pe.Employee.Id == employeeId)
-                                .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                                .Where(pe => pe.Procurement.ConclusionDate == null)
-                                .Count();
-                        }
-                        break;
-
-                }
-            }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsEmployeesCountBy(bool isOverdue, int employeeId) // Получить количество тендеров и сотрудников по сотрудникам
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
-            {
-                if (isOverdue) // Просросроченных неоплаченных
-                {
+                case KindOf.ProcurementState: // Статусу и конкретному сотруднику
                     count = db.ProcurementsEmployees
                         .Include(pe => pe.Employee)
                         .Include(pe => pe.Procurement)
                         .Include(pe => pe.Procurement.ProcurementState)
                         .Where(pe => pe.Employee.Id == employeeId)
-                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
-                        .Where(pe => pe.Procurement.MaxDueDate < DateTime.Now)
-                        .Where(pe => pe.Procurement.RealDueDate == null)
-                        .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                        .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == kind)
+                        .Where(pe => pe.Procurement.Applications != true)
                         .Count();
-                }
-                else // Непросроченных неоплаченных
-                {
+                    break;
+                case KindOf.ShipmentPlane: // Плану отгрузки и конкретному сотруднику
                     count = db.ProcurementsEmployees
                         .Include(pe => pe.Employee)
                         .Include(pe => pe.Procurement)
+                        .Include(pe => pe.Procurement.ShipmentPlan)
                         .Include(pe => pe.Procurement.ProcurementState)
                         .Where(pe => pe.Employee.Id == employeeId)
-                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
-                        .Where(pe => pe.Procurement.MaxDueDate > DateTime.Now)
-                        .Where(pe => pe.Procurement.RealDueDate == null)
-                        .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                        .Where(pe => pe.Procurement.ShipmentPlan != null && pe.Procurement.ShipmentPlan.Kind == kind)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .Where(pe => pe.Procurement.Applications != true)
                         .Count();
-                }
+                    break;
+                case KindOf.Applications: // Положительному статусу "По заявкам" и конкретному сотруднику
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Applications == true)
+                        .Count();
+                    break;
+                case KindOf.ExecutionState: // Статусу обеспечения заявки по конкретному сотруднику 
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Include(pe => pe.Procurement.ExecutionState)
+                        .Include(pe => pe.Procurement.ProcurementState)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч" || pe.Procurement.ProcurementState.Kind == "Приемка")
+                        .Where(pe => pe.Procurement.ExecutionState.Kind == "Запрошена БГ" || pe.Procurement.ExecutionState.Kind == "На согласовании заказчика" || pe.Procurement.ExecutionState.Kind == "Внесение правок" || pe.Procurement.ExecutionState.Kind == "Согласована БГ" || pe.Procurement.ExecutionState.Kind == "Ожидает оплаты" || pe.Procurement.ExecutionState.Kind == "Деньги(Возвратные)")
+                        .Count();
+                    break;
+                case KindOf.WarrantyState: // Статусу обеспечения гарантии заявки по конкретному сотруднику
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Include(pe => pe.Procurement.WarrantyState)
+                        .Include(pe => pe.Procurement.ProcurementState)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч" || pe.Procurement.ProcurementState.Kind == "Приемка")
+                        .Where(pe => pe.Procurement.WarrantyState.Kind == "Запрошена БГ" || pe.Procurement.WarrantyState.Kind == "На согласовании заказчика" || pe.Procurement.WarrantyState.Kind == "Внесение правок" || pe.Procurement.WarrantyState.Kind == "Согласована БГ" || pe.Procurement.WarrantyState.Kind == "Ожидает оплаты" || pe.Procurement.WarrantyState.Kind == "Деньги(Возвратные)")
+                        .Count();
+                    break;
+                case KindOf.CorrectionDate: // По тендерам на исправлении
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Include(pe => pe.Procurement.WarrantyState)
+                        .Include(pe => pe.Procurement.ProcurementState)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == kind)
+                        .Where(pe => pe.Procurement.CorrectionDate != null)
+                        .Count();
+                    break;
             }
-            catch { }
-
-            return count;
         }
-        public static int ProcurementsEmployeesCountNotPaid(int employeeId) // Получить количество неоплаченных принятых тендеров и сотрудников по конкретному сотруднику
-        {
-            using ParsethingContext db = new();
-            int count = 0;
+        catch { }
 
-            try
+        return count;
+    }
+
+    public static int ProcurementsEmployeesCountBy(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить количество тендеров по
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.Deadline: // Дате окончания подачи заявок
+                    if (isOverdue) // Просроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.Deadline < DateTime.Now)
+                            .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.Deadline > DateTime.Now)
+                            .Count();
+                    }
+                    break;
+                case KindOf.StartDate: // Дате начала подачи заявок
+                    if (isOverdue) // Просроченные 
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.StartDate < DateTime.Now)
+                            .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.StartDate > DateTime.Now)
+                            .Count();
+                    }
+                    break;
+                case KindOf.ResultDate: // Дате подведения итогов
+                    if (isOverdue) // Просроченные 
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.ResultDate < DateTime.Now)
+                            .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == procurementStateKind)
+                            .Where(pe => pe.Procurement.ResultDate > DateTime.Now)
+                            .Count();
+                    }
+                    break;
+                case KindOf.ContractConclusion: // Дате подписания контракта
+                    if (isOverdue) // Просроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                            .Where(pe => pe.Procurement.ConclusionDate != null)
+                            .Count();
+                    }
+                    else // Непросроченные
+                    {
+                        count = db.ProcurementsEmployees
+                            .Include(pe => pe.Employee)
+                            .Include(pe => pe.Procurement)
+                            .Include(pe => pe.Procurement.ProcurementState)
+                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                            .Where(pe => pe.Procurement.ConclusionDate == null)
+                            .Count();
+                    }
+                    break;
+
+            }
+        }
+        catch { }
+
+        return count;
+    }
+
+    public static int ProcurementsEmployeesCountBy(bool isOverdue, int employeeId) // Получить количество тендеров и сотрудников по сотрудникам
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            if (isOverdue) // Просросроченных неоплаченных
             {
                 count = db.ProcurementsEmployees
                     .Include(pe => pe.Employee)
@@ -3249,225 +3199,261 @@ public static class GET
                     .Include(pe => pe.Procurement.ProcurementState)
                     .Where(pe => pe.Employee.Id == employeeId)
                     .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
+                    .Where(pe => pe.Procurement.MaxDueDate < DateTime.Now)
                     .Where(pe => pe.Procurement.RealDueDate == null)
-                    .Where(pe => pe.Procurement.MaxDueDate != null)
-                    .Where(pe => pe.Procurement.Amount < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                    .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
                     .Count();
             }
-            catch { }
-
-            return count;
-        }
-
-        public static int ProcurementsEmployeesCountBy(KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-
-            try
+            else // Непросроченных неоплаченных
             {
-                switch (kindOf)
-                {
-                    case KindOf.Judgement: // Суд
+                count = db.ProcurementsEmployees
+                    .Include(pe => pe.Employee)
+                    .Include(pe => pe.Procurement)
+                    .Include(pe => pe.Procurement.ProcurementState)
+                    .Where(pe => pe.Employee.Id == employeeId)
+                    .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
+                    .Where(pe => pe.Procurement.MaxDueDate > DateTime.Now)
+                    .Where(pe => pe.Procurement.RealDueDate == null)
+                    .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                    .Count();
+            }
+        }
+        catch { }
+
+        return count;
+    }
+    public static int ProcurementsEmployeesCountNotPaid(int employeeId) // Получить количество неоплаченных принятых тендеров и сотрудников по конкретному сотруднику
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            count = db.ProcurementsEmployees
+                .Include(pe => pe.Employee)
+                .Include(pe => pe.Procurement)
+                .Include(pe => pe.Procurement.ProcurementState)
+                .Where(pe => pe.Employee.Id == employeeId)
+                .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
+                .Where(pe => pe.Procurement.RealDueDate == null)
+                .Where(pe => pe.Procurement.MaxDueDate != null)
+                .Where(pe => pe.Procurement.Amount < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                .Count();
+        }
+        catch { }
+
+        return count;
+    }
+
+    public static int ProcurementsEmployeesCountBy(KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.Judgement: // Суд
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Judgment == true)
+                        .Count();
+                    break;
+                case KindOf.FAS: // ФАС
+                    count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Fas == true)
+                        .Count();
+                    break;
+            }
+        }
+        catch { }
+
+        return count;
+
+    }
+    public static int ProcurementsEmployeesCountBy(bool isTrue, KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
+    {
+        using ParsethingContext db = new();
+        int count = 0;
+
+        try
+        {
+            switch (kindOf)
+            {
+                case KindOf.Calculating: // По визе расчета
+                    if (isTrue) // Есть
+                    {
                         count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Judgment == true)
-                            .Count();
-                        break;
-                    case KindOf.FAS: // ФАС
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Calculating == true)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .Count();
+                    }
+                    else // Нет
+                    {
                         count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Fas == true)
-                            .Count();
-                        break;
-                }
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Calculating == false || pe.Procurement.Calculating == null)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .Count();
+                    }
+                    break;
+                case KindOf.Purchase: // По визе закупки
+                    if (isTrue)// Есть
+                    {
+                        count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Purchase == true && pe.Procurement.Calculating == true)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .Count();
+                    }
+                    else // Нет
+                    {
+                        count = db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Procurement)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.Purchase == false || pe.Procurement.Purchase == null && pe.Procurement.Calculating == true)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .Count();
+                    }
+                    break;
             }
-            catch { }
-
-            return count;
-
         }
-        public static int ProcurementsEmployeesCountBy(bool isTrue, KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
-        {
-            using ParsethingContext db = new();
-            int count = 0;
+        catch { }
 
-            try
-            {
-                switch (kindOf)
-                {
-                    case KindOf.Calculating: // По визе расчета
-                        if (isTrue) // Есть
-                        {
-                            count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Calculating == true)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                            .Count();
-                        }
-                        else // Нет
-                        {
-                            count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Calculating == false || pe.Procurement.Calculating == null)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                            .Count();
-                        }
-                        break;
-                    case KindOf.Purchase: // По визе закупки
-                        if (isTrue)// Есть
-                        {
-                            count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Purchase == true && pe.Procurement.Calculating == true)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                            .Count();
-                        }
-                        else // Нет
-                        {
-                            count = db.ProcurementsEmployees
-                            .Include(pe => pe.Employee)
-                            .Include(pe => pe.Procurement)
-                            .Where(pe => pe.Employee.Id == employeeId)
-                            .Where(pe => pe.Procurement.Purchase == false || pe.Procurement.Purchase == null && pe.Procurement.Calculating == true)
-                            .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
-                            .Count();
-                        }
-                        break;
-                }
-            }
-            catch { }
+        return count;
 
-            return count;
-
-        }
-        public static int CountNewStatusByProcurementId(int procurementId)
-        {
-            using ParsethingContext db = new();
-            int count = 0;
-            try
-            {
-                count = db.Histories
-                            .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement" && h.Text == "Новый")
-                            .Count();
-            }
-            catch { }
-
-            return count;
-        }
-        public static int NumberOfApplication(int? procurementId) // получить номер создаваемой заявки при ее создании
-        {
-            using ParsethingContext db = new();
-            int number = 0;
-
-            try
-            {
-                number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
-            }
-            catch { }
-
-            return number + 1;
-        }
-        public static int CountOfApplications(int procurementId) // получить количество заявок по id тендера
-        {
-            using ParsethingContext db = new();
-            int number = 0;
-
-            try
-            {
-                number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
-            }
-            catch { }
-
-            return number;
-        }
-        public static int? MaxDisplayId() // получить максимальный DisplayId
-        {
-            using ParsethingContext db = new();
-            int? number = 0;
-
-            try
-            {
-                number = db.Procurements
-                    .Max(p => (int?)p.DisplayId);
-            }
-            catch { }
-
-            return number;
-        }
-        public static int? DisplayId(int? procurementId) // получить DisplayId по ProcurementId
-        {
-            using ParsethingContext db = new();
-            int? number = 0;
-
-            try
-            {
-                number = db.Procurements
-                    .Where(p => p.Id == procurementId)
-                    .Select(p => p.DisplayId)
-                    .FirstOrDefault();
-            }
-            catch { }
-
-            return number;
-        }
     }
-
-    public class SupplyMonitoringList // Класс для формирования результатов запросов на получение списка сгруппированных комплектующих
+    public static int CountNewStatusByProcurementId(int procurementId)
     {
-        public string? SupplierName { get; set; }
-        public string? ManufacturerName { get; set; }
-        public string? ComponentName { get; set; }
-        public string? ComponentStatus { get; set; }
-        public decimal? AveragePrice { get; set; }
-        public int? TotalCount { get; set; }
-        public string? SellerName { get; set; }
-        public int? TenderNumber { get; set; }
-        public int? DisplayId { get; set; }
-        public decimal? TotalAmount { get; set; }
-    }
+        using ParsethingContext db = new();
+        int count = 0;
+        try
+        {
+            count = db.Histories
+                        .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement" && h.Text == "Новый")
+                        .Count();
+        }
+        catch { }
 
-    public class ProcurementsEmployeesGrouping // Класс для формирования результатов запросов на группировку
+        return count;
+    }
+    public static int NumberOfApplication(int? procurementId) // получить номер создаваемой заявки при ее создании
     {
-        public string Id { get; set; }
-        public int CountOfProcurements { get; set; }
-        public List<Procurement> Procurements { get; set; }
+        using ParsethingContext db = new();
+        int number = 0;
 
-        public decimal TotalAmount => Procurements?.Sum(p =>
-        p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ?
-        p.ReserveContractAmount.Value :
-        (p.ContractAmount != null && p.ContractAmount != 0 ?
-        p.ContractAmount.Value :
-        p.InitialPrice)) ?? 0m;
+        try
+        {
+            number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
+        }
+        catch { }
+
+        return number + 1;
     }
-
-    public enum KindOf // Перечисление для типизации запросов
+    public static int CountOfApplications(int procurementId) // получить количество заявок по id тендера
     {
-        ProcurementState, // Статус тендера
-        ShipmentPlane, // План отгрузки
-        Applications, // Статус "По заявкам"
-        StartDate, // Дата начала подачи заявок
-        Deadline, // Дата окончания подачи заявок
-        ResultDate, // Дата подведения итогов
-        CorrectionDate, // Дата исправления недостатков
-        Judgement, // Суд
-        FAS, // ФАС
-        ContractConclusion, // Дата подписания контракта
-        ExecutionState, // Статус обеспечения исполнения заявки
-        WarrantyState, // Статус обеспечения гарантии заявки
-        Calculating, // Виза расчетчиков
-        Purchase, // Виза закупки
-        IsUnitPrice // Цена за единицу товара
+        using ParsethingContext db = new();
+        int number = 0;
+
+        try
+        {
+            number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
+        }
+        catch { }
+
+        return number;
     }
+    public static int? MaxDisplayId() // получить максимальный DisplayId
+    {
+        using ParsethingContext db = new();
+        int? number = 0;
+
+        try
+        {
+            number = db.Procurements
+                .Max(p => (int?)p.DisplayId);
+        }
+        catch { }
+
+        return number;
+    }
+    public static int? DisplayId(int? procurementId) // получить DisplayId по ProcurementId
+    {
+        using ParsethingContext db = new();
+        int? number = 0;
+
+        try
+        {
+            number = db.Procurements
+                .Where(p => p.Id == procurementId)
+                .Select(p => p.DisplayId)
+                .FirstOrDefault();
+        }
+        catch { }
+
+        return number;
+    }
+}
+
+public class SupplyMonitoringList // Класс для формирования результатов запросов на получение списка сгруппированных комплектующих
+{
+    public string? SupplierName { get; set; }
+    public string? ManufacturerName { get; set; }
+    public string? ComponentName { get; set; }
+    public string? ComponentStatus { get; set; }
+    public decimal? AveragePrice { get; set; }
+    public int? TotalCount { get; set; }
+    public string? SellerName { get; set; }
+    public int? TenderNumber { get; set; }
+    public int? DisplayId { get; set; }
+    public decimal? TotalAmount { get; set; }
+}
+
+public class ProcurementsEmployeesGrouping // Класс для формирования результатов запросов на группировку
+{
+    public string Id { get; set; }
+    public int CountOfProcurements { get; set; }
+    public List<Procurement> Procurements { get; set; }
+
+    public decimal TotalAmount => Procurements?.Sum(p =>
+    p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ?
+    p.ReserveContractAmount.Value :
+    (p.ContractAmount != null && p.ContractAmount != 0 ?
+    p.ContractAmount.Value :
+    p.InitialPrice)) ?? 0m;
+}
+
+public enum KindOf // Перечисление для типизации запросов
+{
+    ProcurementState, // Статус тендера
+    ShipmentPlane, // План отгрузки
+    Applications, // Статус "По заявкам"
+    StartDate, // Дата начала подачи заявок
+    Deadline, // Дата окончания подачи заявок
+    ResultDate, // Дата подведения итогов
+    CorrectionDate, // Дата исправления недостатков
+    Judgement, // Суд
+    FAS, // ФАС
+    ContractConclusion, // Дата подписания контракта
+    ExecutionState, // Статус обеспечения исполнения заявки
+    WarrantyState, // Статус обеспечения гарантии заявки
+    Calculating, // Виза расчетчиков
+    Purchase, // Виза закупки
+    IsUnitPrice // Цена за единицу товара
+}
 
 }
