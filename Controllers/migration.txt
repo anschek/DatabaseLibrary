@@ -2,8 +2,8 @@
  *City
  GET.Entry.City	->	GET.Cities.One
  GET.View.City	->	GET.Cities.Many
--DELETE.City	->  DELETE.City
- PULL.City	->  PUT.City
+-DELETE.City	->  	DELETE.City
+ PULL.City	->  	PUT.City
  PUT.City	->	POST.City
  
   *Employee
@@ -78,3 +78,113 @@
  PULL.TagException	-> PUT.TagException
  PUT.TagException	-> POSt.TagException
 
+  *Manufacturer
+ GET.Entry.Manufacturer	-> GET.Manufacturers.One
+ GET.View.Manufacturer	-> GET.Manufacturers.Many
+-DELETE.Manufacturer	-> DELETE.Manufacturer
+ PULL.Manufacturer		-> PUT.Manufacturer
+ PUT.Manufacturer		-> POST.Manufacturer
+
+  *ManufacturerCountry
+ GET.View.ManufacturerCountries		-> GET.ManufacturerCountries
+-DELETE.ManufacturerCountry		-> DELETE.ManufacturerCountry
+ PULL.ManufacturerCountry		-> PUT.ManufacturerCountry
+ PUT.ManufacturerCountry		-> POST.ManufacturerCountry
+
+  *Region
+ GET.Entry.Region	-> GET.Regions.One
+ GET.View.Regions	-> GET.Regions.Many
+-DELETE.Region		-> DELETE.Region
+ PULL.Region		-> PUT.Region
+ PUT.Region		-> POST.Region
+ 
+  *Organization
+ GET.Entry.Organization(string)			-> GET.Organizations.OneByName
+ GET.Entry.Organization(string, string)		-> GET.Organizations.OneByNameAndAddress
+ GET.View.Organizations				-> GET.Organizations.Many
+ PUT.Organization				-> POST.Organization
+
+  *Seller
+ GET.View.Sellers	-> GET.Sellers
+-DELETE.Seller		-> DELETE.Seller
+ PULL.Seller		-> PUT.Seller
+ PUT.Seller		-> POST.Seller
+
+  *Position
+ GET.View.Positions		-> GET.Positions
+-DELETE.Position		-> DELETE.Position
+ PULL.Position			-> PUT.Position
+ PUT.Position			-> POST.Position
+
+  *History
+ GET.View.Histories				-> GET.Histories.Many
+ GET.View.HistoriesBy				-> GET.Histories.ManyByProcurement
+ GET.Aggregate.CountNewStatusByProcurementId	-> GET.Histories.CountNewStatusByProcurement
+ PUT.History					-> POST.History
+
+ /// !!! need to test 
+ GET.View.HistoryGroupBy	-> GET.Histories.GroupByProcurementState(string, histories),  GET.Histories.GroupByProcurementState(histories)
+ /// !!!
+
+  *LegalEntity
+ GET.View.LegalEntities	-> GET.LegalEntities
+-DELETE.LegalEntity	-> DELETE.LegalEntity
+ PULL.LegalEntity	-> PUT.LegalEntity
+ PUT.LegalEntity	-> POST.LegalEntity
+
+  *Minopttorg
+ GET.View.Minopttorgs	-> GET.Minopttorgs
+-DELETE.Minopttorg		-> DELETE.Minopttorg
+ PULL.Minopttorg		-> PUT.Minopttorg
+ PUT.Minopttorg			-> POST.Minopttorg
+
+  *PredefinedComponent
+ GET.View.PredefinedComponents	-> GET.PredefinedComponents
+-DELETE.PredefinedComponent	-> DELETE.PredefinedComponent	
+ PULL.PredefinedComponent	-> PUT.PredefinedComponent	
+ PUT.PredefinedComponent	-> POST.PredefinedComponent	
+
+  *Preference
+ GET.View.Preferences	-> GET.Preferences
+-DELETE.Preference	-> DELETE.Preference
+ PULL.Preference	-> PUT.Preference
+ PUT.Preference		-> POST.Preference
+
+  *Method
+ GET.Entry.Method	-> GET.Methods.One
+ GET.View.Methods	-> GET.Methods.Many
+ PUT.Methos		-> POST.Method
+
+  *TimeZone
+ GET.Entry.TimeZone	-> GET.TimeZones.One	**dependent: PUT.ProcurementSource
+ GET.View.TimeZones	-> GET.TimeZones.Many
+ PUT.TimeZone		-> POST.TimeZone		**dependent: PUT.ProcurementSource
+
+  *Application
+ GET.View.ApplicationsBy		-> GET.Applications.Many
+ GET.Aggregate.NumberOfApplication	-> GET.Applications.Number
+ GET.Aggregate.CountOfApplication	-> GET.Applications.Count
+
+  *Display
+ GET.Aggregate.MaxDisplayId	-> GET.DisplayId.First
+ GET.Aggregate.DisplayId	-> GET.DisplayId.Max
+
+ --27
+
+  *Others 
+ PULL.ClosingActiveSessionsByEmployee	-> PUT.ClosingActiveSessionsByEmployee
+ GET.View.RepresentativeTypes		-> GET.RepresentativeTypes
+ GET.View.ShipmentPlans			-> GET.ShipmentPlans
+ GET.View.ExecutionStates		-> GET.ExecutionStates
+ GET.View.WarrantyStates		-> GET.WarrantyStates
+ GET.View.SignedOriginals		-> GET.SignedOriginals
+ GET.View.CommissioningWorks		-> GET.CommissioningWorks
+
+ --
+  *Procurement
+
+
+ --
+Additionally from new features
++Notification
++EmployeeNotification.cs
