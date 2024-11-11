@@ -1,4 +1,5 @@
-﻿using DatabaseLibrary.Entities.ProcurementProperties;
+﻿using DatabaseLibrary.Entities.DTOs;
+using DatabaseLibrary.Entities.ProcurementProperties;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -40,14 +41,19 @@ namespace DatabaseLibrary.Controllers
 
             return histories;
         }
-
-        public class ProcurementsGroup
+        public static async Task<int> CountNewStatusByProcurement(int procurementId)
         {
-            public int Year { get; set; }
-            public int Month { get; set; }
-            public decimal TotalAmount { get; set; }
-            public int TenderCount { get; set; }
-            public List<Procurement> Procurements { get; set; }
+            using ParsethingContext db = new();
+            int count = 0;
+            try
+            {
+                count = await db.Histories
+                            .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement" && h.Text == "Новый")
+                            .CountAsync();
+            }
+            catch { }
+
+            return count;
         }
 
         // Получение группировок по историям за один статус

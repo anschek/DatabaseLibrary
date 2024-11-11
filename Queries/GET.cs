@@ -3,6 +3,7 @@ using DatabaseLibrary.Entities.EmployeeMuchToMany;
 using static DatabaseLibrary.Entities.ProcurementProperties.Procurement;
 using System.Collections.ObjectModel;
 using Microsoft.IdentityModel.Tokens;
+using DatabaseLibrary.Entities.DTOs;
 
 namespace DatabaseLibrary.Queries;
 
@@ -3337,20 +3338,20 @@ public struct Aggregate
         return count;
 
     }
-    public static int CountNewStatusByProcurementId(int procurementId)
-    {
-        using ParsethingContext db = new();
-        int count = 0;
-        try
-        {
-            count = db.Histories
-                        .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement" && h.Text == "Новый")
-                        .Count();
-        }
-        catch { }
+    //public static int CountNewStatusByProcurementId(int procurementId)
+    //{
+    //    using ParsethingContext db = new();
+    //    int count = 0;
+    //    try
+    //    {
+    //        count = db.Histories
+    //                    .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement" && h.Text == "Новый")
+    //                    .Count();
+    //    }
+    //    catch { }
 
-        return count;
-    }
+    //    return count;
+    //}
     public static int NumberOfApplication(int? procurementId) // получить номер создаваемой заявки при ее создании
     {
         using ParsethingContext db = new();
@@ -3407,53 +3408,6 @@ public struct Aggregate
 
         return number;
     }
-}
-
-public class SupplyMonitoringList // Класс для формирования результатов запросов на получение списка сгруппированных комплектующих
-{
-    public string? SupplierName { get; set; }
-    public string? ManufacturerName { get; set; }
-    public string? ComponentName { get; set; }
-    public string? ComponentStatus { get; set; }
-    public decimal? AveragePrice { get; set; }
-    public int? TotalCount { get; set; }
-    public string? SellerName { get; set; }
-    public int? TenderNumber { get; set; }
-    public int? DisplayId { get; set; }
-    public decimal? TotalAmount { get; set; }
-}
-
-public class ProcurementsEmployeesGrouping // Класс для формирования результатов запросов на группировку
-{
-    public string Id { get; set; }
-    public int CountOfProcurements { get; set; }
-    public List<Procurement> Procurements { get; set; }
-
-    public decimal TotalAmount => Procurements?.Sum(p =>
-    p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ?
-    p.ReserveContractAmount.Value :
-    (p.ContractAmount != null && p.ContractAmount != 0 ?
-    p.ContractAmount.Value :
-    p.InitialPrice)) ?? 0m;
-}
-
-public enum KindOf // Перечисление для типизации запросов
-{
-    ProcurementState, // Статус тендера
-    ShipmentPlane, // План отгрузки
-    Applications, // Статус "По заявкам"
-    StartDate, // Дата начала подачи заявок
-    Deadline, // Дата окончания подачи заявок
-    ResultDate, // Дата подведения итогов
-    CorrectionDate, // Дата исправления недостатков
-    Judgement, // Суд
-    FAS, // ФАС
-    ContractConclusion, // Дата подписания контракта
-    ExecutionState, // Статус обеспечения исполнения заявки
-    WarrantyState, // Статус обеспечения гарантии заявки
-    Calculating, // Виза расчетчиков
-    Purchase, // Виза закупки
-    IsUnitPrice // Цена за единицу товара
 }
 
 }
