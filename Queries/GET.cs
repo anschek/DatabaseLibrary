@@ -89,20 +89,20 @@ public static class GET
 
         //    return manufacturer;
         //}
-        public static Method? Method(string text) // Получить метод
-        {
-            using ParsethingContext db = new();
-            Method? method = null;
-            try
-            {
-                method = db.Methods
-                    .Where(m => m.Text == text)
-                    .First();
-            }
-            catch { }
+        //public static Method? Method(string text) // Получить метод
+        //{
+        //    using ParsethingContext db = new();
+        //    Method? method = null;
+        //    try
+        //    {
+        //        method = db.Methods
+        //            .Where(m => m.Text == text)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return method;
-        }
+        //    return method;
+        //}
 
         //public static Organization? Organization(string name) // Получить организацию
         //{
@@ -209,21 +209,21 @@ public static class GET
             return procurement;
         }
 
-        public static TimeZone? TimeZone(string offset) // Получить часовой пояс
-        {
-            using ParsethingContext db = new();
-            TimeZone? timeZone = null;
+        //public static TimeZone? TimeZone(string offset) // Получить часовой пояс
+        //{
+        //    using ParsethingContext db = new();
+        //    TimeZone? timeZone = null;
 
-            try
-            {
-                timeZone = db.TimeZones
-                    .Where(tz => tz.Offset == offset)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        timeZone = db.TimeZones
+        //            .Where(tz => tz.Offset == offset)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return timeZone;
-        }
+        //    return timeZone;
+        //}
         //public static Region? Region(string title) // Получить часовой пояс по дистанции и названию
         //{
         //    using ParsethingContext db = new();
@@ -380,16 +380,16 @@ public static class GET
 
         //    return legalEntities;
         //}
-        public static List<TimeZone>? TimeZones() // Получить список часовых поясов
-        {
-            using ParsethingContext db = new();
-            List<TimeZone>? timeZones = null;
+        //public static List<TimeZone>? TimeZones() // Получить список часовых поясов
+        //{
+        //    using ParsethingContext db = new();
+        //    List<TimeZone>? timeZones = null;
 
-            try { timeZones = db.TimeZones.ToList(); }
-            catch { }
+        //    try { timeZones = db.TimeZones.ToList(); }
+        //    catch { }
 
-            return timeZones;
-        }
+        //    return timeZones;
+        //}
         //public static List<History>? HistoriesBy(int procurementId) // Получить историю изменений статусов тендеров
         //{
         //    using ParsethingContext db = new();
@@ -479,66 +479,66 @@ public static class GET
         //    return preferences;
         //}
 
-        public static List<RepresentativeType>? RepresentativeTypes() // Получить список пусконаладочных работ
-        {
-            using ParsethingContext db = new();
-            List<RepresentativeType>? representativeTypes = null;
+        //public static List<RepresentativeType>? RepresentativeTypes() // Получить список пусконаладочных работ
+        //{
+        //    using ParsethingContext db = new();
+        //    List<RepresentativeType>? representativeTypes = null;
 
-            try { representativeTypes = db.RepresentativeTypes.ToList(); }
-            catch { }
+        //    try { representativeTypes = db.RepresentativeTypes.ToList(); }
+        //    catch { }
 
-            return representativeTypes;
-        }
-        public static List<ShipmentPlan>? ShipmentPlans() // Получить список планов отгрузки
-        {
-            using ParsethingContext db = new();
-            List<ShipmentPlan>? shipmentPlans = null;
+        //    return representativeTypes;
+        //}
+        //public static List<ShipmentPlan>? ShipmentPlans() // Получить список планов отгрузки
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ShipmentPlan>? shipmentPlans = null;
 
-            try { shipmentPlans = db.ShipmentPlans.ToList(); }
-            catch { }
+        //    try { shipmentPlans = db.ShipmentPlans.ToList(); }
+        //    catch { }
 
-            return shipmentPlans;
-        }
-        public static List<ExecutionState>? ExecutionStates() // Получить список статусов БГ
-        {
-            using ParsethingContext db = new();
-            List<ExecutionState>? executionStates = null;
+        //    return shipmentPlans;
+        //}
+        //public static List<ExecutionState>? ExecutionStates() // Получить список статусов БГ
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ExecutionState>? executionStates = null;
 
-            try { executionStates = db.ExecutionStates.ToList(); }
-            catch { }
+        //    try { executionStates = db.ExecutionStates.ToList(); }
+        //    catch { }
 
-            return executionStates;
-        }
-        public static List<WarrantyState>? WarrantyStates() // Получить список статусов БГ гарантии
-        {
-            using ParsethingContext db = new();
-            List<WarrantyState>? warrantyStates = null;
+        //    return executionStates;
+        //}
+        //public static List<WarrantyState>? WarrantyStates() // Получить список статусов БГ гарантии
+        //{
+        //    using ParsethingContext db = new();
+        //    List<WarrantyState>? warrantyStates = null;
 
-            try { warrantyStates = db.WarrantyStates.ToList(); }
-            catch { }
+        //    try { warrantyStates = db.WarrantyStates.ToList(); }
+        //    catch { }
 
-            return warrantyStates;
-        }
-        public static List<SignedOriginal>? SignedOriginals() // Получить список подписанных оригиналов
-        {
-            using ParsethingContext db = new();
-            List<SignedOriginal>? signedOriginals = null;
+        //    return warrantyStates;
+        //}
+        //public static List<SignedOriginal>? SignedOriginals() // Получить список подписанных оригиналов
+        //{
+        //    using ParsethingContext db = new();
+        //    List<SignedOriginal>? signedOriginals = null;
 
-            try { signedOriginals = db.SignedOriginals.ToList(); }
-            catch { }
+        //    try { signedOriginals = db.SignedOriginals.ToList(); }
+        //    catch { }
 
-            return signedOriginals;
-        }
-        public static List<CommisioningWork>? CommissioningWorks() // Получить список пусконаладочных работ
-        {
-            using ParsethingContext db = new();
-            List<CommisioningWork>? commissioningWorks = null;
+        //    return signedOriginals;
+        //}
+        //public static List<CommisioningWork>? CommissioningWorks() // Получить список пусконаладочных работ
+        //{
+        //    using ParsethingContext db = new();
+        //    List<CommisioningWork>? commissioningWorks = null;
 
-            try { commissioningWorks = db.CommisioningWorks.ToList(); }
-            catch { }
+        //    try { commissioningWorks = db.CommisioningWorks.ToList(); }
+        //    catch { }
 
-            return commissioningWorks;
-        }
+        //    return commissioningWorks;
+        //}
 
         public static List<Procurement>? ProcurementSources() // Получить список полученных парсингом тендеров
         {
@@ -855,19 +855,19 @@ public static class GET
                 return supplyMonitoringLists;
             }
         }
-        public static List<Method>? Methods() // Получить все методы определения поставщика
-        {
-            using ParsethingContext db = new();
-            List<Method> methods = null;
-            try
-            {
-                methods = db.Methods
-                    .ToList();
-            }
-            catch { }
+        //public static List<Method>? Methods() // Получить все методы определения поставщика
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Method> methods = null;
+        //    try
+        //    {
+        //        methods = db.Methods
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return methods;
-        }
+        //    return methods;
+        //}
 
         public static List<Procurement>? ProcurementsBy(string kind, KindOf kindOf) // Получить список тендеров по: 
         {
@@ -984,9 +984,7 @@ public static class GET
                     .Where(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId)
                     .ToList();
             }
-            catch (Exception ex)
-            {
-            }
+            catch { }
 
             return procurementsEmployees;
         }
@@ -2592,29 +2590,29 @@ public static class GET
     //    return (tendersByMonth, procurementsForOtherStates);
     //}
 
-    public static List<Procurement>? ApplicationsBy(int? procurementId)
-    {
-        using ParsethingContext db = new();
-        List<Procurement>? procurements = null;
+    //public static List<Procurement>? ApplicationsBy(int? procurementId)
+    //{
+    //    using ParsethingContext db = new();
+    //    List<Procurement>? procurements = null;
 
-        try
-        {
-            procurements = db.Procurements
-                .Include(p => p.ProcurementState)
-                .Include(p => p.Law)
-                .Include(p => p.Method)
-                .Include(p => p.Platform)
-                .Include(p => p.Organization)
-                .Include(p => p.TimeZone)
-                .Include(p => p.Region)
-                .Include(p => p.City)
-                .Include(p => p.ShipmentPlan)
-                .Where(p => p.ParentProcurementId == procurementId)
-                .ToList();
-        }
-        catch { }
-        return procurements;
-    }
+    //    try
+    //    {
+    //        procurements = db.Procurements
+    //            .Include(p => p.ProcurementState)
+    //            .Include(p => p.Law)
+    //            .Include(p => p.Method)
+    //            .Include(p => p.Platform)
+    //            .Include(p => p.Organization)
+    //            .Include(p => p.TimeZone)
+    //            .Include(p => p.Region)
+    //            .Include(p => p.City)
+    //            .Include(p => p.ShipmentPlan)
+    //            .Where(p => p.ParentProcurementId == procurementId)
+    //            .ToList();
+    //    }
+    //    catch { }
+    //    return procurements;
+    //}
 }
 
 public struct Aggregate
@@ -3352,62 +3350,62 @@ public struct Aggregate
 
     //    return count;
     //}
-    public static int NumberOfApplication(int? procurementId) // получить номер создаваемой заявки при ее создании
-    {
-        using ParsethingContext db = new();
-        int number = 0;
+    //public static int NumberOfApplication(int? procurementId) // получить номер создаваемой заявки при ее создании
+    //{
+    //    using ParsethingContext db = new();
+    //    int number = 0;
 
-        try
-        {
-            number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
-        }
-        catch { }
+    //    try
+    //    {
+    //        number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
+    //    }
+    //    catch { }
 
-        return number + 1;
-    }
-    public static int CountOfApplications(int procurementId) // получить количество заявок по id тендера
-    {
-        using ParsethingContext db = new();
-        int number = 0;
+    //    return number + 1;
+    //}
+    //public static int CountOfApplications(int procurementId) // получить количество заявок по id тендера
+    //{
+    //    using ParsethingContext db = new();
+    //    int number = 0;
 
-        try
-        {
-            number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
-        }
-        catch { }
+    //    try
+    //    {
+    //        number = db.Procurements.Count(p => p.ParentProcurementId == procurementId);
+    //    }
+    //    catch { }
 
-        return number;
-    }
-    public static int? MaxDisplayId() // получить максимальный DisplayId
-    {
-        using ParsethingContext db = new();
-        int? number = 0;
+    //    return number;
+    //}
+    //public static int? MaxDisplayId() // получить максимальный DisplayId
+    //{
+    //    using ParsethingContext db = new();
+    //    int? number = 0;
 
-        try
-        {
-            number = db.Procurements
-                .Max(p => (int?)p.DisplayId);
-        }
-        catch { }
+    //    try
+    //    {
+    //        number = db.Procurements
+    //            .Max(p => (int?)p.DisplayId);
+    //    }
+    //    catch { }
 
-        return number;
-    }
-    public static int? DisplayId(int? procurementId) // получить DisplayId по ProcurementId
-    {
-        using ParsethingContext db = new();
-        int? number = 0;
+    //    return number;
+    //}
+    //public static int? DisplayId(int? procurementId) // получить DisplayId по ProcurementId
+    //{
+    //    using ParsethingContext db = new();
+    //    int? number = 0;
 
-        try
-        {
-            number = db.Procurements
-                .Where(p => p.Id == procurementId)
-                .Select(p => p.DisplayId)
-                .FirstOrDefault();
-        }
-        catch { }
+    //    try
+    //    {
+    //        number = db.Procurements
+    //            .Where(p => p.Id == procurementId)
+    //            .Select(p => p.DisplayId)
+    //            .FirstOrDefault();
+    //    }
+    //    catch { }
 
-        return number;
-    }
+    //    return number;
+    //}
 }
 
 }

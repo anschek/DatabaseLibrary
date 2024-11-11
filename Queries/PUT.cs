@@ -176,19 +176,19 @@ public static class PUT
 
     //    return isSaved;
     //}
-    public static bool Method(Method method)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        try
-        {
-            _ = db.Methods.Add(method);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //public static bool Method(Method method)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        _ = db.Methods.Add(method);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Minopttorg(Minopttorg minopttorg)
     //{
@@ -558,20 +558,20 @@ public static class PUT
     //    return isSaved;
     //}
 
-    public static bool TimeZone(TimeZone timeZone)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool TimeZone(TimeZone timeZone)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.TimeZones.Add(timeZone);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.TimeZones.Add(timeZone);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Comment(Comment comment)
     //{
