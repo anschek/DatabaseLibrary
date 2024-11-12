@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -110,23 +111,25 @@ namespace DatabaseLibrary.Controllers
             }
 
             // Получение группировок по историям за все статусы
-            public static async Task<List<(string, List<ProcurementsGroup>)>> GroupByProcurementState(List<History> histories)
+            public static async Task<Dictionary<string, List<ProcurementsGroup>>> GroupByProcurementState(List<History> histories)
             {
-                using ParsethingContext db = new();
+                //using ParsethingContext db = new();
 
                 // Статусы, для которых делаются группировки
-                var targetStates = new List<string> { "Выигран 2ч", "Отправлен", "Оформлен", "Посчитан", "Новый", "Отбой", "Отклонен" };
+                var targetStatuses = new List<string> { "Выигран 2ч", "Отправлен", "Оформлен", "Посчитан", "Новый", "Отбой", "Отклонен" };
                 // Статусы, исключаемые для "Выигран 2ч"
                 var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отбой", "Отмена" };
                 // Статусы, для которых считается InitialPrice
                 var statusesForInitialPrice = new List<string> { "Новый", "Посчитан", "Оформлен", "Отправлен", "Отбой", "Отклонен" };
                 // Безопасная для потоков коллекция
-                var resultGroups = new ConcurrentBag<(string, List<ProcurementsGroup>)>();
+                var resultGroups = new ConcurrentDictionary<string, List<ProcurementsGroup>>();
 
                 // Дождемся обработки каждого статуса
-                await Task.WhenAll(targetStates.Select(procurementState =>
+                await Task.WhenAll(targetStatuses.Select(procurementState =>
                 Task.Run(async () =>
                 {
+                    using ParsethingContext db = new(); // Создаем новый экземпляр для каждой задачи, т.к. контекст не потокобезопасен
+
                     List<ProcurementsGroup> resultGroup;
                     if (procurementState == "Выигран 2ч") // 1. Обработка для статуса "Выигран 2ч"
                     {
@@ -174,19 +177,24 @@ namespace DatabaseLibrary.Controllers
                                 return p.ContractAmount ?? 0; // Если ContractAmount null, возвращаем 0
                         });
                     }
-                    resultGroups.Add((procurementState, resultGroup));
+                    resultGroups.TryAdd(procurementState, resultGroup);
                 })));
 
-                return resultGroups.ToList();
+                return resultGroups.ToDictionary(dict => dict.Key, dict => dict.Value);
             }
 
-            private static async Task<List<Procurement>> GetProurementsByIds(List<int> procurementIds, ParsethingContext db, Func<Procurement, bool> additionalCondition = null)
+            private static async Task<List<Procurement>> GetProurementsByIds(
+                List<int> procurementIds, 
+                ParsethingContext db, 
+                Expression<Func<Procurement, bool>> additionalCondition = null // Expression для возможности перевода делегата в sql
+                )
             {
                 // Дополнительно условие по умолчанию не должно влиять на результат при конъюнкции
                 additionalCondition ??= (procurement => true);
 
                 var procurements = await db.Procurements
-                    .Where(p => procurementIds.Contains(p.Id) && additionalCondition(p)) // задается новое условие, если не указано, никак не влияет
+                    .Where(p => procurementIds.Contains(p.Id))
+                    .Where(additionalCondition)                 // задается новое условие, если не указано, никак не влияет
                     .Include(p => p.ProcurementState)
                     .Include(p => p.Law)
                     .Include(p => p.Method)
