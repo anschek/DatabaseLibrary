@@ -276,69 +276,69 @@ public static class PUT
 
     //    return isSaved;
     //}
-    public static bool ProcurementsPreferences(ProcurementsPreference procurementsPreference)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementsPreferences(ProcurementsPreference procurementsPreference)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            if (procurementsPreference.Procurement != null && procurementsPreference.Preference != null)
-            {
-                procurementsPreference.ProcurementId = procurementsPreference.Procurement.Id;
-                procurementsPreference.PreferenceId = procurementsPreference.Preference.Id;
-            }
-            else throw new Exception();
-            procurementsPreference.Procurement = null;
-            procurementsPreference.Preference = null;
+    //    try
+    //    {
+    //        if (procurementsPreference.Procurement != null && procurementsPreference.Preference != null)
+    //        {
+    //            procurementsPreference.ProcurementId = procurementsPreference.Procurement.Id;
+    //            procurementsPreference.PreferenceId = procurementsPreference.Preference.Id;
+    //        }
+    //        else throw new Exception();
+    //        procurementsPreference.Procurement = null;
+    //        procurementsPreference.Preference = null;
 
-            _ = db.ProcurementsPreferences.Add(procurementsPreference);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.ProcurementsPreferences.Add(procurementsPreference);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementsDocuments(ProcurementsDocument procurementsDocument)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementsDocuments(ProcurementsDocument procurementsDocument)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            if (procurementsDocument.Procurement != null && procurementsDocument.Document != null)
-            {
-                procurementsDocument.ProcurementId = procurementsDocument.Procurement.Id;
-                procurementsDocument.DocumentId = procurementsDocument.Document.Id;
-            }
-            else throw new Exception();
-            procurementsDocument.Procurement = null;
-            procurementsDocument.Document = null;
+    //    try
+    //    {
+    //        if (procurementsDocument.Procurement != null && procurementsDocument.Document != null)
+    //        {
+    //            procurementsDocument.ProcurementId = procurementsDocument.Procurement.Id;
+    //            procurementsDocument.DocumentId = procurementsDocument.Document.Id;
+    //        }
+    //        else throw new Exception();
+    //        procurementsDocument.Procurement = null;
+    //        procurementsDocument.Document = null;
 
-            _ = db.ProcurementsDocuments.Add(procurementsDocument);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.ProcurementsDocuments.Add(procurementsDocument);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementState(ProcurementState procurementState)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementState(ProcurementState procurementState)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ProcurementStates.Add(procurementState);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ProcurementStates.Add(procurementState);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
-    public static bool ProcurementSource(Procurement procurement)
+    //    return isSaved;
+    //}
+    public static async Task<bool> ProcurementSource(Procurement procurement)
     {
         using ParsethingContext db = new();
         bool isSaved = true;
@@ -346,9 +346,9 @@ public static class PUT
 
         try
         {
-            def = db.Procurements
+            def = await db.Procurements
                 .Where(p => p.InitialPrice == procurement.InitialPrice && p.Object == procurement.Object)
-                .First();
+                .FirstAsync();
         }
         catch { }
 
@@ -362,23 +362,23 @@ public static class PUT
                     procurement.ProcurementStateId = 20;
                     if (procurement.TimeZoneId == null)
                     {
-                        TimeZone? timeZone = GET.Entry.TimeZone("см. zakupki.gov.ru");
+                        TimeZone? timeZone = await Controllers.GET.TimeZones.One("см. zakupki.gov.ru");
                         if (timeZone != null)
                         {
                             procurement.TimeZoneId = timeZone.Id;
                         }
                         else
                         {
-                            _ = PUT.TimeZone(new()
+                            _ = await Controllers.POST.TimeZone(new()
                             {
                                 Offset = "см. zakupki.gov.ru"
                             });
-                            timeZone = GET.Entry.TimeZone("см. zakupki.gov.ru");
+                            timeZone = await Controllers.GET.TimeZones.One("см. zakupki.gov.ru");
                             procurement.TimeZoneId = timeZone != null ? timeZone.Id : 0;
                         }
                     }
-                    _ = db.Procurements.Add(procurement);
-                    _ = db.SaveChanges();
+                    _ = await db.Procurements.AddAsync(procurement);
+                    _ = await db.SaveChangesAsync();
                 }
                 else
                     return isSaved = false;

@@ -534,26 +534,26 @@ public static class PULL
         return isSaved;
     }
 
-    public static bool ProcurementState(ProcurementState procurementState)
-    {
-        using ParsethingContext db = new();
-        ProcurementState? def = null;
-        bool isSaved = true;
+    //public static bool ProcurementState(ProcurementState procurementState)
+    //{
+    //    using ParsethingContext db = new();
+    //    ProcurementState? def = null;
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.ProcurementStates
-                .Where(p => p.Id == procurementState.Id)
-                .First();
+    //    try
+    //    {
+    //        def = db.ProcurementStates
+    //            .Where(p => p.Id == procurementState.Id)
+    //            .First();
 
-            def.Kind = procurementState.Kind;
+    //        def.Kind = procurementState.Kind;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
     public static bool ProcurementSource(Procurement procurement, Procurement def)
     {
         using ParsethingContext db = new();
