@@ -216,58 +216,58 @@ public static class DELETE
 
     //    return isSaved;
     //}
-    public static bool ProcurementPreference(ProcurementsPreference procurementsPreference)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementPreference(ProcurementsPreference procurementsPreference)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            var procurementToDelete = db.ProcurementsPreferences.FirstOrDefault(pp => pp.ProcurementId == procurementsPreference.ProcurementId && pp.PreferenceId == procurementsPreference.PreferenceId);
-            if (procurementsPreference != null)
-            {
-                _ = db.ProcurementsPreferences.Remove(procurementToDelete);
-                _ = db.SaveChanges();
-            }
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        var procurementToDelete = db.ProcurementsPreferences.FirstOrDefault(pp => pp.ProcurementId == procurementsPreference.ProcurementId && pp.PreferenceId == procurementsPreference.PreferenceId);
+    //        if (procurementsPreference != null)
+    //        {
+    //            _ = db.ProcurementsPreferences.Remove(procurementToDelete);
+    //            _ = db.SaveChanges();
+    //        }
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementDocument(ProcurementsDocument procurementsDocument)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementDocument(ProcurementsDocument procurementsDocument)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            var procurementToDelete = db.ProcurementsDocuments.FirstOrDefault(pp => pp.ProcurementId == procurementsDocument.ProcurementId && pp.DocumentId == procurementsDocument.DocumentId);
-            if (procurementsDocument != null)
-            {
-                _ = db.ProcurementsDocuments.Remove(procurementToDelete);
-                _ = db.SaveChanges();
-            }
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        var procurementToDelete = db.ProcurementsDocuments.FirstOrDefault(pp => pp.ProcurementId == procurementsDocument.ProcurementId && pp.DocumentId == procurementsDocument.DocumentId);
+    //        if (procurementsDocument != null)
+    //        {
+    //            _ = db.ProcurementsDocuments.Remove(procurementToDelete);
+    //            _ = db.SaveChanges();
+    //        }
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementState(ProcurementState procurementState)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementState(ProcurementState procurementState)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.ProcurementStates.Remove(procurementState);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.ProcurementStates.Remove(procurementState);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Region(Region region)
     //{
@@ -329,18 +329,18 @@ public static class DELETE
     //    return isSaved;
     //}
 
-    public static bool Procurement(Procurement procurement)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Procurement(Procurement procurement)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Procurements.Remove(procurement);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Procurements.Remove(procurement);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 }

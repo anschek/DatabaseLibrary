@@ -170,44 +170,44 @@ public static class GET
         //    return platform;
         //}
 
-        public static Procurement? Procurement(string number) // Получить тендер
-        {
-            using ParsethingContext db = new();
-            Procurement? procurement = null;
+        //public static Procurement? Procurement(string number) // Получить тендер
+        //{
+        //    using ParsethingContext db = new();
+        //    Procurement? procurement = null;
 
-            try
-            {
-                procurement = db.Procurements
-                    .Where(p => p.Number == number)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurement = db.Procurements
+        //            .Where(p => p.Number == number)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return procurement;
-        }
-        public static Procurement? ProcurementBy(int id) // Получить тендер
-        {
-            using ParsethingContext db = new();
-            Procurement? procurement = null;
+        //    return procurement;
+        //}
+        //public static Procurement? ProcurementBy(int id) // Получить тендер
+        //{
+        //    using ParsethingContext db = new();
+        //    Procurement? procurement = null;
 
-            try
-            {
-                procurement = db.Procurements
-                    .Include(p => p.Law)
-                    .Include(p => p.Method)
-                    .Include(p => p.Platform)
-                    .Include(p => p.TimeZone)
-                    .Include(p => p.Region)
-                    .Include(p => p.ShipmentPlan)
-                    .Include(p => p.Organization)
-                    .Include(p => p.ProcurementState)
-                    .Where(p => p.Id == id)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurement = db.Procurements
+        //            .Include(p => p.Law)
+        //            .Include(p => p.Method)
+        //            .Include(p => p.Platform)
+        //            .Include(p => p.TimeZone)
+        //            .Include(p => p.Region)
+        //            .Include(p => p.ShipmentPlan)
+        //            .Include(p => p.Organization)
+        //            .Include(p => p.ProcurementState)
+        //            .Where(p => p.Id == id)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return procurement;
-        }
+        //    return procurement;
+        //}
 
         //public static TimeZone? TimeZone(string offset) // Получить часовой пояс
         //{
@@ -561,30 +561,30 @@ public static class GET
 
             return procurements;
         }
-        public static Procurement? ProcurementBy(int id) // Получить тендер по Id
-        {
-            using ParsethingContext db = new();
-            Procurement? procurement = null;
+        //public static Procurement? ProcurementBy(int id) // Получить тендер по Id
+        //{
+        //    using ParsethingContext db = new();
+        //    Procurement? procurement = null;
 
-            try
-            {
-                procurement = db.Procurements
-                    .Include(p => p.ProcurementState)
-                            .Include(p => p.Law)
-                            .Include(p => p.Method)
-                            .Include(p => p.Platform)
-                            .Include(p => p.TimeZone)
-                            .Include(p => p.Region)
-                            .Include(p => p.ShipmentPlan)
-                            .Include(p => p.Organization)
-                            .Include(p => p.City)
-                    .Where(p => p.Id == id)
-                    .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurement = db.Procurements
+        //            .Include(p => p.ProcurementState)
+        //                    .Include(p => p.Law)
+        //                    .Include(p => p.Method)
+        //                    .Include(p => p.Platform)
+        //                    .Include(p => p.TimeZone)
+        //                    .Include(p => p.Region)
+        //                    .Include(p => p.ShipmentPlan)
+        //                    .Include(p => p.Organization)
+        //                    .Include(p => p.City)
+        //            .Where(p => p.Id == id)
+        //            .First();
+        //    }
+        //    catch { }
 
-            return procurement;
-        }
+        //    return procurement;
+        //}
         public static List<Procurement> PopulateComponentStates(List<Procurement> procurements)
         {
             using ParsethingContext db = new();
@@ -2294,140 +2294,141 @@ public static class GET
 
             return procurementsEmployees;
         }
-        public static List<ProcurementsPreference>? ProcurementsPreferencesBy(int procurementId) // Получить преференции по конкретному тендеру
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsPreference>? procurementsPreferences = null;
+        //public static List<ProcurementsPreference>? ProcurementsPreferencesBy(int procurementId) // Получить преференции по конкретному тендеру
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsPreference>? procurementsPreferences = null;
 
-            try
-            {
-                procurementsPreferences = db.ProcurementsPreferences
-                    .Include(pp => pp.Procurement)
-                    .Include(pp => pp.Preference)
-                    .Where(pe => pe.ProcurementId == procurementId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurementsPreferences = db.ProcurementsPreferences
+        //            .Include(pp => pp.Procurement)
+        //            .Include(pp => pp.Preference)
+        //            .Where(pe => pe.ProcurementId == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurementsPreferences;
-        }
+        //    return procurementsPreferences;
+        //}
 
-        public static List<ProcurementsDocument>? ProcurementsDocumentsBy(int procurementId) // Получить документы по конкретному тендеру
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsDocument>? procurementsDocuments = null;
+        //public static List<ProcurementsDocument>? ProcurementsDocumentsBy(int procurementId) // Получить документы по конкретному тендеру
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsDocument>? procurementsDocuments = null;
 
-            try
-            {
-                procurementsDocuments = db.ProcurementsDocuments
-                    .Include(pd => pd.Procurement)
-                    .Include(pd => pd.Document)
-                    .Where(pd => pd.ProcurementId == procurementId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurementsDocuments = db.ProcurementsDocuments
+        //            .Include(pd => pd.Procurement)
+        //            .Include(pd => pd.Document)
+        //            .Where(pd => pd.ProcurementId == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurementsDocuments;
-        }
+        //    return procurementsDocuments;
+        //}
 
-        public static List<ProcurementState>? DistributionOfProcurementStates(string employeePosition) // Получить статусы к которым имеют доступ конкретные должности
-        {
-            using ParsethingContext db = new();
-            List<ProcurementState>? procurementStates = null;
+        //public static List<ProcurementState>? DistributionOfProcurementStates(string employeePosition) // Получить статусы к которым имеют доступ конкретные должности
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementState>? procurementStates = null;
 
-            try
-            {
-                switch (employeePosition)
-                {
-                    case "Администратор":
-                        procurementStates = db.ProcurementStates.ToList();
-                        break;
-                    case "Руководитель отдела расчетов":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформить" || ps.Kind == "Оформлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Разбор" || ps.Kind == "Отбой" || ps.Kind == "Неразобранный" || ps.Kind == "Проверка")
-                            .ToList();
-                        break;
-                    case "Заместитель руководителя отдела расчетов":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформить" || ps.Kind == "Оформлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Разбор" || ps.Kind == "Отбой" || ps.Kind == "Неразобранный" || ps.Kind == "Проверка")
-                            .ToList();
-                        break;
-                    case "Специалист отдела расчетов":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформлен" || ps.Kind == "Проверка")
-                            .ToList();
-                        break;
-                    case "Руководитель тендерного отдела":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят" || ps.Kind == "Отклонен" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
-                            .ToList();
-                        break;
-                    case "Заместитель руководителя тендреного отдела":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят" || ps.Kind == "Отклонен" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
-                            .ToList();
-                        break;
-                    case "Специалист тендерного отдела":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят")
-                            .ToList();
-                        break;
-                    case "Специалист по работе с электронными площадками":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Оформлен" || ps.Kind == "Новый" || ps.Kind == "Отправлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
-                            .ToList();
-                        break;
-                    case "Руководитель отдела закупки":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
-                            .ToList();
-                        break;
-                    case "Заместитель руководителя отдела закупок":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
-                            .ToList();
-                        break;
-                    case "Специалист закупки":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
-                            .ToList();
-                        break;
-                    case "Руководитель отдела производства":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
-                            .ToList();
-                        break;
-                    case "Заместитель руководителя отдела производства":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 2ч")
-                            .ToList();
-                        break;
-                    case "Специалист по производству":
-                        procurementStates = db.ProcurementStates
-                            .Where(ps => ps.Kind == "Выигран 2ч")
-                            .ToList();
-                        break;
-                    case "Юрист":
-                        procurementStates = db.ProcurementStates
-                            .ToList();
-                        break;
-                }
-            }
-            catch { }
+        //    try
+        //    {
+        //        switch (employeePosition)
+        //        {
+        //            case "Администратор":
+        //                procurementStates = db.ProcurementStates.ToList();
+        //                break;
+        //            case "Руководитель отдела расчетов":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформить" || ps.Kind == "Оформлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Разбор" || ps.Kind == "Отбой" || ps.Kind == "Неразобранный" || ps.Kind == "Проверка")
+        //                    .ToList();
+        //                break;
+        //            case "Заместитель руководителя отдела расчетов":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформить" || ps.Kind == "Оформлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Разбор" || ps.Kind == "Отбой" || ps.Kind == "Неразобранный" || ps.Kind == "Проверка")
+        //                    .ToList();
+        //                break;
+        //            case "Специалист отдела расчетов":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Новый" || ps.Kind == "Посчитан" || ps.Kind == "Оформлен" || ps.Kind == "Проверка")
+        //                    .ToList();
+        //                break;
+        //            case "Руководитель тендерного отдела":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят" || ps.Kind == "Отклонен" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
+        //                    .ToList();
+        //                break;
+        //            case "Заместитель руководителя тендреного отдела":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят" || ps.Kind == "Отклонен" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
+        //                    .ToList();
+        //                break;
+        //            case "Специалист тендерного отдела":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка" || ps.Kind == "Принят")
+        //                    .ToList();
+        //                break;
+        //            case "Специалист по работе с электронными площадками":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Оформлен" || ps.Kind == "Новый" || ps.Kind == "Отправлен" || ps.Kind == "Выигран 1ч" || ps.Kind == "Отмена" || ps.Kind == "Проигран")
+        //                    .ToList();
+        //                break;
+        //            case "Руководитель отдела закупки":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
+        //                    .ToList();
+        //                break;
+        //            case "Заместитель руководителя отдела закупок":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
+        //                    .ToList();
+        //                break;
+        //            case "Специалист закупки":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 1ч" || ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
+        //                    .ToList();
+        //                break;
+        //            case "Руководитель отдела производства":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 2ч" || ps.Kind == "Приемка")
+        //                    .ToList();
+        //                break;
+        //            case "Заместитель руководителя отдела производства":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 2ч")
+        //                    .ToList();
+        //                break;
+        //            case "Специалист по производству":
+        //                procurementStates = db.ProcurementStates
+        //                    .Where(ps => ps.Kind == "Выигран 2ч")
+        //                    .ToList();
+        //                break;
+        //            case "Юрист":
+        //                procurementStates = db.ProcurementStates
+        //                    .ToList();
+        //                break;
+        //        }
+        //    }
+        //    catch { }
 
-            return procurementStates;
-        }
+        //    return procurementStates;
+        //}
+        //
 
-        public static List<ProcurementState>? ProcurementStates() // Получить список статусов тендеров
-        {
-            using ParsethingContext db = new();
-            List<ProcurementState>? procurementStates = null;
+        //public static List<ProcurementState>? ProcurementStates() // Получить список статусов тендеров
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementState>? procurementStates = null;
 
-            try { procurementStates = db.ProcurementStates.ToList(); }
-            catch { }
+        //    try { procurementStates = db.ProcurementStates.ToList(); }
+        //    catch { }
 
-            return procurementStates;
-        }
+        //    return procurementStates;
+        //}
 
         //public static List<Region>? Regions() // Получить список регионов
         //{
@@ -2473,147 +2474,147 @@ public static class GET
         //    return tagExceptions;
         //}
 
-     
-    //public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
-    //{
-    //    using ParsethingContext db = new();
 
-    //    // Статусы, для которых считается InitialPrice
-    //    var statusesForInitialPrice = new List<string> { "Новый", "Посчитан", "Оформлен", "Отправлен", "Отбой", "Отклонен" };
+        public static (List<Tuple<int, int, decimal, int, List<Procurement>>>?, List<Procurement>?) HistoryGroupBy(string procurementState, List<History> histories)
+        {
+            using ParsethingContext db = new();
 
-    //    // Обработка для статуса "Выигран 2ч"
-    //    if (procurementState == "Выигран 2ч")
-    //    {
-    //        var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отбой", "Отмена" };
+            // Статусы, для которых считается InitialPrice
+            var statusesForInitialPrice = new List<string> { "Новый", "Посчитан", "Оформлен", "Отправлен", "Отбой", "Отклонен" };
 
-    //        // Получаем все EntryIds из истории, где присутствует статус "Выигран 2ч"
-    //        var winningHistories = histories
-    //        /*!!!*/    .Where(h => h.Text == "Выигран 2ч")
-    //            .ToList();
+            // Обработка для статуса "Выигран 2ч"
+            if (procurementState == "Выигран 2ч")
+            {
+                var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отбой", "Отмена" };
 
-    //        var winningEntryIds = winningHistories
-    //            .Select(h => h.EntryId)
-    //            .Distinct()
-    //            .ToList();
+                // Получаем все EntryIds из истории, где присутствует статус "Выигран 2ч"
+                var winningHistories = histories
+                /*!!!*/    .Where(h => h.Text == "Выигран 2ч")
+                    .ToList();
 
-    //        // Извлекаем тендеры, у которых есть статус "Выигран 2ч" и ProcurementState.Kind не относится к исключенным статусам
-    //        var procurements = db.Procurements
-    //        /*!!!*/    .Where(p => winningEntryIds.Contains(p.Id) && !excludedStatuses.Contains(p.ProcurementState.Kind))
-    //            .Include(p => p.ProcurementState)
-    //            .Include(p => p.Law)
-    //            .Include(p => p.Method)
-    //            .Include(p => p.Platform)
-    //            .Include(p => p.TimeZone)
-    //            .Include(p => p.Region)
-    //            .Include(p => p.City)
-    //            .Include(p => p.ShipmentPlan)
-    //            .Include(p => p.Organization)
-    //            .ToList();
+                var winningEntryIds = winningHistories
+                    .Select(h => h.EntryId)
+                    .Distinct()
+                    .ToList();
 
-    //        // Группируем историю по месяцу и году, используя только записи с "Выигран 2ч"
-    //        var winningTendersByMonth = histories
-    //           /*!!!*/ .Where(h => winningEntryIds.Contains(h.EntryId) && h.Text == "Выигран 2ч")
-    //            .GroupBy(h => new { h.Date.Year,h.Date.Month })
-    //            .Select(group =>
-    //            {
-    //                var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
-    //                var procurementsInGroup = procurements
-    //                    .Where(p => procurementIdsInGroup.Contains(p.Id))
-    //                    .ToList();
+                // Извлекаем тендеры, у которых есть статус "Выигран 2ч" и ProcurementState.Kind не относится к исключенным статусам
+                var procurements = db.Procurements
+                /*!!!*/    .Where(p => winningEntryIds.Contains(p.Id) && !excludedStatuses.Contains(p.ProcurementState.Kind))
+                    .Include(p => p.ProcurementState)
+                    .Include(p => p.Law)
+                    .Include(p => p.Method)
+                    .Include(p => p.Platform)
+                    .Include(p => p.TimeZone)
+                    .Include(p => p.Region)
+                    .Include(p => p.City)
+                    .Include(p => p.ShipmentPlan)
+                    .Include(p => p.Organization)
+                    .ToList();
 
-    //                // Подсчитываем сумму и количество тендеров
-    //                decimal totalAmount = procurementsInGroup.Sum(p =>
-    //                    p.ReserveContractAmount ?? p.ContractAmount ?? 0);
+                // Группируем историю по месяцу и году, используя только записи с "Выигран 2ч"
+                var winningTendersByMonth = histories
+                   /*!!!*/ .Where(h => winningEntryIds.Contains(h.EntryId) && h.Text == "Выигран 2ч")
+                    .GroupBy(h => new { h.Date.Year, h.Date.Month })
+                    .Select(group =>
+                    {
+                        var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
+                        var procurementsInGroup = procurements
+                            .Where(p => procurementIdsInGroup.Contains(p.Id))
+                            .ToList();
 
-    //                int tenderCount = procurementsInGroup.Count;
+                        // Подсчитываем сумму и количество тендеров
+                        decimal totalAmount = procurementsInGroup.Sum(p =>
+                            p.ReserveContractAmount ?? p.ContractAmount ?? 0);
 
-    //                return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup);
-    //            })
-    //            .OrderBy(entry => entry.Item1)
-    //            .ThenBy(entry => entry.Item2)
-    //            .ToList();
+                        int tenderCount = procurementsInGroup.Count;
 
-    //        return (winningTendersByMonth, procurements);
-    //    }
+                        return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup);
+                    })
+                    .OrderBy(entry => entry.Item1)
+                    .ThenBy(entry => entry.Item2)
+                    .ToList();
 
-    //    // Логика для остальных состояний
-    //    var relevantHistories = histories
-    //    /*!!!*/    .Where(h => h.Text == procurementState)
-    //        .ToList();
+                return (winningTendersByMonth, procurements);
+            }
 
-    //    var procurementIds = relevantHistories
-    //        .Select(h => h.EntryId)
-    //        .Distinct()
-    //        .ToList();
+            // Логика для остальных состояний
+            var relevantHistories = histories
+            /*!!!*/    .Where(h => h.Text == procurementState)
+                .ToList();
 
-    //    var procurementsForOtherStates = db.Procurements
-    //    /*!!!*/    .Where(p => procurementIds.Contains(p.Id))
-    //        .Include(p => p.ProcurementState)
-    //        .Include(p => p.Law)
-    //        .Include(p => p.Method)
-    //        .Include(p => p.Platform)
-    //        .Include(p => p.TimeZone)
-    //        .Include(p => p.Region)
-    //        .Include(p => p.City)
-    //        .Include(p => p.ShipmentPlan)
-    //        .Include(p => p.Organization)
-    //        .ToList();
+            var procurementIds = relevantHistories
+                .Select(h => h.EntryId)
+                .Distinct()
+                .ToList();
 
-    //    var tendersByMonth = relevantHistories
-    //        .GroupBy(h => new { h.Date.Year, h.Date.Month }) // Группировка по годам и месяцам
-    //        .Select(group =>
-    //        {
-    //            var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
-    //            var procurementsInGroup = procurementsForOtherStates
-    //                .Where(p => procurementIdsInGroup.Contains(p.Id))
-    //                .ToList();
+            var procurementsForOtherStates = db.Procurements
+            /*!!!*/    .Where(p => procurementIds.Contains(p.Id))
+                .Include(p => p.ProcurementState)
+                .Include(p => p.Law)
+                .Include(p => p.Method)
+                .Include(p => p.Platform)
+                .Include(p => p.TimeZone)
+                .Include(p => p.Region)
+                .Include(p => p.City)
+                .Include(p => p.ShipmentPlan)
+                .Include(p => p.Organization)
+                .ToList();
 
-    //            // Подсчитываем сумму и количество тендеров
-    //            decimal totalAmount = procurementsInGroup.Sum(p =>
-    //            {
-    //                if (p.ReserveContractAmount != null) // Если резервная сумма не null
-    //                    return p.ReserveContractAmount.Value; // Возвращаем значение резервной суммы
-    //                else if (statusesForInitialPrice.Contains(procurementState)) // Если статус требует InitialPrice
-    //                    return p.InitialPrice; // Возвращаем InitialPrice, который всегда должен иметь значение
-    //                else
-    //                    return p.ContractAmount ?? 0; // Если ContractAmount null, возвращаем 0
-    //            });
+            var tendersByMonth = relevantHistories
+                .GroupBy(h => new { h.Date.Year, h.Date.Month }) // Группировка по годам и месяцам
+                .Select(group =>
+                {
+                    var procurementIdsInGroup = group.Select(h => h.EntryId).Distinct().ToList();
+                    var procurementsInGroup = procurementsForOtherStates
+                        .Where(p => procurementIdsInGroup.Contains(p.Id))
+                        .ToList();
 
-    //            int tenderCount = procurementsInGroup.Count;
+                    // Подсчитываем сумму и количество тендеров
+                    decimal totalAmount = procurementsInGroup.Sum(p =>
+                    {
+                        if (p.ReserveContractAmount != null) // Если резервная сумма не null
+                            return p.ReserveContractAmount.Value; // Возвращаем значение резервной суммы
+                        else if (statusesForInitialPrice.Contains(procurementState)) // Если статус требует InitialPrice
+                            return p.InitialPrice; // Возвращаем InitialPrice, который всегда должен иметь значение
+                        else
+                            return p.ContractAmount ?? 0; // Если ContractAmount null, возвращаем 0
+                    });
 
-    //            return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup); // Включаем список тендеров
-    //        })
-    //        .OrderBy(entry => entry.Item1)
-    //        .ThenBy(entry => entry.Item2)
-    //        .ToList();
+                    int tenderCount = procurementsInGroup.Count;
 
-    //    return (tendersByMonth, procurementsForOtherStates);
-    //}
+                    return Tuple.Create(group.Key.Year, group.Key.Month, totalAmount, tenderCount, procurementsInGroup); // Включаем список тендеров
+                })
+                .OrderBy(entry => entry.Item1)
+                .ThenBy(entry => entry.Item2)
+                .ToList();
 
-    //public static List<Procurement>? ApplicationsBy(int? procurementId)
-    //{
-    //    using ParsethingContext db = new();
-    //    List<Procurement>? procurements = null;
+            return (tendersByMonth, procurementsForOtherStates);
+        }
 
-    //    try
-    //    {
-    //        procurements = db.Procurements
-    //            .Include(p => p.ProcurementState)
-    //            .Include(p => p.Law)
-    //            .Include(p => p.Method)
-    //            .Include(p => p.Platform)
-    //            .Include(p => p.Organization)
-    //            .Include(p => p.TimeZone)
-    //            .Include(p => p.Region)
-    //            .Include(p => p.City)
-    //            .Include(p => p.ShipmentPlan)
-    //            .Where(p => p.ParentProcurementId == procurementId)
-    //            .ToList();
-    //    }
-    //    catch { }
-    //    return procurements;
-    //}
-}
+        //public static List<Procurement>? ApplicationsBy(int? procurementId)
+        //{
+        //    using ParsethingContext db = new();
+        //    List<Procurement>? procurements = null;
+
+        //    try
+        //    {
+        //        procurements = db.Procurements
+        //            .Include(p => p.ProcurementState)
+        //            .Include(p => p.Law)
+        //            .Include(p => p.Method)
+        //            .Include(p => p.Platform)
+        //            .Include(p => p.Organization)
+        //            .Include(p => p.TimeZone)
+        //            .Include(p => p.Region)
+        //            .Include(p => p.City)
+        //            .Include(p => p.ShipmentPlan)
+        //            .Where(p => p.ParentProcurementId == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
+        //    return procurements;
+        //}
+    }
 
 public struct Aggregate
 {
