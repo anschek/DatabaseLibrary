@@ -121,10 +121,7 @@
  GET.View.HistoriesBy				-> GET.Histories.ManyByProcurement
  GET.Aggregate.CountNewStatusByProcurementId	-> GET.Histories.CountNewStatusByProcurement
  PUT.History					-> POST.History
-
- /// !!! need to test 
  GET.View.HistoryGroupBy	-> GET.Histories.GroupByProcurementState(string, histories),  GET.Histories.GroupByProcurementState(histories)
- /// !!!
 
   *LegalEntity
  GET.View.LegalEntities	-> GET.LegalEntities
@@ -182,7 +179,46 @@
 
  --
   *Procurement
+ GET.Entry.Procurement		-> GET.Procurements.One.ByNumber
+ GET.Entry.ProcurementBy	-> GET.Procurements.One.ById
+ GET.View.ProcurementBy		-> x (GET.Procurements.One.ById)
+ GET.View.ProcurementSources		-> GET.Procurements.Many.Sources
+ GET.View.PopulateComponentStates	-> GET.Procurements.Many.WithComponentStates
+ // !!! need to test
+ GET.View.ProcurementsBy(string, KindOf)			-> GET.Procurements.Many.ByKind
+ GET.View.ProcurementsBy(string, bool, KindOf)		-> GET.Procurements.Many.ByDateKind
+ GET.View.ProcurementsBy(bool)						-> GET.Procurements.Many.AcceptedByOverdue
+ GET.View.ProcurementsBy(bool, KindOf)				-> GET.Procurements.Many.ByVisa
+ //
+ GET.View.ProcurementsBy(string, DateTime)			-> GET.Procurements.Many.ByStateAndStartDate
+ --
+ GET.View.ProcurementsNotPaid						-> GET.Procurements.Many.NotPaid
+ GET.View.ProcurementsQueue							-> GET.Procurements.Many.CalculationQueue
+ GET.View.ProcurementsManagersQueue					-> GET.Procurements.Many.ManagersQueue
+ GET.View.ProcurementsBy(KindOf)					-> x(GET.Procurements.Many.ByKind)
 
+
+-DELETE.Procurement	-> DELETE.Procurement
+
+
+  *ProcurementDocument
+ GET.View.ProcurementDocumentsBy	-> GET.ProcurementDocuments
+-DELETE.ProcurementDocument	-> DELETE.ProcurementDocument
+ PUT.ProcurementsDocuments	-> POST.ProcurementsDocument
+
+  *ProcurementPreference
+ GET.View.ProcurementPreferencesBy	-> GET.ProcurementPreferences
+-DELETE.ProcurementPreference	-> DELETE.ProcurementPreference
+ PUT.ProcurementsPreferences	-> POST.ProcurementsPreference
+
+  *ProcurementState
+ GET.View.ProcurementStates					-> GET.ProcurementStates.All
+ // !!! need to test
+ GET.View.DistributionOfProcurementStates	-> GET.ProcurementStates.ManyByEmployeePosition
+ //
+-DELETE.ProcurementState	-> DELETE.ProcurementState
+ PUT.ProcurementState	-> POST.ProcurementState
+ PULL.ProcurementState	-> PUT.ProcurementState
 
  --
 Additionally from new features
