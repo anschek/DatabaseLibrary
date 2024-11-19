@@ -1934,6 +1934,7 @@ public static class GET
             return procurementsEmployees;
         }
 
+        // need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить список тендеров и сотрудников по:
         {
             using ParsethingContext db = new();
@@ -2126,6 +2127,7 @@ public static class GET
 
             return procurementsEmployees;
         }
+        // in accepted
         public static List<ProcurementsEmployee>? ProcurementsEmployeesNotPaid(int employeeId) // Получить неоплаченные тендеры по конкретному сотруднику
         {
             using ParsethingContext db = new();

@@ -109,7 +109,7 @@ namespace DatabaseLibrary.Controllers.GET
                 return procurements;
             }
 
-            public static async Task<List<ProcurementsEmployee>?> ProcurementsEmployeesBy(string kind, KindOf kindOf, int employeeId) // Получить список тендеров и закупок по:
+            public static async Task<List<ProcurementsEmployee>?> ByKindAndEmployee(KindOf kindOf, int employeeId, string? kind=null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
             {
                 List<ProcurementsEmployee>? procurementsEmployees = null;
 
@@ -145,6 +145,12 @@ namespace DatabaseLibrary.Controllers.GET
                             pe => pe.Procurement.ProcurementState.Kind == kind &&
                                 pe.Procurement.CorrectionDate != null,
 
+                        KindOf.Judgement => // Суд
+                            pe => pe.Procurement.Judgment == true,                        
+                        
+                        KindOf.FAS => // ФАС
+                            pe => pe.Procurement.Fas == true,
+
                         _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
                     };
 
@@ -157,6 +163,110 @@ namespace DatabaseLibrary.Controllers.GET
                     procurementsEmployees = await procurementsEmployeesQuery
                         .Where(pe => pe.Employee.Id == employeeId) // по id сотрудника
                         .Where(kindPredicate).ToListAsync(); // и предикату типв
+                }
+                catch { }
+
+                return procurementsEmployees;
+            }
+
+            public static async Task<List<ProcurementsEmployee>?> ByDateKindAndEmployee(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить список тендеров и сотрудников по:
+            {
+                List<ProcurementsEmployee>? procurementsEmployees = null;
+
+                try
+                {
+                    // Предикат типа фильтрует тендеры сотрудников
+                    Expression<Func<ProcurementsEmployee, bool>> kindPredicate = pe =>
+                        kindOf == KindOf.ContractConclusion
+                        ? pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч" // для даты заключения контракта по выигрышам
+                        : pe.Procurement.ProcurementState.Kind == procurementStateKind; // для остальных дат по указанному типу статуса
+
+                    // Прендикат срока фильтрует в соответствии с датами
+                    Expression<Func<ProcurementsEmployee, bool>> termPredicate = kindOf switch
+                    {
+                        KindOf.Deadline => // Дате окончания подачи заявок
+                            pe => (isOverdue ? pe.Procurement.Deadline < DateTime.Now : pe.Procurement.Deadline > DateTime.Now),
+
+                        KindOf.StartDate => // Дате начала подачи заявок
+                            pe => (isOverdue ? pe.Procurement.StartDate < DateTime.Now : pe.Procurement.StartDate > DateTime.Now),
+
+                        KindOf.ContractConclusion => // Дате подписания контракта
+                            pe => pe.Procurement.Applications != true &&
+                                (isOverdue ? pe.Procurement.ConclusionDate != null : pe.Procurement.ConclusionDate == null),
+
+                        // Остальные типы не поддерживаются
+                        _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
+                    };
+
+                    procurementsEmployees = await Queries.All()
+                        .Include(pe => pe.Procurement.ShipmentPlan)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(kindPredicate)
+                        .Where(termPredicate)
+                        .ToListAsync();
+                }
+                catch { }
+
+                return procurementsEmployees;
+            }
+
+            public static async Task<List<ProcurementsEmployee>?> Accepted(int employeeId, bool? isOverdue=null) // Получить тендеры, назначнные на конкретного сотрудника
+            {
+                List<ProcurementsEmployee>? procurementsEmployees = null;
+
+                try
+                {
+                    // Предикат срока фильтрует тендеры по полю максимального срока в зависимости от значения переменной "Просрочено"
+                    Expression<Func<ProcurementsEmployee, bool>> termPredicate = isOverdue switch
+                    {
+                        null => pe => pe.Procurement.MaxDueDate != null,          // любой срок, если isOverdue не указано
+                        true => pe => pe.Procurement.MaxDueDate < DateTime.Now,  // просрочено
+                        false => pe => pe.Procurement.MaxDueDate > DateTime.Now // в срок
+                    };
+
+                    procurementsEmployees = await Queries.All()
+                        .Include(pe => pe.Procurement.ShipmentPlan)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
+                        .Where(pe => pe.Procurement.RealDueDate == null)
+                        .Where(termPredicate)
+                        .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
+                        .ToListAsync();
+                }
+                catch { }
+
+                return procurementsEmployees;
+            }
+
+            public static async Task<List<ProcurementsEmployee>?> ByVisaAndEmployee( KindOf kindOf, bool stageCompleted, int employeeId) // Получить тендеры, назначенные на конкретного сотрудника по визе расчета или закупки
+            {
+                using ParsethingContext db = new();
+                List<ProcurementsEmployee>? procurementsEmployees = null;
+
+                try
+                {
+                    Expression<Func<ProcurementsEmployee, bool>> stagePredicate = kindOf switch
+                    {
+                        KindOf.Calculating => // По визе расчета
+                            pe => (stageCompleted
+                            ? pe.Procurement.Calculating == true
+                            : pe.Procurement.Calculating == false || pe.Procurement.Calculating == null),
+
+                        KindOf.Purchase => // По визе закупки
+                            pe => (stageCompleted
+                            ? pe.Procurement.Purchase == true
+                            : pe.Procurement.Purchase == false || pe.Procurement.Purchase == null)
+                            && pe.Procurement.Calculating == true,
+
+                        _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
+
+                    };
+                    procurementsEmployees = await Queries.All()
+                        .Include(pe => pe.Procurement.ShipmentPlan)
+                        .Where(pe => pe.Employee.Id == employeeId)
+                        .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
+                        .ToListAsync();
+                                
                 }
                 catch { }
 
