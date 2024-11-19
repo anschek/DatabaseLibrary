@@ -944,51 +944,51 @@ public static class GET
 
             return procurements;
         }
-        public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(string procurementState, DateTime startDate, int employeeId) // Получить тендеры по статусу у конкретного сотрудника по дате
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsEmployee>? procurementsEmployees = null;
+        //public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(string procurementState, DateTime startDate, int employeeId) // Получить тендеры по статусу у конкретного сотрудника по дате
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsEmployee>? procurementsEmployees = null;
 
-            try
-            {
-                List<int> validProcurementIds;
+        //    try
+        //    {
+        //        List<int> validProcurementIds;
 
-                if (procurementState == "Выигран 1ч")
-                {
-                    var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
+        //        if (procurementState == "Выигран 1ч")
+        //        {
+        //            var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
 
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .GroupBy(h => h.EntryId)
-                        .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
-                        .Select(g => g.Key)
-                        .Distinct()
-                        .ToList();
-                }
-                else
-                {
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .Select(h => h.EntryId)
-                        .Distinct()
-                        .ToList();
-                }
+        //            validProcurementIds = db.Histories
+        //                .Where(h => h.Text == procurementState && h.Date >= startDate)
+        //                .GroupBy(h => h.EntryId)
+        //                .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
+        //                .Select(g => g.Key)
+        //                .Distinct()
+        //                .ToList();
+        //        }
+        //        else
+        //        {
+        //            validProcurementIds = db.Histories
+        //                .Where(h => h.Text == procurementState && h.Date >= startDate)
+        //                .Select(h => h.EntryId)
+        //                .Distinct()
+        //                .ToList();
+        //        }
 
-                procurementsEmployees = db.ProcurementsEmployees
-                    .Include(pe => pe.Procurement.Law)
-                    .Include(pe => pe.Employee)
-                    .Include(pe => pe.Procurement.ProcurementState)
-                    .Include(pe => pe.Employee.Position)
-                    .Include(pe => pe.Procurement.Method)
-                    .Include(pe => pe.Procurement.Region)
-                    .Include(pe => pe.Procurement)
-                    .Where(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId)
-                    .ToList();
-            }
-            catch { }
+        //        procurementsEmployees = db.ProcurementsEmployees
+        //            .Include(pe => pe.Procurement.Law)
+        //            .Include(pe => pe.Employee)
+        //            .Include(pe => pe.Procurement.ProcurementState)
+        //            .Include(pe => pe.Employee.Position)
+        //            .Include(pe => pe.Procurement.Method)
+        //            .Include(pe => pe.Procurement.Region)
+        //            .Include(pe => pe.Procurement)
+        //            .Where(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurementsEmployees;
-        }
+        //    return procurementsEmployees;
+        //}
 
         //public static List<Procurement>? ProcurementsBy(string procurementState, DateTime startDate) // Получить тендеры по статусу и дате
         //{
@@ -1718,93 +1718,94 @@ public static class GET
         //    return procurements;
         //}
 
-        public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(int employeeId, string procurementStateKind) // Получить список тендеров и сотудиков, по статусу и id сотрудника
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsEmployee>? procurements = null;
+        //public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(int employeeId, string procurementStateKind) // Получить список тендеров и сотудиков, по статусу и id сотрудника
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsEmployee>? procurements = null;
 
-            try
-            {
-                procurements = db.ProcurementsEmployees
-                    .Include(pe => pe.Procurement)
-                    .Include(pe => pe.Procurement.ProcurementState)
-                    .Include(pe => pe.Employee)
-                    .Include(pe => pe.Procurement.Law)
-                    .Include(pe => pe.Procurement.Method)
-                    .Include(pe => pe.Procurement.Platform)
-                    .Include(pe => pe.Procurement.TimeZone)
-                    .Include(pe => pe.Procurement.Region)
-                    .Include(pe => pe.Procurement.City)
-                    .Include(pe => pe.Procurement.Organization)
-                    .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == procurementStateKind)
-                    .Where(pe => pe.Procurement.Applications != true)
-                    .Where(pe => pe.Employee.Id == employeeId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurements = db.ProcurementsEmployees
+        //            .Include(pe => pe.Procurement)
+        //            .Include(pe => pe.Procurement.ProcurementState)
+        //            .Include(pe => pe.Employee)
+        //            .Include(pe => pe.Procurement.Law)
+        //            .Include(pe => pe.Procurement.Method)
+        //            .Include(pe => pe.Procurement.Platform)
+        //            .Include(pe => pe.Procurement.TimeZone)
+        //            .Include(pe => pe.Procurement.Region)
+        //            .Include(pe => pe.Procurement.City)
+        //            .Include(pe => pe.Procurement.Organization)
+        //            .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == procurementStateKind)
+        //            .Where(pe => pe.Procurement.Applications != true)
+        //            .Where(pe => pe.Employee.Id == employeeId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurements;
-        }
-        public static ProcurementsEmployee? ProcurementsEmployeesBy(Procurement procurement, string premierPosition, string secondPosition, string thirdPosition) // Получить список тендеров и сотрудников, по id тендера и трем должностям
-        {
-            using ParsethingContext db = new();
-            ProcurementsEmployee? procurementsEmployee = null;
+        //    return procurements;
+        //}
+        //public static ProcurementsEmployee? ProcurementsEmployeesBy(Procurement procurement, string premierPosition, string secondPosition, string thirdPosition) // Получить список тендеров и сотрудников, по id тендера и трем должностям
+        //{
+        //    using ParsethingContext db = new();
+        //    ProcurementsEmployee? procurementsEmployee = null;
 
-            try
-            {
-                procurementsEmployee = db.ProcurementsEmployees
-                .Include(pe => pe.Employee)
-                .Include(pe => pe.Employee.Position)
-                .Where(pe => pe.ProcurementId == procurement.Id && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
-                .First();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurementsEmployee = db.ProcurementsEmployees
+        //        .Include(pe => pe.Employee)
+        //        .Include(pe => pe.Employee.Position)
+        //        .Where(pe => pe.ProcurementId == procurement.Id && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
+        //        .First();
+        //    }
+        //    catch { }
 
-            return procurementsEmployee;
-        }
-        public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(int employeeId) // Получть список тендеров и сотрудников по id сотрудника
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsEmployee>? procurements = null;
+        //    return procurementsEmployee;
+        //}
+        //public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(int employeeId) // Получть список тендеров и сотрудников по id сотрудника
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsEmployee>? procurements = null;
 
-            try
-            {
-                procurements = db.ProcurementsEmployees
-                    .Include(pe => pe.Procurement)
-                    .Include(pe => pe.Procurement.ProcurementState)
-                    .Include(pe => pe.Procurement.Method)
-                    .Include(pe => pe.Employee)
-                    .Include(pe => pe.Procurement.Law)
-                    .Include(pe => pe.Procurement.Platform)
-                    .Include(pe => pe.Procurement.TimeZone)
-                    .Include(pe => pe.Procurement.Region)
-                    .Include(pe => pe.Procurement.City)
-                    .Include(pe => pe.Procurement.Organization)
-                    .Where(pe => pe.Procurement.ProcurementState != null)
-                    .Where(pe => pe.Employee.Id == employeeId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurements = db.ProcurementsEmployees
+        //            .Include(pe => pe.Procurement)
+        //            .Include(pe => pe.Procurement.ProcurementState)
+        //            .Include(pe => pe.Procurement.Method)
+        //            .Include(pe => pe.Employee)
+        //            .Include(pe => pe.Procurement.Law)
+        //            .Include(pe => pe.Procurement.Platform)
+        //            .Include(pe => pe.Procurement.TimeZone)
+        //            .Include(pe => pe.Procurement.Region)
+        //            .Include(pe => pe.Procurement.City)
+        //            .Include(pe => pe.Procurement.Organization)
+        //            .Where(pe => pe.Procurement.ProcurementState != null)
+        //            .Where(pe => pe.Employee.Id == employeeId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurements;
-        }
-        public static List<ProcurementsEmployee>? ProcurementsEmployeesByProcurement(int procurementId) // Получть список тендеров и сотрудников по id тендера
-        {
-            using ParsethingContext db = new();
-            List<ProcurementsEmployee>? procurements = null;
+        //    return procurements;
+        //}
+        //public static List<ProcurementsEmployee>? ProcurementsEmployeesByProcurement(int procurementId) // Получть список тендеров и сотрудников по id тендера
+        //{
+        //    using ParsethingContext db = new();
+        //    List<ProcurementsEmployee>? procurements = null;
 
-            try
-            {
-                procurements = db.ProcurementsEmployees
-                    .Include(pe => pe.Employee)
-                    .Where(pe => pe.Procurement.Id == procurementId)
-                    .ToList();
-            }
-            catch { }
+        //    try
+        //    {
+        //        procurements = db.ProcurementsEmployees
+        //            .Include(pe => pe.Employee)
+        //            .Where(pe => pe.Procurement.Id == procurementId)
+        //            .ToList();
+        //    }
+        //    catch { }
 
-            return procurements;
-        }
+        //    return procurements;
+        //}
 
+        // need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(string kind, KindOf kindOf, int employeeId) // Получить список тендеров и закупок по:
         {
             using ParsethingContext db = new();
