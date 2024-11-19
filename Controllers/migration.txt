@@ -179,27 +179,51 @@
 
  --
   *Procurement
+-DELETE.Procurement	-> DELETE.Procurement
  GET.Entry.Procurement		-> GET.Procurements.One.ByNumber
  GET.Entry.ProcurementBy	-> GET.Procurements.One.ById
  GET.View.ProcurementBy		-> x (GET.Procurements.One.ById)
  GET.View.ProcurementSources		-> GET.Procurements.Many.Sources
  GET.View.PopulateComponentStates	-> GET.Procurements.Many.WithComponentStates
+
  // !!! need to test
  GET.View.ProcurementsBy(string, KindOf)			-> GET.Procurements.Many.ByKind
  GET.View.ProcurementsBy(string, bool, KindOf)		-> GET.Procurements.Many.ByDateKind
- GET.View.ProcurementsBy(bool)						-> GET.Procurements.Many.AcceptedByOverdue
+ GET.View.ProcurementsBy(bool)						-> GET.Procurements.Many.AcceptedByOverdue (Accepted)
  GET.View.ProcurementsBy(bool, KindOf)				-> GET.Procurements.Many.ByVisa
- //
  GET.View.ProcurementsBy(string, DateTime)			-> GET.Procurements.Many.ByStateAndStartDate
- --
- GET.View.ProcurementsNotPaid						-> GET.Procurements.Many.NotPaid
+ GET.View.ProcurementsNotPaid						-> GET.Procurements.Many.NotPaid (Accepted)
  GET.View.ProcurementsQueue							-> GET.Procurements.Many.CalculationQueue
  GET.View.ProcurementsManagersQueue					-> GET.Procurements.Many.ManagersQueue
  GET.View.ProcurementsBy(KindOf)					-> x(GET.Procurements.Many.ByKind)
+ //
 
+ GET.View.ProcurementsBy(string, string, string, ...) refactoring of this is left for a rainy day
+ GET.Aggregate.GetActualProcurementI						-> GET.Procurements.One.ActualId
+ GET.Aggregate.ProcurementsCountBy(string, KindOf)			-> GET.Procurements.Count.ByKind
+ GET.Aggregate.ProcurementsCountBy(string, DateTime, int) go to proc empl
+ GET.Aggregate.ProcurementsCountBy(string, DateTime)		-> GET.Procurements.Count.ByStateAndStartDate
+ GET.Aggregate.ProcurementsCountBy(bool)					-> GET.Procurements.Count.Accepted
+ GET.Aggregate.ProcurementsCountBy(KindOf)					-> x (GET.Procurements.Count.ByKind)
+ GET.Aggregate.ProcurementsCountBy(bool, KindOf)			-> GET.Procurements.Count.ByVisa
+ GET.Aggregate.ProcurementsCountBy(string, bool, KindOf)	-> GET.Procurements.Count.ByDateKind
+ GET.Aggregate.ProcurementsQueueCount						-> GET.Procurements.Count.CalculationQueue
+ GET.Aggregate.ProcurementsManagersQueueCount				-> GET.Procurements.Count.ManagersQueue
 
--DELETE.Procurement	-> DELETE.Procurement
+ *ProcurementsEmployees
+ GET.View.ProcurementsEmployeesBy(string, int)							-> GET.ProcurementsEmployees.Many.ByStateAndStartDateAndEmployee
+ GET.View.ProcurementsEmployeesBy(int, string)							-> GET.ProcurementsEmployees.Many.ByStateAndEmployee
+ GET.View.ProcurementsEmployeesBy(Procurement, string, string, string)	-> GET.ProcurementsEmployees.One.ByThreePositions
+ GET.View.ProcurementsEmployeesBy(int) -> GET.ProcurementsEmployees.Many.ByEmployee
+ GET.View.ProcurementsEmployeesByProcurement(int procurementId)			-> GET.ProcurementsEmployees.Many.ByProcurement
 
+ // !!! need to test
+GET.View.ProcurementsEmployeesBy(string, KindOf, int)		->  GET.ProcurementsEmployees.Many.ByKindAndEmployee
+GET.View.ProcurementsEmployeesBy(string, bool, KindOf, int) ->  GET.ProcurementsEmployees.Many.ByDateKindAndEmployee
+GET.View.ProcurementsEmployeesBy(bool, int)					->  GET.ProcurementsEmployees.Many.Accepted
+GET.View.ProcurementsEmployeesBy(bool)						-> x (GET.ProcurementsEmployees.Many.Accepted)
+GET.View.ProcurementsEmployeesBy(KindOf, int)				-> x (GET.ProcurementsEmployees.Many.ByKindAndEmployee)
+GET.View.ProcurementsEmployeesBy(bool, KindOf, int)			-> GET.ProcurementsEmployees.Many.ByVisaAndEmployee
 
   *ProcurementDocument
  GET.View.ProcurementDocumentsBy	-> GET.ProcurementDocuments
