@@ -356,7 +356,7 @@ public static class PUT
         {
             if (def == null)
             {
-                DeletedProcurement? deletedProcurement = GET.Entry.DeletedProcurement(procurement.Number);
+                DeletedProcurement? deletedProcurement = Controllers.GET.Procurements.One.Deleted(procurement.Number);
                 if (deletedProcurement == null)
                 {
                     procurement.ProcurementStateId = 20;
@@ -392,111 +392,111 @@ public static class PUT
     }
 
 
-    public static bool ProcurementsEmployeesBy(ProcurementsEmployee procurementsEmployee, string premierPosition, string secondPosition, string thirdPosition)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
-        ProcurementsEmployee? def = null;
-        try
-        {
-            if (procurementsEmployee.Procurement != null && procurementsEmployee.Employee != null)
-            {
-                procurementsEmployee.ProcurementId = procurementsEmployee.Procurement.Id;
-                procurementsEmployee.EmployeeId = procurementsEmployee.Employee.Id;
-            }
-            else throw new Exception();
-            procurementsEmployee.Procurement = null;
-            procurementsEmployee.Employee = null;
-        }
-        catch { isSaved = false; }
-        try
-        {
-            def = db.ProcurementsEmployees
-                .Include(pe => pe.Employee)
-                .Include(pe => pe.Employee.Position)
-                .Where(pe => pe.ProcurementId == procurementsEmployee.ProcurementId && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
-                .First();
-        }
-        catch { }
-        try
-        {
-            if (def == null)
-            {
-                _ = db.ProcurementsEmployees.Add(procurementsEmployee);
-                _ = db.SaveChanges();
-            }
-            else if (!PULL.ProcurementsEmployee(procurementsEmployee, premierPosition, secondPosition, thirdPosition))
-                throw new Exception();
-        }
-        catch { isSaved = false; }
+    //public static bool ProcurementsEmployeesBy(ProcurementsEmployee procurementsEmployee, string premierPosition, string secondPosition, string thirdPosition)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
+    //    ProcurementsEmployee? def = null;
+    //    try
+    //    {
+    //        if (procurementsEmployee.Procurement != null && procurementsEmployee.Employee != null)
+    //        {
+    //            procurementsEmployee.ProcurementId = procurementsEmployee.Procurement.Id;
+    //            procurementsEmployee.EmployeeId = procurementsEmployee.Employee.Id;
+    //        }
+    //        else throw new Exception();
+    //        procurementsEmployee.Procurement = null;
+    //        procurementsEmployee.Employee = null;
+    //    }
+    //    catch { isSaved = false; }
+    //    try
+    //    {
+    //        def = db.ProcurementsEmployees
+    //            .Include(pe => pe.Employee)
+    //            .Include(pe => pe.Employee.Position)
+    //            .Where(pe => pe.ProcurementId == procurementsEmployee.ProcurementId && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
+    //            .First();
+    //    }
+    //    catch { }
+    //    try
+    //    {
+    //        if (def == null)
+    //        {
+    //            _ = db.ProcurementsEmployees.Add(procurementsEmployee);
+    //            _ = db.SaveChanges();
+    //        }
+    //        else if (!PULL.ProcurementsEmployee(procurementsEmployee, premierPosition, secondPosition, thirdPosition))
+    //            throw new Exception();
+    //    }
+    //    catch { isSaved = false; }
 
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementsEmployeesBy(int employeeId)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementsEmployeesBy(int employeeId)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            var procurementToAssign = db.Procurements
-                .Include(p => p.ProcurementState)
-                    .Include(p => p.Law)
-                    .Where(p => p.ProcurementState.Kind == "Новый"
-                                && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id))
-                    .OrderBy(p => p.Deadline)
-                    .ThenBy(p => p.Law.Number)  // Сортировка по номеру закона
-                    .ThenBy(p => p.Object.Contains("компьютер") ? 1 : 0)  // Проверка на наличие слова "компьютер"
-                    .ThenBy(p => p.Object.Contains("системный") ? 1 : 0)  // Проверка на наличие слова "системный"
-                    .ThenBy(p => p.Object.Contains("моноблок") ? 1 : 0)   // Проверка на наличие слова "моноблок"
-                    .ThenBy(p => p.Object.Contains("автоматизирован") ? 1 : 0)  // Проверка на наличие слова "автоматизирован"
-                    .ThenBy(p => p.Object.Contains("монитор") ? 1 : 0)    // Проверка на наличие слова "монитор"
-                    .ThenBy(p => p.Object.Contains("ноутбук") ? 1 : 0)    // Проверка на наличие слова "ноутбук"
-                    .FirstOrDefault();
+    //    try
+    //    {
+    //        var procurementToAssign = db.Procurements
+    //            .Include(p => p.ProcurementState)
+    //                .Include(p => p.Law)
+    //                .Where(p => p.ProcurementState.Kind == "Новый"
+    //                            && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id))
+    //                .OrderBy(p => p.Deadline)
+    //                .ThenBy(p => p.Law.Number)  // Сортировка по номеру закона
+    //                .ThenBy(p => p.Object.Contains("компьютер") ? 1 : 0)  // Проверка на наличие слова "компьютер"
+    //                .ThenBy(p => p.Object.Contains("системный") ? 1 : 0)  // Проверка на наличие слова "системный"
+    //                .ThenBy(p => p.Object.Contains("моноблок") ? 1 : 0)   // Проверка на наличие слова "моноблок"
+    //                .ThenBy(p => p.Object.Contains("автоматизирован") ? 1 : 0)  // Проверка на наличие слова "автоматизирован"
+    //                .ThenBy(p => p.Object.Contains("монитор") ? 1 : 0)    // Проверка на наличие слова "монитор"
+    //                .ThenBy(p => p.Object.Contains("ноутбук") ? 1 : 0)    // Проверка на наличие слова "ноутбук"
+    //                .FirstOrDefault();
 
-            if (procurementToAssign != null)
-                if (procurementToAssign != null)
-                {
-                    ProcurementsEmployee procurementEmployee = new ProcurementsEmployee
-                    {
-                        ProcurementId = procurementToAssign.Id,
-                        EmployeeId = employeeId
-                    };
+    //        if (procurementToAssign != null)
+    //            if (procurementToAssign != null)
+    //            {
+    //                ProcurementsEmployee procurementEmployee = new ProcurementsEmployee
+    //                {
+    //                    ProcurementId = procurementToAssign.Id,
+    //                    EmployeeId = employeeId
+    //                };
 
-                    db.ProcurementsEmployees.Add(procurementEmployee);
-                    db.SaveChanges();
-                }
-        }
-        catch { isSaved = false; }
+    //                db.ProcurementsEmployees.Add(procurementEmployee);
+    //                db.SaveChanges();
+    //            }
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
-    public static bool ProcurementsEmployees(ProcurementsEmployee procurementsEmployee)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementsEmployees(ProcurementsEmployee procurementsEmployee)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            if (procurementsEmployee.Procurement != null && procurementsEmployee.Employee != null)
-            {
-                procurementsEmployee.ProcurementId = procurementsEmployee.Procurement.Id;
-                procurementsEmployee.EmployeeId = procurementsEmployee.Employee.Id;
-            }
-            else throw new Exception();
-            procurementsEmployee.Procurement = null;
-            procurementsEmployee.Employee = null;
+    //    try
+    //    {
+    //        if (procurementsEmployee.Procurement != null && procurementsEmployee.Employee != null)
+    //        {
+    //            procurementsEmployee.ProcurementId = procurementsEmployee.Procurement.Id;
+    //            procurementsEmployee.EmployeeId = procurementsEmployee.Employee.Id;
+    //        }
+    //        else throw new Exception();
+    //        procurementsEmployee.Procurement = null;
+    //        procurementsEmployee.Employee = null;
 
-            _ = db.ProcurementsEmployees.Add(procurementsEmployee);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.ProcurementsEmployees.Add(procurementsEmployee);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool Region(Region region)
     //{
@@ -587,18 +587,18 @@ public static class PUT
 
     //    return isSaved;
     //}
-    public static bool Procurement(Procurement procurement)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool Procurement(Procurement procurement)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            _ = db.Procurements.Add(procurement);
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //    try
+    //    {
+    //        _ = db.Procurements.Add(procurement);
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 }
