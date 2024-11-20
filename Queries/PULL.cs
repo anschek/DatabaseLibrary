@@ -514,25 +514,25 @@ public static class PULL
     //    return isSaved;
     //}
 
-    public static bool Procurement_ProcurementState(Procurement procurement, int procurementStateId)
-    {
-        using ParsethingContext db = new();
-        Procurement? def = null;
-        bool isSaved = true;
-        try
-        {
-            def = db.Procurements
-                .Where(p => p.Id == procurement.Id)
-                .First();
+    //public static bool Procurement_ProcurementState(Procurement procurement, int procurementStateId)
+    //{
+    //    using ParsethingContext db = new();
+    //    Procurement? def = null;
+    //    bool isSaved = true;
+    //    try
+    //    {
+    //        def = db.Procurements
+    //            .Where(p => p.Id == procurement.Id)
+    //            .First();
 
-            def.ProcurementStateId = procurementStateId;
+    //        def.ProcurementStateId = procurementStateId;
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
     //public static bool ProcurementState(ProcurementState procurementState)
     //{
@@ -554,44 +554,44 @@ public static class PULL
 
     //    return isSaved;
     //}
-    public static bool ProcurementSource(Procurement procurement, Procurement def)
-    {
-        using ParsethingContext db = new();
-        bool isSaved = true;
+    //public static bool ProcurementSource(Procurement procurement, Procurement def)
+    //{
+    //    using ParsethingContext db = new();
+    //    bool isSaved = true;
 
-        try
-        {
-            def = db.Procurements
-                .Where(p => p.InitialPrice == procurement.InitialPrice && p.Object == procurement.Object)
-                .First();
+    //    try
+    //    {
+    //        def = db.Procurements
+    //            .Where(p => p.InitialPrice == procurement.InitialPrice && p.Object == procurement.Object)
+    //            .First();
 
-            def.RequestUri = procurement.RequestUri;
-            def.LawId = procurement.LawId;
-            def.Object = procurement.Object;
-            def.InitialPrice = Convert.ToDecimal(DbValueConverter.ToNullableString(Convert.ToString(procurement.InitialPrice)));
-            def.OrganizationId = procurement.OrganizationId;
-            def.MethodId = procurement.MethodId;
-            def.Location = procurement.Location;
-            def.StartDate = procurement.StartDate;
-            def.Deadline = procurement.Deadline;
-            def.ResultDate = procurement.ResultDate;
-            def.TimeZoneId = procurement.TimeZoneId;
-            def.Securing = procurement.Securing;
-            def.Enforcement = procurement.Enforcement;
-            def.Warranty = procurement.Warranty;
-            def.ContactPerson = procurement.ContactPerson;
-            def.ContactPhone = procurement.ContactPhone;
-            def.OrganizationEmail = procurement.OrganizationEmail;
-            def.TimeZoneId = procurement.TimeZoneId;
-            def.RegionId = procurement.RegionId;
+    //        def.RequestUri = procurement.RequestUri;
+    //        def.LawId = procurement.LawId;
+    //        def.Object = procurement.Object;
+    //        def.InitialPrice = Convert.ToDecimal(DbValueConverter.ToNullableString(Convert.ToString(procurement.InitialPrice)));
+    //        def.OrganizationId = procurement.OrganizationId;
+    //        def.MethodId = procurement.MethodId;
+    //        def.Location = procurement.Location;
+    //        def.StartDate = procurement.StartDate;
+    //        def.Deadline = procurement.Deadline;
+    //        def.ResultDate = procurement.ResultDate;
+    //        def.TimeZoneId = procurement.TimeZoneId;
+    //        def.Securing = procurement.Securing;
+    //        def.Enforcement = procurement.Enforcement;
+    //        def.Warranty = procurement.Warranty;
+    //        def.ContactPerson = procurement.ContactPerson;
+    //        def.ContactPhone = procurement.ContactPhone;
+    //        def.OrganizationEmail = procurement.OrganizationEmail;
+    //        def.TimeZoneId = procurement.TimeZoneId;
+    //        def.RegionId = procurement.RegionId;
 
 
-            _ = db.SaveChanges();
-        }
-        catch { isSaved = false; }
+    //        _ = db.SaveChanges();
+    //    }
+    //    catch { isSaved = false; }
 
-        return isSaved;
-    }
+    //    return isSaved;
+    //}
 
 
     //public static bool Region(Region region)
