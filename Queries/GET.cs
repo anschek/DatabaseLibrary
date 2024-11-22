@@ -808,53 +808,53 @@ public static class GET
         //    return componentCalculations;
         //}
 
-        public static List<SupplyMonitoringList> GetSupplyMonitoringLists(List<Procurement> procurements, List<string> componentStatuses)
-        {
-            using (var dbContext = new ParsethingContext())
-            {
-                var tenderIds = procurements.Select(p => p.Id).ToList();
+        //public static List<SupplyMonitoringList> GetSupplyMonitoringLists(List<Procurement> procurements, List<string> componentStatuses)
+        //{
+        //    using (var dbContext = new ParsethingContext())
+        //    {
+        //        var tenderIds = procurements.Select(p => p.Id).ToList();
 
-                var query = from cc in dbContext.ComponentCalculations
-                            join s in dbContext.Sellers on cc.SellerIdPurchase equals s.Id into sellers
-                            from s in sellers.DefaultIfEmpty()
-                            join m in dbContext.Manufacturers on cc.ManufacturerIdPurchase equals m.Id into manufacturers
-                            from m in manufacturers.DefaultIfEmpty()
-                            join cs in dbContext.ComponentStates on cc.ComponentStateId equals cs.Id
-                            join p in dbContext.Procurements on cc.ProcurementId equals p.Id
-                            where tenderIds.Contains(cc.ProcurementId) &&
-                                  (componentStatuses == null || componentStatuses.Contains(cs.Kind)) &&
-                                  (cc.IsDeleted == false || cc.IsDeleted == null)
-                            select new
-                            {
-                                cc,
-                                s,
-                                m,
-                                cs,
-                                p
-                            };
+        //        var query = from cc in dbContext.ComponentCalculations
+        //                    join s in dbContext.Sellers on cc.SellerIdPurchase equals s.Id into sellers
+        //                    from s in sellers.DefaultIfEmpty()
+        //                    join m in dbContext.Manufacturers on cc.ManufacturerIdPurchase equals m.Id into manufacturers
+        //                    from m in manufacturers.DefaultIfEmpty()
+        //                    join cs in dbContext.ComponentStates on cc.ComponentStateId equals cs.Id
+        //                    join p in dbContext.Procurements on cc.ProcurementId equals p.Id
+        //                    where tenderIds.Contains(cc.ProcurementId) &&
+        //                          (componentStatuses == null || componentStatuses.Contains(cs.Kind)) &&
+        //                          (cc.IsDeleted == false || cc.IsDeleted == null)
+        //                    select new
+        //                    {
+        //                        cc,
+        //                        s,
+        //                        m,
+        //                        cs,
+        //                        p
+        //                    };
 
-                var supplyMonitoringLists = query
-                    .ToList()
-                    .Select(item => new SupplyMonitoringList
-                    {
-                        SupplierName = item.s?.Name ?? "Без поставщика",
-                        ManufacturerName = item.m?.ManufacturerName ?? "Без производителя",
-                        ComponentName = item.cc.ComponentNamePurchase,
-                        ComponentStatus = item.cs.Kind,
-                        AveragePrice = item.cc.PricePurchase,
-                        TotalCount = item.cc.CountPurchase,
-                        SellerName = item.s?.Name ?? "Не указан",
-                        TenderNumber = item.cc.ProcurementId,
-                        DisplayId = item.p.DisplayId,
-                        TotalAmount = item.cc.PricePurchase * item.cc.CountPurchase
-                    })
-                    .OrderBy(s => s.SupplierName == "Без поставщика" ? "" : s.SupplierName)
-                    .ThenBy(s => s.SupplierName)
-                    .ToList();
+        //        var supplyMonitoringLists = query
+        //            .ToList()
+        //            .Select(item => new SupplyMonitoringList
+        //            {
+        //                SupplierName = item.s?.Name ?? "Без поставщика",
+        //                ManufacturerName = item.m?.ManufacturerName ?? "Без производителя",
+        //                ComponentName = item.cc.ComponentNamePurchase,
+        //                ComponentStatus = item.cs.Kind,
+        //                AveragePrice = item.cc.PricePurchase,
+        //                TotalCount = item.cc.CountPurchase,
+        //                SellerName = item.s?.Name ?? "Не указан",
+        //                TenderNumber = item.cc.ProcurementId,
+        //                DisplayId = item.p.DisplayId,
+        //                TotalAmount = item.cc.PricePurchase * item.cc.CountPurchase
+        //            })
+        //            .OrderBy(s => s.SupplierName == "Без поставщика" ? "" : s.SupplierName)
+        //            .ThenBy(s => s.SupplierName)
+        //            .ToList();
 
-                return supplyMonitoringLists;
-            }
-        }
+        //        return supplyMonitoringLists;
+        //    }
+        //}
         //public static List<Method>? Methods() // Получить все методы определения поставщика
         //{
         //    using ParsethingContext db = new();
@@ -1314,7 +1314,7 @@ public static class GET
 
             return procurements;
         }
-        // todo kind 4
+        // by visa, need to test
         public static List<Procurement>? ProcurementsBy(bool isTrue, KindOf kindOf) // Получить список тендеров: 
         {
             using ParsethingContext db = new();
@@ -1557,26 +1557,26 @@ public static class GET
             return procurements;
         }
 
-        public static List<ProcurementsEmployeesGrouping>? ProcurementsGroupByMethod() // Получить список отправленных тендеров групированных по методам проведения
-        {
-            using ParsethingContext db = new();
-            var procurementsEmployees = db.Procurements
-                .Include(p => p.Law)
-                .Include(p => p.Method)
-                .Include(p => p.ProcurementState)
-                .Where(p => p.Method != null)
-                .Where(p => p.ProcurementState.Kind == "Отправлен")
-                .GroupBy(p => p.Method.Text)
-                .Select(g => new ProcurementsEmployeesGrouping
-                {
-                    Id = g.Key,
-                    CountOfProcurements = g.Count(),
-                    Procurements = g.ToList() // Добавлено
-                })
-                .ToList();
+        //public static List<ProcurementsEmployeesGrouping>? ProcurementsGroupByMethod() // Получить список отправленных тендеров групированных по методам проведения
+        //{
+        //    using ParsethingContext db = new();
+        //    var procurementsEmployees = db.Procurements
+        //        .Include(p => p.Law)
+        //        .Include(p => p.Method)
+        //        .Include(p => p.ProcurementState)
+        //        .Where(p => p.Method != null)
+        //        .Where(p => p.ProcurementState.Kind == "Отправлен")
+        //        .GroupBy(p => p.Method.Text)
+        //        .Select(g => new ProcurementsEmployeesGrouping
+        //        {
+        //            Id = g.Key,
+        //            CountOfProcurements = g.Count(),
+        //            Procurements = g.ToList() // Добавлено
+        //        })
+        //        .ToList();
 
-            return procurementsEmployees;
-        }
+        //    return procurementsEmployees;
+        //}
 
         //public static List<Comment>? CommentsBy(int? procurementId) // Получить комментарии по id тендера
         //{
@@ -1605,83 +1605,83 @@ public static class GET
         //    return comments;
         //}
 
-        public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(int employeeId) // Получить информацию по тому, сколько тендеров назначено на конкретного сотрудника
-        {
-            using ParsethingContext db = new();
-            var procurementsEmployees = db.ProcurementsEmployees
-                .Include(pe => pe.Procurement.Law)
-                .Include(pe => pe.Employee)
-                .Include(pe => pe.Procurement.Method)
-                .Include(pe => pe.Procurement.Region)
-                .Include(pe => pe.Procurement)
-                .Where(pe => pe.EmployeeId == employeeId)
-                .GroupBy(pe => pe.Employee.FullName)
-                .Select(g => new ProcurementsEmployeesGrouping
-                {
-                    Id = g.Key,
-                    CountOfProcurements = g.Count(),
-                    Procurements = g.Select(pe => pe.Procurement).ToList() // Добавлено
-                })
-                .ToList();
+        //public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(int employeeId) // Получить информацию по тому, сколько тендеров назначено на конкретного сотрудника
+        //{
+        //    using ParsethingContext db = new();
+        //    var procurementsEmployees = db.ProcurementsEmployees
+        //        .Include(pe => pe.Procurement.Law)
+        //        .Include(pe => pe.Employee)
+        //        .Include(pe => pe.Procurement.Method)
+        //        .Include(pe => pe.Procurement.Region)
+        //        .Include(pe => pe.Procurement)
+        //        .Where(pe => pe.EmployeeId == employeeId)
+        //        .GroupBy(pe => pe.Employee.FullName)
+        //        .Select(g => new ProcurementsEmployeesGrouping
+        //        {
+        //            Id = g.Key,
+        //            CountOfProcurements = g.Count(),
+        //            Procurements = g.Select(pe => pe.Procurement).ToList() // Добавлено
+        //        })
+        //        .ToList();
 
-            return procurementsEmployees;
-        }
+        //    return procurementsEmployees;
+        //}
 
-        public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(string premierPosition, string secondPosition, string thirdPosition, string premierProcurementState, string secondProcurementState, string thirdProcurementState, string fourthProcurementState)
-        {
-            using ParsethingContext db = new();
-            var procurementsEmployees = db.ProcurementsEmployees
-                .Include(pe => pe.Procurement.Law)
-                .Include(pe => pe.Employee)
-                .Include(pe => pe.Procurement.ProcurementState)
-                .Include(pe => pe.Employee.Position)
-                .Include(pe => pe.Procurement.Method)
-                .Include(pe => pe.Procurement.Region)
-                .Include(pe => pe.Procurement)
-                .Where(pe => pe.Employee.Position.Kind == premierPosition ||
-                             pe.Employee.Position.Kind == secondPosition ||
-                             pe.Employee.Position.Kind == thirdPosition)
-                .Where(pe => pe.Procurement.ProcurementState.Kind == premierProcurementState ||
-                             pe.Procurement.ProcurementState.Kind == secondProcurementState ||
-                             pe.Procurement.ProcurementState.Kind == thirdProcurementState ||
-                             pe.Procurement.ProcurementState.Kind == fourthProcurementState)
-                .Where(pe => pe.Procurement.Applications != true)
-                .Where(pe => !(pe.Procurement.ProcurementState.Kind == "Принят" && pe.Procurement.RealDueDate != null))
-                .GroupBy(pe => pe.Employee.FullName)
-                .Select(g => new ProcurementsEmployeesGrouping
-                {
-                    Id = g.Key,
-                    CountOfProcurements = g.Count(),
-                    Procurements = g.Select(pe => pe.Procurement).ToList()
-                })
-                .ToList();
+        //public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(string premierPosition, string secondPosition, string thirdPosition, string premierProcurementState, string secondProcurementState, string thirdProcurementState, string fourthProcurementState)
+        //{
+        //    using ParsethingContext db = new();
+        //    var procurementsEmployees = db.ProcurementsEmployees
+        //        .Include(pe => pe.Procurement.Law)
+        //        .Include(pe => pe.Employee)
+        //        .Include(pe => pe.Procurement.ProcurementState)
+        //        .Include(pe => pe.Employee.Position)
+        //        .Include(pe => pe.Procurement.Method)
+        //        .Include(pe => pe.Procurement.Region)
+        //        .Include(pe => pe.Procurement)
+        //        .Where(pe => pe.Employee.Position.Kind == premierPosition ||
+        //                     pe.Employee.Position.Kind == secondPosition ||
+        //                     pe.Employee.Position.Kind == thirdPosition)
+        //        .Where(pe => pe.Procurement.ProcurementState.Kind == premierProcurementState ||
+        //                     pe.Procurement.ProcurementState.Kind == secondProcurementState ||
+        //                     pe.Procurement.ProcurementState.Kind == thirdProcurementState ||
+        //                     pe.Procurement.ProcurementState.Kind == fourthProcurementState)
+        //        .Where(pe => pe.Procurement.Applications != true)
+        //        .Where(pe => !(pe.Procurement.ProcurementState.Kind == "Принят" && pe.Procurement.RealDueDate != null))
+        //        .GroupBy(pe => pe.Employee.FullName)
+        //        .Select(g => new ProcurementsEmployeesGrouping
+        //        {
+        //            Id = g.Key,
+        //            CountOfProcurements = g.Count(),
+        //            Procurements = g.Select(pe => pe.Procurement).ToList()
+        //        })
+        //        .ToList();
 
-            return procurementsEmployees;
-        }
+        //    return procurementsEmployees;
+        //}
 
-        public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(string premierPosition, string secondPosition, string thirdPosition) // Получить список сотруников и тендеров, которые у них в работе (по трем должностям) 
-        {
-            using ParsethingContext db = new();
-            var procurementsEmployees = db.ProcurementsEmployees
-                .Include(pe => pe.Procurement.Law)
-                .Include(pe => pe.Employee)
-                .Include(pe => pe.Procurement.ProcurementState)
-                .Include(pe => pe.Employee.Position)
-                .Include(pe => pe.Procurement.Method)
-                .Include(pe => pe.Procurement.Region)
-                .Include(pe => pe.Procurement)
-                .Where(pe => pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition)
-                .GroupBy(pe => pe.Employee.FullName)
-                .Select(g => new ProcurementsEmployeesGrouping
-                {
-                    Id = g.Key,
-                    CountOfProcurements = g.Count(),
-                    Procurements = g.Select(pe => pe.Procurement).ToList() // Добавлено
-                })
-                .ToList();
+        //public static List<ProcurementsEmployeesGrouping>? ProcurementsEmployeesGroupBy(string premierPosition, string secondPosition, string thirdPosition) // Получить список сотруников и тендеров, которые у них в работе (по трем должностям) 
+        //{
+        //    using ParsethingContext db = new();
+        //    var procurementsEmployees = db.ProcurementsEmployees
+        //        .Include(pe => pe.Procurement.Law)
+        //        .Include(pe => pe.Employee)
+        //        .Include(pe => pe.Procurement.ProcurementState)
+        //        .Include(pe => pe.Employee.Position)
+        //        .Include(pe => pe.Procurement.Method)
+        //        .Include(pe => pe.Procurement.Region)
+        //        .Include(pe => pe.Procurement)
+        //        .Where(pe => pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition)
+        //        .GroupBy(pe => pe.Employee.FullName)
+        //        .Select(g => new ProcurementsEmployeesGrouping
+        //        {
+        //            Id = g.Key,
+        //            CountOfProcurements = g.Count(),
+        //            Procurements = g.Select(pe => pe.Procurement).ToList() // Добавлено
+        //        })
+        //        .ToList();
 
-            return procurementsEmployees;
-        }
+        //    return procurementsEmployees;
+        //}
 
         //public static List<Procurement>? ProcurementsQueue() // Очередь расчета
         //{
@@ -2072,7 +2072,7 @@ public static class GET
 
             return procurementsEmployees;
         }
-
+        // need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(bool isOverdue, int employeeId) // Получить тендеры, назначнные на конкретного сотрудника
         {
             using ParsethingContext db = new();
@@ -2127,7 +2127,7 @@ public static class GET
 
             return procurementsEmployees;
         }
-        // in accepted
+        // moved to accepted, need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesNotPaid(int employeeId) // Получить неоплаченные тендеры по конкретному сотруднику
         {
             using ParsethingContext db = new();
@@ -2158,7 +2158,7 @@ public static class GET
 
             return procurementsEmployees;
         }
-
+        // moved to other kinds, need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(KindOf kindOf, int employeeId) // Получить тендеры, назначенные на конкретного сотрудника
         {
             using ParsethingContext db = new();
@@ -2208,6 +2208,7 @@ public static class GET
 
             return procurementsEmployees;
         }
+        // by visa, need to test
         public static List<ProcurementsEmployee>? ProcurementsEmployeesBy(bool isTrue, KindOf kindOf, int employeeId) // Получить тендеры, назначенные на конкретного сотрудника
         {
             using ParsethingContext db = new();
@@ -2731,43 +2732,43 @@ public static class GET
         //    }
 
         // ProcurementsEmployees count by
-        public static int ProcurementsCountBy(string procurementState, DateTime startDate, int employeeId) // Получить количество тендеров по статусу и конкретному сотруднику по дате
-        {
-            using ParsethingContext db = new();
-            int count = 0;
+        //public static int ProcurementsCountBy(string procurementState, DateTime startDate, int employeeId) // Получить количество тендеров по статусу и конкретному сотруднику по дате
+        //{
+        //    using ParsethingContext db = new();
+        //    int count = 0;
 
-            try
-            {
-                List<int> validProcurementIds;
+        //    try
+        //    {
+        //        List<int> validProcurementIds;
 
-                if (procurementState == "Выигран 1ч")
-                {
-                    var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
+        //        if (procurementState == "Выигран 1ч")
+        //        {
+        //            var excludedStatuses = new List<string> { "Проигран", "Отклонен", "Отмена" };
 
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .GroupBy(h => h.EntryId)
-                        .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
-                        .Select(g => g.Key)
-                        .Distinct()
-                        .ToList();
-                }
-                else
-                {
-                    validProcurementIds = db.Histories
-                        .Where(h => h.Text == procurementState && h.Date >= startDate)
-                        .Select(h => h.EntryId)
-                        .Distinct()
-                        .ToList();
-                }
+        //            validProcurementIds = db.Histories
+        //                .Where(h => h.Text == procurementState && h.Date >= startDate)
+        //                .GroupBy(h => h.EntryId)
+        //                .Where(g => !g.Any(h => excludedStatuses.Contains(h.Text)))
+        //                .Select(g => g.Key)
+        //                .Distinct()
+        //                .ToList();
+        //        }
+        //        else
+        //        {
+        //            validProcurementIds = db.Histories
+        //                .Where(h => h.Text == procurementState && h.Date >= startDate)
+        //                .Select(h => h.EntryId)
+        //                .Distinct()
+        //                .ToList();
+        //        }
 
-                count = db.ProcurementsEmployees
-                    .Count(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);
-            }
-            catch { }
+        //        count = db.ProcurementsEmployees
+        //            .Count(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);
+        //    }
+        //    catch { }
 
-            return count;
-        }
+        //    return count;
+        //}
 
         //public static int ProcurementsCountBy(string procurementState, DateTime startDate) // Получить количество тендеров по статусу и дате
         //{
@@ -3010,6 +3011,7 @@ public static class GET
         //    return count;
         //}
 
+        // need to test
         public static int ProcurementsEmployeesCountBy(string kind, KindOf kindOf, int employeeId) // Получить количество тендеров по:
         {
             using ParsethingContext db = new();
@@ -3089,6 +3091,7 @@ public static class GET
             return count;
         }
 
+        // need to test
         public static int ProcurementsEmployeesCountBy(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить количество тендеров по
         {
             using ParsethingContext db = new();
@@ -3202,6 +3205,7 @@ public static class GET
             return count;
         }
 
+        // need to test
         public static int ProcurementsEmployeesCountBy(bool isOverdue, int employeeId) // Получить количество тендеров и сотрудников по сотрудникам
         {
             using ParsethingContext db = new();
@@ -3240,6 +3244,7 @@ public static class GET
 
             return count;
         }
+        // need to test
         public static int ProcurementsEmployeesCountNotPaid(int employeeId) // Получить количество неоплаченных принятых тендеров и сотрудников по конкретному сотруднику
         {
             using ParsethingContext db = new();
@@ -3263,6 +3268,7 @@ public static class GET
             return count;
         }
 
+        // need to test
         public static int ProcurementsEmployeesCountBy(KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
         {
             using ParsethingContext db = new();
@@ -3295,6 +3301,7 @@ public static class GET
             return count;
 
         }
+        // need to test
         public static int ProcurementsEmployeesCountBy(bool isTrue, KindOf kindOf, int employeeId) // Получить количество тендеров по конкретному сотруднику 
         {
             using ParsethingContext db = new();

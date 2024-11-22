@@ -4,28 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DatabaseLibrary.Controllers.GET
+namespace DatabaseLibrary.Controllers
 {
-    public static partial class ProcurementsEmployees
+    public static partial class GET
     {
-        public static class One
+        public static partial class ProcurementsEmployees
         {
-            public static async Task<ProcurementsEmployee?> ByThreePositions(Procurement procurement, string premierPosition, string secondPosition, string thirdPosition) // Получить список тендеров и сотрудников, по id тендера и трем должностям
+            public static class One
             {
-                using ParsethingContext db = new();
-                ProcurementsEmployee? procurementsEmployee = null;
-
-                try
+                public static async Task<ProcurementsEmployee?> ByThreePositions(Procurement procurement, string premierPosition, string secondPosition, string thirdPosition) // Получить список тендеров и сотрудников, по id тендера и трем должностям
                 {
-                    procurementsEmployee = await db.ProcurementsEmployees
-                    .Include(pe => pe.Employee)
-                    .Include(pe => pe.Employee.Position)
-                    .Where(pe => pe.ProcurementId == procurement.Id && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
-                    .FirstAsync();
-                }
-                catch { }
+                    using ParsethingContext db = new();
+                    ProcurementsEmployee? procurementsEmployee = null;
 
-                return procurementsEmployee;
+                    try
+                    {
+                        procurementsEmployee = await db.ProcurementsEmployees
+                        .Include(pe => pe.Employee)
+                        .Include(pe => pe.Employee.Position)
+                        .Where(pe => pe.ProcurementId == procurement.Id && (pe.Employee.Position.Kind == premierPosition || pe.Employee.Position.Kind == secondPosition || pe.Employee.Position.Kind == thirdPosition))
+                        .FirstAsync();
+                    }
+                    catch { }
+
+                    return procurementsEmployee;
+                }
             }
         }
     }
