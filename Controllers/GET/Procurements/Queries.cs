@@ -15,10 +15,8 @@ namespace DatabaseLibrary.Controllers
         {
             public static class Queries
             {
-                public static IQueryable<Procurement> All()
-                {
-                    using ParsethingContext db = new();
-                    return db.Procurements
+                public static IQueryable<Procurement> All(ParsethingContext db)
+                => db.Procurements
                            .Include(p => p.ProcurementState)
                            .Include(p => p.Law)
                            .Include(p => p.Method)
@@ -28,26 +26,19 @@ namespace DatabaseLibrary.Controllers
                            .Include(p => p.ShipmentPlan)
                            .Include(p => p.Organization)
                            .Include(p => p.City);
-                }
 
-                public static IQueryable<Procurement> CalculationQueue() // Очередь расчета
-                {
-                    using ParsethingContext db = new();
-                    return db.Procurements
+                public static IQueryable<Procurement> CalculationQueue(ParsethingContext db) // Очередь расчета
+                => db.Procurements
                             .Include(p => p.ProcurementState)
                             .Include(p => p.Law)
                             .Where(p => p.ProcurementState.Kind == "Новый" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id));
 
-                }
-
-                public static IQueryable<Procurement> ManagersQueue() // Тендеры, не назначенные не конкретного менеджера
-                {
-                    using ParsethingContext db = new();
-                    return db.Procurements
+                public static IQueryable<Procurement> ManagersQueue(ParsethingContext db) // Тендеры, не назначенные не конкретного менеджера
+                => db.Procurements
                             .Include(p => p.ProcurementState)
                             .Include(p => p.Law)
                             .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id && pe.Employee.Position.Id == 8));
-                }
+
 
                 public static Expression<Func<Procurement, bool>> TermPredicatByDateKind(bool isOverdue, KindOf kindOf)
                 {
@@ -80,9 +71,8 @@ namespace DatabaseLibrary.Controllers
                     return termPredicate;
                 }
 
-                public static IQueryable<Procurement> ByStateAndStartDate(string procurementState, DateTime startDate, bool allInclusive)
+                public static IQueryable<Procurement> ByStateAndStartDate(ParsethingContext db, string procurementState, DateTime startDate, bool allInclusive)
                 {
-                    using ParsethingContext db = new();
                     IQueryable<int> validProcurementIds;
 
                     if (procurementState == "Выигран 1ч")
@@ -105,7 +95,7 @@ namespace DatabaseLibrary.Controllers
                     }
 
                     // При настройке "всю включено", подтягиваются все смежные таблицы
-                    return (allInclusive ? All() : db.Procurements)
+                    return (allInclusive ? All(db) : db.Procurements)
                         .Where(p => validProcurementIds.Contains(p.Id));
                 }
             }

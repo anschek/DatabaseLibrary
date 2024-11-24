@@ -21,7 +21,7 @@ namespace DatabaseLibrary.Controllers
 
                     try
                     {
-                        var validProcurementIds = Queries.validProcurementIds(procurementState, startDate);
+                        var validProcurementIds = Queries.validProcurementIds(db, procurementState, startDate);
 
                         count = await db.ProcurementsEmployees
                             .CountAsync(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);

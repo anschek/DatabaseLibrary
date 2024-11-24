@@ -21,7 +21,7 @@ namespace DatabaseLibrary.Controllers
 
                     try
                     {
-                        var validProcurementIds = Queries.validProcurementIds(procurementState, startDate);
+                        var validProcurementIds = Queries.validProcurementIds(db, procurementState, startDate);
 
                         procurementsEmployees = await db.ProcurementsEmployees
                             .Include(pe => pe.Procurement)
@@ -41,11 +41,11 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployee>?> ByState(int employeeId, string procurementStateKind) // Получить список тендеров и сотудиков, по статусу и id сотрудника
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurements = null;
-
                     try
                     {
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                             .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == procurementStateKind)
                             .Where(pe => pe.Procurement.Applications != true)
                             .Where(pe => pe.Employee.Id == employeeId)
@@ -63,7 +63,7 @@ namespace DatabaseLibrary.Controllers
 
                     try
                     {
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                             .Where(pe => pe.Procurement.ProcurementState != null)
                             .Where(pe => pe.Employee.Id == employeeId)
                             .ToListAsync();
@@ -92,13 +92,13 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployee>?> ByKind(KindOf kindOf, int employeeId, string? kind = null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
-
                     try
                     {
                         Expression<Func<ProcurementsEmployee, bool>> kindPredicate = Queries.KindPredicate(kindOf, kind);
 
-                        IQueryable<ProcurementsEmployee> procurementsEmployeesQuery = Queries.All()
+                        IQueryable<ProcurementsEmployee> procurementsEmployeesQuery = Queries.All(db)
                            .Include(pe => pe.Procurement.ShipmentPlan);
 
                         if (kindOf == KindOf.ExecutionState) procurementsEmployeesQuery = procurementsEmployeesQuery.Include(pe => pe.Procurement.ExecutionState);
@@ -115,8 +115,8 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployee>?> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить список тендеров и сотрудников по:
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
-
                     try
                     {
                         // Предикат типа фильтрует тендеры сотрудников
@@ -128,7 +128,7 @@ namespace DatabaseLibrary.Controllers
                         // Прендикат срока фильтрует в соответствии с датами
                         Expression<Func<ProcurementsEmployee, bool>> termPredicate = Queries.TermPredicate(kindOf, isOverdue);
 
-                        procurementsEmployees = await Queries.All()
+                        procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
                             .Where(kindPredicate)
@@ -142,8 +142,8 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployee>?> Accepted(int employeeId, bool? isOverdue = null) // Получить тендеры, назначнные на конкретного сотрудника
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
-
                     try
                     {
                         // Предикат срока фильтрует тендеры по полю максимального срока в зависимости от значения переменной "Просрочено"
@@ -154,7 +154,7 @@ namespace DatabaseLibrary.Controllers
                             false => pe => pe.Procurement.MaxDueDate > DateTime.Now // в срок
                         };
 
-                        procurementsEmployees = await Queries.All()
+                        procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
@@ -170,13 +170,13 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployee>?> ByVisa(KindOf kindOf, bool stageCompleted, int employeeId) // Получить тендеры, назначенные на конкретного сотрудника по визе расчета или закупки
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
-
                     try
                     {
                         Expression<Func<ProcurementsEmployee, bool>> stagePredicate = Queries.StagePredicateByVisa(kindOf, stageCompleted);
                         
-                        procurementsEmployees = await Queries.All()
+                        procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")

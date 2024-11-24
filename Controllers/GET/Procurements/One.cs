@@ -34,7 +34,7 @@ namespace DatabaseLibrary.Controllers
 
                     try
                     {
-                        procurement = await Queries.All()
+                        procurement = await Queries.All(db)
                             .Where(p => p.Id == id)
                             .FirstAsync();
                     }

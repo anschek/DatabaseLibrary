@@ -16,10 +16,8 @@ namespace DatabaseLibrary.Controllers
         {
             public static class Queries
             {
-                public static IQueryable<ProcurementsEmployee> All()
-                {
-                    using ParsethingContext db = new();
-                    return db.ProcurementsEmployees
+                public static IQueryable<ProcurementsEmployee> All(ParsethingContext db)
+                =>  db.ProcurementsEmployees
                         .Include(pe => pe.Procurement)
                         .Include(pe => pe.Procurement.ProcurementState)
                         .Include(pe => pe.Employee)
@@ -30,12 +28,9 @@ namespace DatabaseLibrary.Controllers
                         .Include(pe => pe.Procurement.TimeZone)
                         .Include(pe => pe.Procurement.City)
                         .Include(pe => pe.Procurement.Organization);
-                }
 
-                public static IQueryable<ProcurementsEmployee> AllForGrouping()
-                {
-                    using ParsethingContext db = new();
-                    return db.ProcurementsEmployees
+                public static IQueryable<ProcurementsEmployee> AllForGrouping(ParsethingContext db)
+                => db.ProcurementsEmployees
                         .Include(pe => pe.Procurement.Law)
                         .Include(pe => pe.Employee)
                         .Include(pe => pe.Procurement.ProcurementState)
@@ -43,11 +38,9 @@ namespace DatabaseLibrary.Controllers
                         .Include(pe => pe.Procurement.Method)
                         .Include(pe => pe.Procurement.Region)
                         .Include(pe => pe.Procurement);
-                }
 
-                public static IQueryable<int> validProcurementIds(string procurementState, DateTime startDate)
+                public static IQueryable<int> validProcurementIds(ParsethingContext db, string procurementState, DateTime startDate)
                 {
-                    using ParsethingContext db = new();
                     IQueryable<int> validProcurementIds;
 
                     if (procurementState == "Выигран 1ч")
@@ -141,7 +134,6 @@ namespace DatabaseLibrary.Controllers
                 
                 public static Expression<Func<ProcurementsEmployee, bool>> StagePredicateByVisa(KindOf kindOf, bool stageCompleted)
                 {
-
                     Expression<Func<ProcurementsEmployee, bool>> stagePredicate = kindOf switch
                     {
                         KindOf.Calculating => // По визе расчета
@@ -160,8 +152,6 @@ namespace DatabaseLibrary.Controllers
                     };
                     return stagePredicate;
                 }
-
-
             }
         }
     }

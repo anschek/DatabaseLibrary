@@ -17,8 +17,9 @@ namespace DatabaseLibrary.Controllers
             {
                 public static async Task<int> CalculationQueue() // Очередь расчета (количество)
                 {
+                    using ParsethingContext db = new();
                     int count = 0;
-                    try { count = await Queries.CalculationQueue().CountAsync(); }
+                    try { count = await Queries.CalculationQueue(db).CountAsync(); }
                     catch { }
 
                     return count;
@@ -26,8 +27,9 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<int> ManagersQueue() // Тендеры, не назначенные не конкретного менеджера (количество)
                 {
+                    using ParsethingContext db = new();
                     int count = 0;
-                    try { count = await Queries.ManagersQueue().CountAsync(); }
+                    try { count = await Queries.ManagersQueue(db).CountAsync(); }
                     catch { }
 
                     return count;
@@ -167,7 +169,7 @@ namespace DatabaseLibrary.Controllers
                     using ParsethingContext db = new();
                     int count = 0;
 
-                    try { count = await Queries.ByStateAndStartDate(procurementState, startDate, false).CountAsync(); }
+                    try { count = await Queries.ByStateAndStartDate(db, procurementState, startDate, false).CountAsync(); }
                     catch { }
 
                     return count;

@@ -117,7 +117,7 @@ namespace DatabaseLibrary.Controllers
                             _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
                         };
 
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                             .Where(additionalCondition)
                             .ToListAsync();
                     }
@@ -130,13 +130,13 @@ namespace DatabaseLibrary.Controllers
                     using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
 
-                    try { procurements = await Queries.ByStateAndStartDate(procurementState, startDate, true).ToListAsync(); }
+                    try { procurements = await Queries.ByStateAndStartDate(db,procurementState, startDate, true).ToListAsync(); }
                     catch { }
 
                     return procurements;
                 }
 
-                public static async Task<List<Procurement>?> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf) // Получить список тендеров:
+                public static async Task<List<Procurement>?> ByDateKind( KindOf kindOf, bool isOverdue, string? procurementStateKind=null) // procurementStateKind не заполняется для ContractConclusion
                 {
                     using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
@@ -152,7 +152,7 @@ namespace DatabaseLibrary.Controllers
                         // Прендикат срока фильтрует в соответствии с посроченными датами                                                       
                         Expression<Func<Procurement, bool>> termPredicate = Queries.TermPredicatByDateKind(isOverdue, kindOf);
 
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                                    .Where(kindPredicate)
                                    .Where(termPredicate)
                                    .ToListAsync();
@@ -185,7 +185,7 @@ namespace DatabaseLibrary.Controllers
                             _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
                         };
 
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                             .Where(stagePredicate)
                             .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч")
                             .ToListAsync();
@@ -195,49 +195,6 @@ namespace DatabaseLibrary.Controllers
                     return procurements;
                 }
 
-                //public static async Task<List<Procurement>?> AcceptedByOverdue(bool isOverdue) // Получить список приянятых неоплаченых тендеров
-                //{
-                //    using ParsethingContext db = new();
-                //    List<Procurement>? procurements = null;
-
-                //    try
-                //    {
-                //        // Предикат срока фильтрует тендеры по полю максимального срока в зависимости от значения переменной "Просрочено"
-                //        Expression<Func<Procurement, bool>> termPredicate =
-                //            p => (isOverdue ? p.MaxDueDate < DateTime.Now : p.MaxDueDate > DateTime.Now);
-
-                //        procurements = await Queries.All()
-                //           .Where(termPredicate)
-                //           .Where(p => p.ProcurementState.Kind == "Принят")
-                //           .Where(p => p.RealDueDate == null)
-                //           .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
-                //           .ToListAsync();
-                //    }
-                //    catch { }
-
-                //    return procurements;
-                //}
-
-                //public static async Task<List<Procurement>?> NotPaid() // Получить список неоплаченных тендеров
-                //{
-                //    using ParsethingContext db = new();
-                //    List<Procurement>? procurements = null;
-
-                //    try
-                //    {
-                //        procurements = await Queries.All()
-                //        .Where(p => p.ProcurementState.Kind == "Принят")
-                //        .Where(p => p.RealDueDate == null)
-                //        .Where(p => p.MaxDueDate != null)
-                //        .Where(p => (p.Amount ?? 0) < (p.ReserveContractAmount != null && p.ReserveContractAmount != 0 ? p.ReserveContractAmount : p.ContractAmount))
-                //        .ToListAsync();
-                //    }
-                //    catch { }
-
-                //    return procurements;
-                //}
-
-                // not paid + by(bool)
                 public static async Task<List<Procurement>?> Accepted(bool? isOverdue = null) // Получить список приянятых неоплаченых тендеров
                 {
                     using ParsethingContext db = new();
@@ -253,7 +210,7 @@ namespace DatabaseLibrary.Controllers
                             false => p => p.MaxDueDate > DateTime.Now // в срок
                         };
 
-                        procurements = await Queries.All()
+                        procurements = await Queries.All(db)
                            .Where(termPredicate)
                            .Where(p => p.ProcurementState.Kind == "Принят")
                            .Where(p => p.RealDueDate == null)
@@ -268,9 +225,10 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<Procurement>?> CalculationQueue() // Очередь расчета
                 {
+                    using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
                     try
-                    { procurements = await Queries.CalculationQueue().ToListAsync(); }
+                    { procurements = await Queries.CalculationQueue(db).ToListAsync(); }
                     catch { }
 
                     return procurements;
@@ -278,8 +236,9 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<Procurement>?> ManagersQueue()
                 {
+                    using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
-                    try { procurements = await Queries.ManagersQueue().ToListAsync(); }
+                    try { procurements = await Queries.ManagersQueue(db).ToListAsync(); }
                     catch { }
 
                     return procurements;

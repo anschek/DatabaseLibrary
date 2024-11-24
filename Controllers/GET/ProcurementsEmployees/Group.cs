@@ -44,11 +44,11 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositionsAndStates(string[] positions, string[] procurementStates)
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployeesGrouping>? procurementsEmployees = null;
-
                     try
                     {
-                        procurementsEmployees = await Queries.AllForGrouping()
+                        procurementsEmployees = await Queries.AllForGrouping(db)
                             .Where(pe => positions.Contains(pe.Employee.Position.Kind))
                             .Where(pe => procurementStates.Contains(pe.Procurement.ProcurementState.Kind))
                             .Where(pe => pe.Procurement.Applications != true)
@@ -70,11 +70,11 @@ namespace DatabaseLibrary.Controllers
 
                 public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositions(string[] positions) // Получить список сотруников и тендеров, которые у них в работе (по массиву должностей) 
                 {
+                    using ParsethingContext db = new();
                     List<ProcurementsEmployeesGrouping>? procurementsEmployees = null;
-
                     try
                     {
-                        procurementsEmployees = await Queries.AllForGrouping()
+                        procurementsEmployees = await Queries.AllForGrouping(db)
                             .Where(pe => positions.Contains(pe.Employee.Position.Kind))
                             .GroupBy(pe => pe.Employee.FullName)
                             .Select(g => new ProcurementsEmployeesGrouping
