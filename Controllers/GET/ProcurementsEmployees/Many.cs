@@ -158,8 +158,8 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
-                            .Where(pe => pe.Procurement.RealDueDate == null)
                             .Where(termPredicate)
+                            .Where(pe => pe.Procurement.RealDueDate == null)
                             .Where(pe => (pe.Procurement.Amount ?? 0) < (pe.Procurement.ReserveContractAmount != null && pe.Procurement.ReserveContractAmount != 0 ? pe.Procurement.ReserveContractAmount : pe.Procurement.ContractAmount))
                             .ToListAsync();
                     }
@@ -179,6 +179,7 @@ namespace DatabaseLibrary.Controllers
                         procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(stagePredicate)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
                             .ToListAsync();
 

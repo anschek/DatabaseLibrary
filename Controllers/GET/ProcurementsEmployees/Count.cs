@@ -134,6 +134,7 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Procurement)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where (stagePredicate)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
                             .CountAsync();
 

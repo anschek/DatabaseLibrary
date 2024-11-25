@@ -122,8 +122,7 @@ namespace DatabaseLibrary.Controllers
                             pe => (isOverdue ? pe.Procurement.ResultDate < DateTime.Now : pe.Procurement.ResultDate > DateTime.Now),
 
                         KindOf.ContractConclusion => // Дате подписания контракта
-                            pe => pe.Procurement.Applications != true &&
-                                (isOverdue ? pe.Procurement.ConclusionDate != null : pe.Procurement.ConclusionDate == null),
+                            pe => isOverdue ? pe.Procurement.ConclusionDate != null : pe.Procurement.ConclusionDate == null,
 
                         // Остальные типы не поддерживаются
                         _ => throw new ArgumentException($"KindOf.{kindOf.ToString()} is not supported for this method")
