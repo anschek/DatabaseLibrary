@@ -14,6 +14,7 @@ public partial class ParsethingContext : DbContext
     public virtual DbSet<DeletedProcurement> DeletedProcurements { get; set; } = null!;
     public virtual DbSet<Document> Documents { get; set; } = null!;
     public virtual DbSet<Employee> Employees { get; set; } = null!;
+    public virtual DbSet<EmployeeNotification> EmployeeNotifications { get; set; } = null!;
     public virtual DbSet<ExecutionState> ExecutionStates { get; set; } = null!;
     public virtual DbSet<History> Histories { get; set; } = null!;
     public virtual DbSet<Law> Laws { get; set; } = null!;
@@ -22,6 +23,7 @@ public partial class ParsethingContext : DbContext
     public virtual DbSet<ManufacturerCountry> ManufacturerCountries { get; set; } = null!;
     public virtual DbSet<Method> Methods { get; set; } = null!;
     public virtual DbSet<Minopttorg> Minopttorgs { get; set; } = null!;
+    public virtual DbSet<Notification> Notifications { get; set; } = null!;
     public virtual DbSet<Organization> Organizations { get; set; } = null!;
     public virtual DbSet<Platform> Platforms { get; set; } = null!;
     public virtual DbSet<Position> Positions { get; set; } = null!;
@@ -139,6 +141,23 @@ public partial class ParsethingContext : DbContext
             _ = entity.HasKey(e => e.Id).HasName("PK_StatusesOfProduct");
         });
 
+        _ = modelBuilder.Entity<Notification>(entity =>
+        {
+            _ = entity.HasKey(e => e.Id).HasName("PK_Notifications");
+
+            _ = entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+            _ = entity.HasMany(ct => ct.EmployeeNotifications).WithOne(pc => pc.Notification)
+                .HasForeignKey(pc => pc.NotificationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_E,ployeeNotifications_Notifications");
+
+            _ = entity.HasOne(en => en.Employee).WithMany(en => en.Notifications)
+                .HasForeignKey(en => en.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_Employees");
+        });
+
         _ = modelBuilder.Entity<ComponentType>(entity =>
         {
             _ = entity.HasMany(ct => ct.PredefinedComponent).WithOne(pc => pc.ComponentType)
@@ -159,6 +178,23 @@ public partial class ParsethingContext : DbContext
                 .HasForeignKey(d => d.PositionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employees_Positions");
+        });
+        _ = modelBuilder.Entity<EmployeeNotification>(entity =>
+        {
+            _ = entity.HasKey(e => e.Id).HasName("PK_EmployeeNotification");
+
+
+            _ = entity.HasOne(en => en.Employee).WithMany(en => en.EmployeeNotifications)
+                .HasForeignKey(en => en.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeNotifications_Employees");
+            _ = entity.HasOne(en => en.Notification).WithMany(en => en.EmployeeNotifications)
+                .HasForeignKey(en => en.NotificationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeNotifications_Notifications");
+
+            _ = entity.Property(e => e.DateRead).HasColumnType("datetime");
+
         });
 
         _ = modelBuilder.Entity<ExecutionState>(entity =>

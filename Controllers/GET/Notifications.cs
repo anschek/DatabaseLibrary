@@ -10,23 +10,7 @@ namespace DatabaseLibrary.Controllers
     {
         public static class Notifications
         {
-            public static async Task<List<Notification>?> Many(int employeeId) // Получить уведомления для конкретного пользователя
-            {
-                using ParsethingContext db = new();
-                List<Notification>? notifications = null;
-                try
-                {
-                    notifications = await db.EmployeeNotifications
-                        .Where(en => en.EmployeeId == employeeId && !en.IsRead)
-                        .OrderByDescending(en => en.Notification.DateCreated)
-                        .Select(en => en.Notification)
-                        .ToListAsync();
-                }
-                catch { }
-                return notifications;
-            }
-
-            public static async Task<bool> EmployeeHasUnread(int employeeId)
+            public static async Task<bool> HasUnread(int employeeId)
             {
                 using ParsethingContext db = new();
                 bool hasUnreadNotifications = false;
@@ -38,9 +22,7 @@ namespace DatabaseLibrary.Controllers
                 catch { }
                 return hasUnreadNotifications;
             }
-
         }
-
     }
 }
 

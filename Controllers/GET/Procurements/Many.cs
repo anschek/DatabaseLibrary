@@ -130,13 +130,13 @@ namespace DatabaseLibrary.Controllers
                     using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
 
-                    try { procurements = await Queries.ByStateAndStartDate(db,procurementState, startDate, true).ToListAsync(); }
+                    try { procurements = await Queries.ByStateAndStartDate(db, procurementState, startDate, true).ToListAsync(); }
                     catch { }
 
                     return procurements;
                 }
 
-                public static async Task<List<Procurement>?> ByDateKind( KindOf kindOf, bool isOverdue, string? procurementStateKind=null) // procurementStateKind не заполняется для ContractConclusion
+                public static async Task<List<Procurement>?> ByDateKind(KindOf kindOf, bool isOverdue, string? procurementStateKind = null) // procurementStateKind не заполняется для ContractConclusion
                 {
                     using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
@@ -240,6 +240,152 @@ namespace DatabaseLibrary.Controllers
                     List<Procurement>? procurements = null;
                     try { procurements = await Queries.ManagersQueue(db).ToListAsync(); }
                     catch { }
+
+                    return procurements;
+                }
+
+                public static async Task<List<Procurement>?> SearchQuery(
+                string searchIds, string searchNumber, string searchLaw, string searchProcurementState, string searchProcurementStateSecond,
+                string searchInn, string searchEmployeeName, string searchOrganizationName,
+                string searchLegalEntity, string dateType, string searchStartDate,
+                string searchEndDate, string sortBy, bool ascending,
+                string searchComponentCalculation, string searchShipmentPlan)
+                {
+                    using ParsethingContext db = new();
+                    List<Procurement>? procurements = null;
+
+                    var procurementQuery = db.Procurements.AsQueryable();
+
+                    var ids = searchIds.Split(',')
+                                       .Select(id => int.TryParse(id.Trim(), out int intId) ? intId : (int?)null)
+                                       .Where(id => id.HasValue)
+                                       .Select(id => id.Value)
+                                       .ToList();
+
+                    if (ids.Count == 0 && string.IsNullOrEmpty(searchEmployeeName)
+                        && string.IsNullOrEmpty(searchNumber) && string.IsNullOrEmpty(searchLaw)
+                        && string.IsNullOrEmpty(searchProcurementState) && string.IsNullOrEmpty(searchInn)
+                        && string.IsNullOrEmpty(searchOrganizationName) && string.IsNullOrEmpty(searchLegalEntity)
+                        && string.IsNullOrEmpty(dateType) && string.IsNullOrEmpty(searchComponentCalculation)
+                        && string.IsNullOrEmpty(searchShipmentPlan))
+                        return new List<Procurement>();
+
+                    if (ids.Count > 0)
+                    {
+                        var nullableIds = ids.Select(id => (int?)id).ToList();
+                        procurementQuery = procurementQuery.Where(p => p.DisplayId.HasValue && nullableIds.Contains(p.DisplayId));
+                    }
+
+                    if (!string.IsNullOrEmpty(searchNumber))
+                        procurementQuery = procurementQuery.Where(p => p.Number == searchNumber);
+                    if (!string.IsNullOrEmpty(searchLaw))
+                        procurementQuery = procurementQuery.Where(p => p.Law.Number == searchLaw);
+                    if (!string.IsNullOrEmpty(searchProcurementState) && dateType != "HistoryDate")
+                        procurementQuery = procurementQuery.Where(p => p.ProcurementState.Kind == searchProcurementState);
+                    if (!string.IsNullOrEmpty(searchInn))
+                        procurementQuery = procurementQuery.Where(p => p.Inn == searchInn);
+                    if (!string.IsNullOrEmpty(searchOrganizationName))
+                        procurementQuery = procurementQuery.Where(p => p.Organization.Name.Contains(searchOrganizationName));
+                    if (!string.IsNullOrEmpty(searchEmployeeName))
+                    {
+                        var query = db.ProcurementsEmployees
+                                      .Where(pe => pe.Employee.FullName == searchEmployeeName)
+                                      .Select(pe => pe.ProcurementId)
+                                      .ToList();
+
+                        if (query.Count == 0)
+                            return new List<Procurement>();
+
+                        procurementQuery = procurementQuery.Where(p => query.Contains(p.Id));
+                    }
+                    if (!string.IsNullOrEmpty(searchLegalEntity))
+                        procurementQuery = procurementQuery.Where(p => p.LegalEntity.Name.Contains(searchLegalEntity));
+
+                    if (!string.IsNullOrEmpty(dateType))
+                    {
+                        DateTime? startDateTime = null;
+                        DateTime? endDateTime = null;
+
+                        if (!string.IsNullOrEmpty(searchStartDate) && DateTime.TryParse(searchStartDate, out DateTime parsedStartDate))
+                            startDateTime = parsedStartDate;
+
+                        if (!string.IsNullOrEmpty(searchEndDate) && DateTime.TryParse(searchEndDate, out DateTime parsedEndDate))
+                            endDateTime = parsedEndDate.AddDays(1);
+
+                        if (startDateTime.HasValue && endDateTime.HasValue)
+                        {
+                            switch (dateType)
+                            {
+                                case "StartDate":
+                                    procurementQuery = procurementQuery.Where(p => p.StartDate >= startDateTime && p.StartDate < endDateTime);
+                                    break;
+                                case "Deadline":
+                                    procurementQuery = procurementQuery.Where(p => p.Deadline >= startDateTime && p.Deadline < endDateTime);
+                                    break;
+                                case "ResultDate":
+                                    procurementQuery = procurementQuery.Where(p => p.ResultDate >= startDateTime && p.ResultDate < endDateTime);
+                                    break;
+                                case "SigningDeadline":
+                                    procurementQuery = procurementQuery.Where(p => p.SigningDeadline >= startDateTime && p.SigningDeadline < endDateTime);
+                                    break;
+                                case "ActualDeliveryDate":
+                                    procurementQuery = procurementQuery.Where(p => p.ActualDeliveryDate >= startDateTime && p.ActualDeliveryDate < endDateTime);
+                                    break;
+                                case "MaxAcceptanceDate":
+                                    procurementQuery = procurementQuery.Where(p => p.MaxAcceptanceDate >= startDateTime && p.MaxAcceptanceDate < endDateTime);
+                                    break;
+                                case "HistoryDate":
+                                    if (!string.IsNullOrEmpty(searchProcurementState))
+                                    {
+                                        var procurementIds = db.Histories
+                                            .Where(h => h.Text == searchProcurementState &&
+                                                        h.Date >= startDateTime && h.Date < endDateTime)
+                                            .Select(h => h.EntryId)
+                                            .Distinct()
+                                            .ToList();
+
+                                        procurementQuery = procurementQuery.Where(p => procurementIds.Contains(p.Id));
+                                    }
+
+                                    // Если `searchProcurementStateSecond` не пустое, добавляем фильтрацию по ProcurementState.Kind
+                                    if (!string.IsNullOrEmpty(searchProcurementStateSecond))
+                                    {
+                                        procurementQuery = procurementQuery.Where(p => p.ProcurementState.Kind == searchProcurementStateSecond);
+                                    }
+                                    break;
+                                case "PayDate":
+                                    procurementQuery = procurementQuery.Where(p => p.RealDueDate >= startDateTime && p.RealDueDate <= endDateTime && p.ProcurementState.Kind == "Принят");
+                                    break;
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(searchShipmentPlan))
+                        procurementQuery = procurementQuery.Where(p => p.ShipmentPlan.Kind == searchShipmentPlan);
+                    if (!string.IsNullOrEmpty(searchComponentCalculation))
+                    {
+                        var query = db.ComponentCalculations
+                                      .Where(cc => cc.ComponentName.ToLower().Contains(searchComponentCalculation.ToLower()) || cc.ComponentNamePurchase.ToLower().Contains(searchComponentCalculation.ToLower()))
+                                      .Select(cc => cc.ProcurementId)
+                                      .ToList();
+
+                        if (query.Count == 0)
+                            return new List<Procurement>();
+
+                        procurementQuery = procurementQuery.Where(p => query.Contains(p.Id));
+                    }
+                    procurementQuery = procurementQuery
+                        .Include(p => p.ProcurementState)
+                        .Include(p => p.Law)
+                        .Include(p => p.Method)
+                        .Include(p => p.Platform)
+                        .Include(p => p.TimeZone)
+                        .Include(p => p.Region)
+                        .Include(p => p.City)
+                        .Include(p => p.ShipmentPlan)
+                        .Include(p => p.Organization);
+
+                    procurements = await procurementQuery
+                        .ToListAsync();
 
                     return procurements;
                 }
