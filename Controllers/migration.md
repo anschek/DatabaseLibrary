@@ -191,6 +191,7 @@
 | GET.View.ProcurementsQueue												|  GET.Procurements.Many.CalculationQueue																					   |
 | GET.View.ProcurementsManagersQueue										|  GET.Procurements.Many.ManagersQueue																						   |
 | GET.View.ProcurementsBy(KindOf)											|  x(GET.Procurements.Many.ByKind)																							   |
+| GET.View.ProcurementsBy(str,str,str...)											|  GET.Procurements.Many.SearchQuery																							   |
 | 																			| 																														   |
 | **need to test** | 													| 																														   |
 | GET.View.ProcurementsBy(string, string, string, ...)						|  refactoring of this is left for a rainy day																				   |
@@ -259,6 +260,10 @@
 | PUT.ProcurementState														|  POST.ProcurementState																									   |
 | PULL.ProcurementState														|  PUT.ProcurementState	
 |																			| 																														   |
+|**Notifications** | 														| 																														   |
+|GET.View.EmployeeNotificationsBy											|  GET.EmployeeNotifications																								   |
+|GET.View.HasUnreadNotifications											|  GET.Notifications.HasUnread																								   |
+|																			| 																														   |
 |  **Others** | 	 																	| 																														   |
 | PULL.ClosingActiveSessionsByEmployee										|  PUT.ClosingActiveSessionsByEmployee																						   |
 | GET.View.RepresentativeTypes												|  GET.RepresentativeTypes																									   |
@@ -267,7 +272,3 @@
 | GET.View.WarrantyStates													|  GET.WarrantyStates																										   |
 | GET.View.SignedOriginals													|  GET.SignedOriginals																										   |
 | GET.View.CommissioningWorks												|  GET.CommissioningWorks																									   |
-
-**TODO: from new features**
-- Notification
-- EmployeeNotification.cs
