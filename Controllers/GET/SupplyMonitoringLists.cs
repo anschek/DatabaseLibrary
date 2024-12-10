@@ -23,6 +23,8 @@ namespace DatabaseLibrary.Controllers
                             from s  in sellers.DefaultIfEmpty()
                             join m  in db.Manufacturers on cc.ManufacturerIdPurchase equals m.Id into manufacturers
                             from m  in manufacturers.DefaultIfEmpty()
+                            join sp in db.ShipmentPlans on cc.Procurement.ShipmentPlanId equals sp.Id into shipmentPlans
+                            from sp in shipmentPlans.DefaultIfEmpty()
                             join cs in db.ComponentStates on cc.ComponentStateId equals cs.Id
                             join p  in db.Procurements on cc.ProcurementId equals p.Id
                             where tenderIds.Contains(cc.ProcurementId) &&
@@ -33,6 +35,7 @@ namespace DatabaseLibrary.Controllers
                                 cc,
                                 s,
                                 m,
+                                sp,
                                 cs,
                                 p
                             };
@@ -46,6 +49,7 @@ namespace DatabaseLibrary.Controllers
                         ManufacturerName = item.m?.ManufacturerName ?? "Без производителя",
                         ComponentName = item.cc.ComponentNamePurchase,
                         ComponentStatus = item.cs.Kind,
+                        ShipmentPlan = item.sp?.Kind ?? "Не проставлено",
                         AveragePrice = item.cc.PricePurchase,
                         TotalCount = item.cc.CountPurchase,
                         SellerName = item.s?.Name ?? "Не указан",

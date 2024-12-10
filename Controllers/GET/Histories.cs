@@ -24,7 +24,7 @@ namespace DatabaseLibrary.Controllers
 
                 return histories;
             }
-            public static async Task<List<History>?> ManyByProcurement(int procurementId) // Получить историю изменений статусов тендеров
+            public static async Task<List<History>?> ManyByProcurement(int id, string entityType) // Получить историю изменений статусов тендеров
             {
                 using ParsethingContext db = new();
                 List<History>? histories = null;
@@ -33,7 +33,7 @@ namespace DatabaseLibrary.Controllers
                 {
                     histories = await db.Histories
                         .Include(h => h.Employee)
-                        .Where(h => h.EntryId == procurementId && h.EntityType == "Procurement")
+                        .Where(h => h.EntryId == id && h.EntityType == entityType)
                         .ToListAsync();
                 }
                 catch { }

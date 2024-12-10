@@ -12,6 +12,7 @@ namespace DatabaseLibrary.Entities.DTOs
         public string? ManufacturerName { get; set; }
         public string? ComponentName { get; set; }
         public string? ComponentStatus { get; set; }
+        public string? ShipmentPlan { get; set; }
         public decimal? AveragePrice { get; set; }
         public int? TotalCount { get; set; }
         public string? SellerName { get; set; }

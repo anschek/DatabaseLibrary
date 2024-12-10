@@ -249,7 +249,8 @@ namespace DatabaseLibrary.Controllers
                 string searchInn, string searchEmployeeName, string searchOrganizationName,
                 string searchLegalEntity, string dateType, string searchStartDate,
                 string searchEndDate, string sortBy, bool ascending,
-                string searchComponentCalculation, string searchShipmentPlan)
+                string searchComponentCalculation, string searchShipmentPlan, bool? searchWaitingList,
+                string searchContractNumber)
                 {
                     using ParsethingContext db = new();
                     List<Procurement>? procurements = null;
@@ -267,7 +268,8 @@ namespace DatabaseLibrary.Controllers
                         && string.IsNullOrEmpty(searchProcurementState) && string.IsNullOrEmpty(searchInn)
                         && string.IsNullOrEmpty(searchOrganizationName) && string.IsNullOrEmpty(searchLegalEntity)
                         && string.IsNullOrEmpty(dateType) && string.IsNullOrEmpty(searchComponentCalculation)
-                        && string.IsNullOrEmpty(searchShipmentPlan))
+                        && string.IsNullOrEmpty(searchShipmentPlan) && searchWaitingList != true
+                        && string.IsNullOrEmpty(searchContractNumber))
                         return new List<Procurement>();
 
                     if (ids.Count > 0)
@@ -373,6 +375,11 @@ namespace DatabaseLibrary.Controllers
 
                         procurementQuery = procurementQuery.Where(p => query.Contains(p.Id));
                     }
+                    if (searchWaitingList.HasValue)
+                        if (searchWaitingList.Value)
+                            procurementQuery = procurementQuery.Where(p => p.WaitingList == true);
+                    if (!string.IsNullOrEmpty(searchContractNumber))
+                        procurementQuery = procurementQuery.Where(p => p.ContractNumber.Contains(searchContractNumber));
                     procurementQuery = procurementQuery
                         .Include(p => p.ProcurementState)
                         .Include(p => p.Law)
