@@ -291,7 +291,8 @@ namespace DatabaseLibrary.Controllers
                     if (!string.IsNullOrEmpty(searchEmployeeName))
                     {
                         var query = db.ProcurementsEmployees
-                                      .Where(pe => pe.Employee.FullName == searchEmployeeName)
+                                      .Where(pe => pe.Employee.FullName == searchEmployeeName
+                                       && pe.ActionType == "Appoint")
                                       .Select(pe => pe.ProcurementId)
                                       .ToList();
 

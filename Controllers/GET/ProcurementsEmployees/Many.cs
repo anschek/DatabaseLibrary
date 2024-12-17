@@ -14,7 +14,7 @@ namespace DatabaseLibrary.Controllers
         {
             public static class Many
             {
-                public static async Task<List<ProcurementsEmployee>?> ByStateAndStartDate(string procurementState, DateTime startDate, int employeeId) // Получить тендеры по статусу у конкретного сотрудника по дате
+                public static async Task<List<ProcurementsEmployee>?> ByStateAndStartDate(string procurementState, DateTime startDate, int employeeId, string actionType) // Получить тендеры по статусу у конкретного сотрудника по дате
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
@@ -31,7 +31,9 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Employee)
                             .Include(pe => pe.Procurement.Law)
                             .Include(pe => pe.Employee.Position)
-                            .Where(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId)
+                            .Where(pe => validProcurementIds.Contains(pe.ProcurementId) 
+                            && pe.EmployeeId == employeeId
+                            && pe.ActionType == actionType)
                             .ToListAsync();
                     }
                     catch { }
@@ -39,7 +41,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByState(int employeeId, string procurementStateKind) // Получить список тендеров и сотудиков, по статусу и id сотрудника
+                public static async Task<List<ProcurementsEmployee>?> ByState(int employeeId, string procurementStateKind, string actionType) // Получить список тендеров и сотудиков, по статусу и id сотрудника
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurements = null;
@@ -48,7 +50,7 @@ namespace DatabaseLibrary.Controllers
                         procurements = await Queries.All(db)
                             .Where(pe => pe.Procurement.ProcurementState != null && pe.Procurement.ProcurementState.Kind == procurementStateKind)
                             .Where(pe => pe.Procurement.Applications != true)
-                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Employee.Id == employeeId && pe.ActionType == actionType)
                             .ToListAsync();
                     }
                     catch { }
@@ -56,7 +58,7 @@ namespace DatabaseLibrary.Controllers
                     return procurements;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByEmployee(int employeeId) // Получть список тендеров и сотрудников по id сотрудника
+                public static async Task<List<ProcurementsEmployee>?> ByEmployee(int employeeId, string actionType) // Получть список тендеров и сотрудников по id сотрудника
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurements = null;
@@ -65,7 +67,7 @@ namespace DatabaseLibrary.Controllers
                     {
                         procurements = await Queries.All(db)
                             .Where(pe => pe.Procurement.ProcurementState != null)
-                            .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.Employee.Id == employeeId && pe.ActionType == actionType)
                             .ToListAsync();
                     }
                     catch { }
@@ -73,7 +75,7 @@ namespace DatabaseLibrary.Controllers
                     return procurements;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByProcurement(int procurementId) // Получть список тендеров и сотрудников по id тендера
+                public static async Task<List<ProcurementsEmployee>?> ByProcurement(int procurementId, string actionType) // Получть список тендеров и сотрудников по id тендера
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurements = null;
@@ -82,7 +84,7 @@ namespace DatabaseLibrary.Controllers
                     {
                         procurements = await db.ProcurementsEmployees
                             .Include(pe => pe.Employee)
-                            .Where(pe => pe.Procurement.Id == procurementId)
+                            .Where(pe => pe.Procurement.Id == procurementId && pe.ActionType == actionType)
                             .ToListAsync();
                     }
                     catch { }
@@ -90,7 +92,7 @@ namespace DatabaseLibrary.Controllers
                     return procurements;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByKind(KindOf kindOf, int employeeId, string? kind = null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
+                public static async Task<List<ProcurementsEmployee>?> ByKind(KindOf kindOf, int employeeId, string actionType, string? kind = null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
@@ -106,6 +108,7 @@ namespace DatabaseLibrary.Controllers
 
                         procurementsEmployees = await procurementsEmployeesQuery
                             .Where(pe => pe.Employee.Id == employeeId) // по id сотрудника
+                            .Where(pe => pe.ActionType == actionType) // по actionType
                             .Where(kindPredicate).ToListAsync(); // и предикату типв
                     }
                     catch { }
@@ -113,7 +116,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить список тендеров и сотрудников по:
+                public static async Task<List<ProcurementsEmployee>?> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId, string actionType) // Получить список тендеров и сотрудников по:
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
@@ -131,6 +134,7 @@ namespace DatabaseLibrary.Controllers
                         procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.ActionType == actionType)
                             .Where(kindPredicate)
                             .Where(termPredicate)
                             .ToListAsync();
@@ -140,7 +144,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> Accepted(int employeeId, bool? isOverdue = null) // Получить тендеры, назначнные на конкретного сотрудника
+                public static async Task<List<ProcurementsEmployee>?> Accepted(int employeeId, string actionType, bool? isOverdue = null) // Получить тендеры, назначнные на конкретного сотрудника
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
@@ -157,6 +161,7 @@ namespace DatabaseLibrary.Controllers
                         procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.ActionType == actionType)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
                             .Where(termPredicate)
                             .Where(pe => pe.Procurement.RealDueDate == null)
@@ -168,7 +173,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployee>?> ByVisa(KindOf kindOf, bool stageCompleted, int employeeId) // Получить тендеры, назначенные на конкретного сотрудника по визе расчета или закупки
+                public static async Task<List<ProcurementsEmployee>?> ByVisa(KindOf kindOf, bool stageCompleted, int employeeId, string actionType) // Получить тендеры, назначенные на конкретного сотрудника по визе расчета или закупки
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployee>? procurementsEmployees = null;
@@ -179,6 +184,7 @@ namespace DatabaseLibrary.Controllers
                         procurementsEmployees = await Queries.All(db)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.ActionType == actionType)
                             .Where(stagePredicate)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
                             .ToListAsync();

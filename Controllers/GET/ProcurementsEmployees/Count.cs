@@ -14,7 +14,7 @@ namespace DatabaseLibrary.Controllers
         {
             public static class Count
             {
-                public static async Task<int> ByStateAndStartDate(string procurementState, DateTime startDate, int employeeId)// Получить количество тендеров по статусу и конкретному сотруднику по дате
+                public static async Task<int> ByStateAndStartDate(string procurementState, DateTime startDate, int employeeId, string actionType)// Получить количество тендеров по статусу и конкретному сотруднику по дате
                 {
                     using ParsethingContext db = new();
                     int count = 0;
@@ -24,14 +24,16 @@ namespace DatabaseLibrary.Controllers
                         var validProcurementIds = Queries.validProcurementIds(db, procurementState, startDate);
 
                         count = await db.ProcurementsEmployees
-                            .CountAsync(pe => validProcurementIds.Contains(pe.ProcurementId) && pe.EmployeeId == employeeId);
+                            .CountAsync(pe => validProcurementIds.Contains(pe.ProcurementId) 
+                            && pe.EmployeeId == employeeId
+                            && pe.ActionType == actionType);
                     }
                     catch { }
 
                     return count;
                 }
 
-                public static async Task<int> ByKind(KindOf kindOf, int employeeId, string? kind = null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
+                public static async Task<int> ByKind(KindOf kindOf, int employeeId, string actionType, string? kind = null) // kind остается null только для Application, ExecutionState, WarrantyState, Judgement и FAS
                 {
                     using ParsethingContext db = new();
                     int count = 0;
@@ -51,6 +53,7 @@ namespace DatabaseLibrary.Controllers
 
                         count = await procurementsEmployeesQuery
                             .Where(pe => pe.Employee.Id == employeeId) // по id сотрудника
+                            .Where(pe => pe.ActionType == actionType) // по actionType
                             .Where(kindPredicate) // и предикату типа
                             .CountAsync();
                     }
@@ -59,7 +62,7 @@ namespace DatabaseLibrary.Controllers
                     return count;
                 }
 
-                public static async Task<int> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId) // Получить список тендеров и сотрудников по:
+                public static async Task<int> ByDateKind(string procurementStateKind, bool isOverdue, KindOf kindOf, int employeeId, string actionType) // Получить список тендеров и сотрудников по:
                 {
                     using ParsethingContext db = new();
                     int count = 0;
@@ -80,6 +83,7 @@ namespace DatabaseLibrary.Controllers
                                 .Include(pe => pe.Procurement)
                                 .Include(pe => pe.Procurement.ProcurementState)
                                 .Where(pe => pe.Employee.Id == employeeId)
+                                .Where(pe => pe.ActionType == actionType)
                                 .Where(kindPredicate)
                                 .Where(termPredicate)
                                 .CountAsync();
@@ -89,7 +93,7 @@ namespace DatabaseLibrary.Controllers
                     return count;
                 }
 
-                public static async Task<int> Accepted(int employeeId, bool? isOverdue = null) // Получить тендеры, назначнные на конкретного сотрудника
+                public static async Task<int> Accepted(int employeeId, string actionType, bool? isOverdue = null) // Получить тендеры, назначнные на конкретного сотрудника
                 {
                     using ParsethingContext db = new();
                     int count = 0;
@@ -109,6 +113,7 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Procurement)
                             .Include(pe => pe.Procurement.ProcurementState)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.ActionType == actionType)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Принят")
                             .Where(pe => pe.Procurement.RealDueDate == null)
                             .Where(termPredicate)
@@ -120,7 +125,7 @@ namespace DatabaseLibrary.Controllers
                     return count;
                 }
 
-                public static async Task<int> ByVisa(KindOf kindOf, bool stageCompleted, int employeeId) // Получить количество тендеров, назначенных на конкретного сотрудника по визе расчета или закупки
+                public static async Task<int> ByVisa(KindOf kindOf, bool stageCompleted, int employeeId, string actionType) // Получить количество тендеров, назначенных на конкретного сотрудника по визе расчета или закупки
                 {
                     using ParsethingContext db = new();
                     int count = 0;
@@ -134,6 +139,7 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Procurement)
                             .Include(pe => pe.Procurement.ShipmentPlan)
                             .Where(pe => pe.Employee.Id == employeeId)
+                            .Where(pe => pe.ActionType == actionType)
                             .Where (stagePredicate)
                             .Where(pe => pe.Procurement.ProcurementState.Kind == "Выигран 1ч" || pe.Procurement.ProcurementState.Kind == "Выигран 2ч")
                             .CountAsync();

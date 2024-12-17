@@ -12,7 +12,7 @@ namespace DatabaseLibrary.Controllers
         {
             public static class One
             {
-                public static async Task<ProcurementsEmployee?> ByPositions(Procurement procurement, string[] positions) // Получить список тендеров и сотрудников, по id тендера и должностям
+                public static async Task<ProcurementsEmployee?> ByPositions(Procurement procurement, string[] positions, string actionType) // Получить список тендеров и сотрудников, по id тендера и должностям
                 {
                     using ParsethingContext db = new();
                     ProcurementsEmployee? procurementsEmployee = null;
@@ -22,7 +22,9 @@ namespace DatabaseLibrary.Controllers
                         procurementsEmployee = await db.ProcurementsEmployees
                         .Include(pe => pe.Employee)
                         .Include(pe => pe.Employee.Position)
-                        .Where(pe => pe.ProcurementId == procurement.Id && positions.Contains(pe.Employee.Position.Kind))
+                        .Where(pe => pe.ProcurementId == procurement.Id 
+                        && positions.Contains(pe.Employee.Position.Kind)
+                        && pe.ActionType == actionType)
                         .FirstAsync();
                     }
                     catch { }

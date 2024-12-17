@@ -50,7 +50,7 @@ namespace DatabaseLibrary.Controllers
                 try
                 {
                     var procurementIds = await db.ProcurementsEmployees
-                .Where(pe => pe.EmployeeId == employeeId)
+                .Where(pe => pe.EmployeeId == employeeId && pe.ActionType == "Appoint")
                 .Select(pe => pe.ProcurementId)
                 .ToListAsync();
 

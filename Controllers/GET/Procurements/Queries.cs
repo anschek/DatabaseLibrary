@@ -31,14 +31,20 @@ namespace DatabaseLibrary.Controllers
                 => db.Procurements
                             .Include(p => p.ProcurementState)
                             .Include(p => p.Law)
-                            .Where(p => p.ProcurementState.Kind == "Новый" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id));
+                            .Where(p => p.ProcurementState.Kind == "Новый" 
+                            && !db.ProcurementsEmployees
+                                .Any(pe => pe.ProcurementId == p.Id && pe.ActionType == "Appoint"));
 
                 public static IQueryable<Procurement> ManagersQueue(ParsethingContext db) // Тендеры, не назначенные не конкретного менеджера
                 => db.Procurements
                             .Include(p => p.ProcurementState)
                             .Include(p => p.Law)
-                            .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч" && !db.ProcurementsEmployees.Any(pe => pe.ProcurementId == p.Id && pe.Employee.Position.Id == 8));
-
+                            .Where(p => p.ProcurementState.Kind == "Выигран 1ч" || p.ProcurementState.Kind == "Выигран 2ч" 
+                            && !db.ProcurementsEmployees
+                                .Any(pe => pe.ProcurementId == p.Id 
+                                && pe.Employee.Position.Id == 8
+                                && pe.ActionType == "Appoint")
+                            );
 
                 public static Expression<Func<Procurement, bool>> TermPredicatByDateKind(bool isOverdue, KindOf kindOf)
                 {

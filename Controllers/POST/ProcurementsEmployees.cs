@@ -35,7 +35,7 @@ namespace DatabaseLibrary.Controllers
                 return isSaved;
             }
         }
-        public static async Task<bool> OneByEmployee(int employeeId)
+        public static async Task<bool> OneByEmployee(int employeeId, string actionType)
         {
             using ParsethingContext db = new();
             bool isSaved = true;
@@ -63,7 +63,8 @@ namespace DatabaseLibrary.Controllers
                         ProcurementsEmployee procurementEmployee = new ProcurementsEmployee
                         {
                             ProcurementId = procurementToAssign.Id,
-                            EmployeeId = employeeId
+                            EmployeeId = employeeId,
+                            ActionType = actionType
                         };
 
                         await db.ProcurementsEmployees.AddAsync(procurementEmployee);

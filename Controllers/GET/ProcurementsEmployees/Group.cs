@@ -13,7 +13,7 @@ namespace DatabaseLibrary.Controllers
         {
             public static class Group
             {
-                public static async Task<List<ProcurementsEmployeesGrouping>?> ByEmployee(int employeeId) // Получить информацию по тому, сколько тендеров назначено на конкретного сотрудника
+                public static async Task<List<ProcurementsEmployeesGrouping>?> ByEmployee(int employeeId, string actionType) // Получить информацию по тому, сколько тендеров назначено на конкретного сотрудника
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployeesGrouping>? procurementsEmployees = null;
@@ -25,7 +25,7 @@ namespace DatabaseLibrary.Controllers
                             .Include(pe => pe.Procurement.Method)
                             .Include(pe => pe.Procurement.Region)
                             .Include(pe => pe.Procurement)
-                            .Where(pe => pe.EmployeeId == employeeId)
+                            .Where(pe => pe.EmployeeId == employeeId && pe.ActionType == actionType)
                             .GroupBy(pe => pe.Employee.FullName)
                             .Select(g => new ProcurementsEmployeesGrouping
                             {
@@ -42,7 +42,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositionsAndStates(string[] positions, string[] procurementStates)
+                public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositionsAndStates(string[] positions, string[] procurementStates, string actionType)
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployeesGrouping>? procurementsEmployees = null;
@@ -52,7 +52,9 @@ namespace DatabaseLibrary.Controllers
                             .Where(pe => positions.Contains(pe.Employee.Position.Kind))
                             .Where(pe => procurementStates.Contains(pe.Procurement.ProcurementState.Kind))
                             .Where(pe => pe.Procurement.Applications != true)
-                            .Where(pe => !(pe.Procurement.ProcurementState.Kind == "Принят" && pe.Procurement.RealDueDate != null))
+                            .Where(pe => !(pe.Procurement.ProcurementState.Kind == "Принят" 
+                            && pe.Procurement.RealDueDate != null
+                            && pe.ActionType == actionType))
                             .GroupBy(pe => pe.Employee.FullName)
                             .Select(g => new ProcurementsEmployeesGrouping
                             {
@@ -68,7 +70,7 @@ namespace DatabaseLibrary.Controllers
                     return procurementsEmployees;
                 }
 
-                public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositions(string[] positions) // Получить список сотруников и тендеров, которые у них в работе (по массиву должностей) 
+                public static async Task<List<ProcurementsEmployeesGrouping>?> ByPositions(string[] positions, string actionType) // Получить список сотруников и тендеров, которые у них в работе (по массиву должностей) 
                 {
                     using ParsethingContext db = new();
                     List<ProcurementsEmployeesGrouping>? procurementsEmployees = null;
@@ -76,6 +78,7 @@ namespace DatabaseLibrary.Controllers
                     {
                         procurementsEmployees = await Queries.AllForGrouping(db)
                             .Where(pe => positions.Contains(pe.Employee.Position.Kind))
+                            .Where(pe => pe.ActionType == actionType)
                             .GroupBy(pe => pe.Employee.FullName)
                             .Select(g => new ProcurementsEmployeesGrouping
                             {

@@ -75,7 +75,7 @@ public partial class ParsethingContext : DbContext
         _ = modelBuilder.Entity<Procurement>().ToTable(tb => tb.HasTrigger("trg_UpdateFieldOnProcurementStateId"));
         _ = modelBuilder.Entity<Procurement>().ToTable(tb => tb.HasTrigger("trg_AfterDeleteProcurement"));
         _ = modelBuilder.Entity<DeletedProcurement>().ToTable(tb => tb.HasTrigger("trg_CleanUpDeletedProcurements"));
-
+        _ = modelBuilder.Entity<ComponentCalculation>().ToTable(tb => tb.HasTrigger("OnUpdateComponentCalculationsState"));
 
 
         _ = modelBuilder.Entity<ComponentCalculation>(entity =>
