@@ -31,6 +31,23 @@ namespace DatabaseLibrary.Controllers
 
                     return procurementsEmployee;
                 }
+
+                public static async Task<bool> ByProcurementAndActionType(int procurementId, int employeeId, string actionType) // Узнать, есть ли у сотрудника конкретный тендер в избранном
+                {
+                    using ParsethingContext db = new();
+                    ProcurementsEmployee? procurementsEmployee = null;
+                    try
+                    {
+                        procurementsEmployee = await db.ProcurementsEmployees
+                            .Where(pe => pe.ProcurementId == procurementId && pe.EmployeeId == employeeId && pe.ActionType == actionType)
+                            .FirstAsync();
+                    }
+                    catch { }
+                    if (procurementsEmployee == null)
+                        return false;
+                    else
+                        return true;
+                }
             }
         }
     }
